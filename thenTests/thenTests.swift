@@ -56,28 +56,28 @@ class thenTests: XCTestCase {
 func fetchUserId() -> Promise<Int> {
     return Promise { resolve, reject in
         print("fetching user Id ...")
-        wait { resolve(object: 1234) }
+        wait { resolve(result: 1234) }
     }
 }
 
 func fetchUserNameFromId(id:Int) -> Promise<String> {
     return Promise { resolve, reject in
         print("fetching UserName FromId : \(id) ...")
-        wait { resolve(object: "John Smith") }
+        wait { resolve(result: "John Smith") }
     }
 }
 
 func fetchUserFollowStatusFromName(name:String) -> Promise<Bool> {
     return Promise { resolve, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
-        wait { resolve(object: false) }
+        wait { resolve(result: false) }
     }
 }
 
 func failingFetchUserFollowStatusFromName(name:String) -> Promise<Bool> {
     return Promise { resolve, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
-        wait { reject(err:MyError.DefaultError) }
+        wait { reject(error:MyError.DefaultError) }
     }
 }
 

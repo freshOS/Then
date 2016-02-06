@@ -18,11 +18,11 @@ typealias EmptyPromise = Promise<Void>
 
 public class Promise<T> {
     
-    public typealias ResolveCallBack = (object:T) -> Void
-    public typealias RejectCallBack = (err:ErrorType) -> Void
+    public typealias ResolveCallBack = (result:T) -> Void
+    public typealias RejectCallBack = (error:ErrorType) -> Void
     public typealias PromiseCallBack = (resolve:ResolveCallBack, reject:RejectCallBack) -> Void
     
-    private var successBlock:(object:T) -> Void = { t in }
+    private var successBlock:(result:T) -> Void = { t in }
     private var failBlock:((error:ErrorType) -> Void) = { err in }
     private var finallyBlock:() -> Void = { t in }
     private var promiseCallBack:PromiseCallBack = { resolve, reject in    }
@@ -35,88 +35,77 @@ public class Promise<T> {
         promiseCallBack = callback
     }
     
-    func start() {
+    public func start() {
         promiseStarted = true
-        promiseCallBack(resolve: { (object) -> Void in
-            self.state = .Fulfilled
-            self.value = object
-            self.successBlock(object: object)
-            self.finallyBlock()
-            }) { (err:ErrorType) -> Void in
-                self.state = .Rejected
-                self.error = err
-                self.failBlock(error: self.error!)
-                self.finallyBlock()
-        }
+        promiseCallBack(resolve:resolvePromise, reject:rejectPromise)
+    }
+    
+    private func resolvePromise(result:T) {
+        state = .Fulfilled
+        value = result
+        successBlock(result: result)
+        finallyBlock()
+    }
+    
+    private func rejectPromise(e:ErrorType) {
+        state = .Rejected
+        error = e
+        failBlock(error: error!)
+        finallyBlock()
     }
     
     public func then<X>(block:(result:T) -> X) -> Promise<X>{
-        if !promiseStarted {
-            start()
-        }
-        
+        startPromiseIfNeeded()
         let p = Promise<X>(callback: { (resolve, reject) -> Void in
             if self.state == .Fulfilled {
                 let x:X = block(result: self.value!)
-                resolve(object:x)
+                resolve(result:x)
             } else if self.state == .Rejected {
-                reject(err:self.error!)
+                reject(error:self.error!)
             }
             else {
                 self.successBlock = { t in
-                    resolve(object:block(result: t))
+                    resolve(result:block(result: t))
                 }
             }
-            self.failBlock = { err in
-                reject(err:err)
-            }
+            self.failBlock = reject
         })
         p.start()
         return p
     }
     
     public func then<X>(block:(result:T) -> Promise<X>) -> Promise<X>{
-        if !promiseStarted {
-            start()
-        }
+        startPromiseIfNeeded()
         return Promise<X>(callback: { (resolve, reject) -> Void in
             self.successBlock = { t in
                 let nextPromise:Promise<X> = block(result: t)
                 nextPromise.then{ x in
-                    resolve(object: x)
-                    }.onError(reject)
+                    resolve(result: x)
+                }.onError(reject)
             }
             self.failBlock = reject
         })
     }
     
     public func then<X>(p:Promise<X>) -> Promise<X>{
-        successBlock = { t in
-            p.start()
-        }
-        if !promiseStarted {
-            start()
-        }
+        successBlock = { t in p.start() }
+        startPromiseIfNeeded()
         return p
     }
     
     public func onError(block:(error:ErrorType) -> Void) -> Self  {
-        if state == .Rejected {
-            block(error: error!)
-        } else {
-            failBlock = { err in
-                block(error: err)
-            }
-        }
+        if state == .Rejected { block(error: error!) }
+        else { failBlock = block }
         return self
     }
     
     public func finally(block:() -> Void) -> Self  {
-        if state != .Pending {
-            block()
-        } else {
-            finallyBlock = block
-        }
+        if state != .Pending { block() }
+        else { finallyBlock = block }
         return self
+    }
+    
+    private func startPromiseIfNeeded() {
+        if !promiseStarted { start() }
     }
 }
