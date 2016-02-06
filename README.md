@@ -3,9 +3,9 @@ Swift Async code made simple
 
 ## Turn this
 ```swift
-oldFetchUserId({ id in
-    oldFetchUserNameFromId(id, success: { name in
-        oldFetchUserFollowStatusFromName(name, success: { isFollowed in
+fetchUserId({ id in
+    fetchUserNameFromId(id, success: { name in
+        fetchUserFollowStatusFromName(name, success: { isFollowed in
             // The three calls in a row succeeded YAY!
             reloadList()
         }, failure: { error in
