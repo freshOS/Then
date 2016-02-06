@@ -55,14 +55,14 @@ fetchUserId().then { id in
     print("UserID : \(id)")
 }.onError { e in
     print("An error occured : \(e)")
-}.finally{
+}.finally {
     print("Everything is Done :)")
 }
 ```
 
 ## Going further 🤓
 
-If we want this to be maintainable, it should read like an english sentence
+If we want this to be **maintainable**, it should read *like an english sentence*
 
 We can do this by extracting our blocks into separate functions :
 
@@ -80,7 +80,8 @@ Mental sanity saved
 
 
 ## Writing your own Promise 💪
-In case you wonder fetchUserId() is a simple function that returns a strongly typed promise :
+In case you wonder what fetchUserId() is
+This is a simple function that returns a strongly typed promise :
 
 ```swift
 func fetchUserId() -> Promise<Int> {
