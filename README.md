@@ -1,4 +1,6 @@
 # then
+
+[![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Swift Async code made simple
 
 ## Turn this
