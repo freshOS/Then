@@ -40,13 +40,14 @@ fetchUserId()
 
 
 ## Explanations
-This is usually what nested Async calls look like.
-Hard to write, hard to read, hard to reason about, a pain to maintain
-#callbackHell
+This is usually what nested Async calls look like :
+Hard to write, hard to read, hard to reason about.
 
-then is based on the famous "Promise/Future" pattern, very popular in javascript for example.
+*A pain to maintain.*
 
-then turns your nested calls into sequential actions, the same way we think about them
+**then** is based on the famous "Promise/Future" pattern, very popular in javascript for example.
+
+**then** turns your nested calls into sequential actions, the same way we think about them
 
 ## Example
 ```swift
