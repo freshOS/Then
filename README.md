@@ -80,8 +80,9 @@ Mental sanity saved
 
 
 ## Writing your own Promise 💪
-In case you wonder what fetchUserId() is
-This is a simple function that returns a strongly typed promise :
+Wondering what fetchUserId() is?
+
+It is a simple function that returns a strongly typed promise :
 
 ```swift
 func fetchUserId() -> Promise<Int> {
