@@ -15,7 +15,6 @@ class thenTests: XCTestCase {
     override func tearDown() { super.tearDown() }
     
     func testThen() {
-
         let thenExpectation = expectationWithDescription("then called")
         let finallyExpectation = expectationWithDescription("Finally called")
         fetchUserId()
@@ -46,12 +45,58 @@ class thenTests: XCTestCase {
                 errorExpectation.fulfill()
             }.finally {
                 finallyExpectation.fulfill()
-        }
+            }
         
         waitForExpectationsWithTimeout(5, handler: nil)
     }
-
+    
+    func testChainedPromises() {
+        let thenExpectation = expectationWithDescription("then called")
+        fetchUserId()
+        .then(fetchUserNameFromId(1))
+        .then(fetchUserNameFromId(2))
+        .then(fetchUserNameFromId(3))
+        .then(fetchUserNameFromId(4)).then { name in
+            print("name :\(name)")
+            thenExpectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(10, handler: nil)
+    }
+    
+        func testChainedPromisesAreExecutedInOrder() {
+            var count = 0
+            
+            let block1 = expectationWithDescription("block 1 called")
+            let block2 = expectationWithDescription("block 2 called")
+            let block3 = expectationWithDescription("block 3 called")
+            
+            let thenExpectation = expectationWithDescription("then called")
+            fetchUserId()
+            .then(fetchUserNameFromId(1)).then({ _ in
+                XCTAssertTrue(count == 0)
+                count++
+                block1.fulfill()
+            })
+            .then(fetchUserNameFromId(2)).then {_ in
+                XCTAssertTrue(count == 1)
+                count++
+                block2.fulfill()
+            }
+            .then(fetchUserNameFromId(3)).then {_ in
+                XCTAssertTrue(count == 2)
+                count++
+                block3.fulfill()
+            }
+            .then(fetchUserNameFromId(4)).then { name in
+                XCTAssertTrue(count == 3)
+                count++
+                print("name :\(name)")
+                thenExpectation.fulfill()
+            }
+            waitForExpectationsWithTimeout(10, handler: nil)
+        }
 }
+
 
 func fetchUserId() -> Promise<Int> {
     return Promise { resolve, reject in

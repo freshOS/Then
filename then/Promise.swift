@@ -30,6 +30,7 @@ public class Promise<T> {
     private var state:PromiseState = .Pending
     private var value:T?
     private var error:ErrorType?
+    private var isFirstPromise = true
     
     public init(callback:(resolve:ResolveCallBack, reject:RejectCallBack) -> Void) {
         promiseCallBack = callback
@@ -88,6 +89,7 @@ public class Promise<T> {
     }
     
     public func then<X>(p:Promise<X>) -> Promise<X>{
+        p.isFirstPromise = false
         successBlock = { t in p.start() }
         startPromiseIfNeeded()
         return p
@@ -106,6 +108,6 @@ public class Promise<T> {
     }
     
     private func startPromiseIfNeeded() {
-        if !promiseStarted { start() }
+        if !promiseStarted && isFirstPromise { start() }
     }
 }
