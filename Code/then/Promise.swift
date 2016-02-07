@@ -14,7 +14,7 @@ enum PromiseState {
     case Rejected
 }
 
-typealias EmptyPromise = Promise<Void>
+public typealias EmptyPromise = Promise<Void>
 
 public class Promise<T> {
     
