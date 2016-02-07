@@ -1,8 +1,6 @@
-# then [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# then [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  
 
 Write maintainable Async code in Swift
-
-
 
 ```swift
 fetchUserId().then { id in
@@ -71,6 +69,18 @@ Async code is now **concise**, **flexible** and **maintainable** ❤️
 - [x] No magic involved
 - [x] Strongly Typed
 - [x] Chainable
+
+## Installation
+#### Carthage
+```
+github "s4cha/then"
+```
+#### Manually
+Simply Copy and Paste Promise.swift in your Xcode Project :)
+https://github.com/s4cha/then/blob/master/Code/then/Promise.swift
+
+#### As A Framework
+Grab this repository and build the Framework target on the example project. Then Link against this framework.
 
 ## Example
 ```swift
