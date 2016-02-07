@@ -96,6 +96,6 @@ Here you would typically replace the dummy wait function by your network request
 
 
 ## Other repos ❤️
-then is part of a series of lightweight libraries aiming to make developping iOs Apps a breeze :
+then is part of a series of lightweight libraries aiming to make developing iOs Apps a breeze :
 - Layout : https://github.com/s4cha/Stevia
 - Json Parsing : https://github.com/s4cha/Arrow
