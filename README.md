@@ -12,9 +12,6 @@ fetchUserId().then { id in
 }
 ```
 
-
-
-
 ## Before
 ```swift
 fetchUserId({ id in
@@ -52,13 +49,11 @@ fetchUserId()
 ## 🎉🎉🎉
 
 ## Why
-Because async code is hard to write, hard to read, hard to reason about.
-
+Because async code is hard to write, hard to read, hard to reason about.  
 **A pain to maintain**
 
 ## How
-By using a **then** keyword that enables you to write aSync code that *reads like an English sentence*
-
+By using a **then** keyword that enables you to write aSync code that *reads like an English sentence*  
 Async code is now **concise**, **flexible** and **maintainable** ❤️
 
 
@@ -95,8 +90,7 @@ fetchUserId().then { id in
 
 ## Going further 🤓
 
-If we want this to be **maintainable**, it should read *like an english sentence*
-
+If we want this to be **maintainable**, it should read *like an english sentence*  
 We can do this by extracting our blocks into separate functions :
 
 ```swift
@@ -106,15 +100,13 @@ fetchUserId()
     .finally(reloadList)
 ```
 
-This is now **concise**, **flexible**, **maintainable** and it reads like an english sentence <3
-
+This is now **concise**, **flexible**, **maintainable** and it reads like an english sentence <3  
 Mental sanity saved
 // #goodbyeCallbackHell
 
 
 ## Writing your own Promise 💪
-Wondering what fetchUserId() is?
-
+Wondering what fetchUserId() is?  
 It is a simple function that returns a strongly typed promise :
 
 ```swift
@@ -129,6 +121,7 @@ Here you would typically replace the dummy wait function by your network request
 
 
 ## Other repos ❤️
-then is part of a series of lightweight libraries aiming to make developing iOs Apps a breeze :
-- Layout : https://github.com/s4cha/Stevia
-- Json Parsing : https://github.com/s4cha/Arrow
+then is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze* :
+- Layout : [Stevia](https://github.com/s4cha/Stevia)
+- Json Parsing : [Arrow](https://github.com/s4cha/Arrow)
+- JSON WebServices : [ws](https://github.com/s4cha/ws)
