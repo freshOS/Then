@@ -24,7 +24,7 @@ class ViewController: UIViewController {
 func fetchUserId() -> Promise<Int> {
     return Promise { resolve, reject in
         print("fetching user Id ...")
-        wait { resolve(object: 1234) }
+        wait { resolve(result: 1234) }
     }
 }
 
