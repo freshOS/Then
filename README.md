@@ -1,10 +1,23 @@
-# then
-Swift Async code made simple
+# then [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Write maintainable Async code in Swift
 
-## Turn this
+
+
+```swift
+fetchUserId().then { id in
+    print("UserID : \(id)")
+}.onError { e in
+    print("An error occured : \(e)")
+}.finally {
+    print("Everything is Done :)")
+}
+```
+
+
+
+
+## Before
 ```swift
 fetchUserId({ id in
     fetchUserNameFromId(id, success: { name in
@@ -23,10 +36,12 @@ fetchUserId({ id in
     // Fetching user follow status failed
     reloadList()
 }
-```
 🙉🙈🙊#callbackHell
+```
 
-## into ... this !
+----
+
+## After
 
 ```swift
 fetchUserId()
@@ -50,11 +65,12 @@ Async code is now **concise**, **flexible** and **maintainable** ❤️
 
 
 ## What
+- [x] Based on the popular Promise/Future concept
 - [x] Lightweight (1 file ~100lines)
 - [x] Pure Swift
 - [x] No magic involved
 - [x] Strongly Typed
-- [x] Based on the popular Promise/Future idea
+- [x] Chainable
 
 ## Example
 ```swift
