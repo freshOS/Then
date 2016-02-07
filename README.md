@@ -38,16 +38,23 @@ fetchUserId()
 ```
 ## 🎉🎉🎉
 
+## Why
+Because async code is hard to write, hard to read, hard to reason about.
 
-## Explanations
-This is usually what nested Async calls look like :
-Hard to write, hard to read, hard to reason about.
+**A pain to maintain**
 
-*A pain to maintain.*
+## How
+By using a **then** keyword that enables you to write aSync code that *reads like an English sentence*
 
-**then** is based on the famous "Promise/Future" pattern, very popular in javascript for example.
+Async code is now **concise**, **flexible** and **maintainable** ❤️
 
-**then** turns your nested calls into sequential actions, the same way we think about them
+
+## What
+- [x] Lightweight (1 file ~100lines)
+- [x] Pure Swift
+- [x] No magic involved
+- [x] Strongly Typed
+- [x] Based on the popular Promise/Future idea
 
 ## Example
 ```swift
