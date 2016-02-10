@@ -4,6 +4,7 @@
 [![Build Status](https://www.bitrise.io/app/ea9933b066f6a2c4.svg?token=i7LK0uQC1rVuXhDq1iskYg&branch=master)](https://www.bitrise.io/app/ea9933b066f6a2c4)
 [![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/then/blob/master/LICENSE)
+[![codebeat badge](https://codebeat.co/badges/768d3017-1e65-47e0-b287-afcb8954a1da)](https://codebeat.co/projects/github-com-s4cha-then)
 
 
 Elegant Async code for Swift
