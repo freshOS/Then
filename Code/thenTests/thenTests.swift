@@ -60,43 +60,107 @@ class thenTests: XCTestCase {
             print("name :\(name)")
             thenExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectationsWithTimeout(5, handler: nil)
     }
     
-        func testChainedPromisesAreExecutedInOrder() {
-            var count = 0
-            
-            let block1 = expectationWithDescription("block 1 called")
-            let block2 = expectationWithDescription("block 2 called")
-            let block3 = expectationWithDescription("block 3 called")
-            
-            let thenExpectation = expectationWithDescription("then called")
-            fetchUserId()
-            .then(fetchUserNameFromId(1)).then({ _ in
-                XCTAssertTrue(count == 0)
-                count++
-                block1.fulfill()
-            })
-            .then(fetchUserNameFromId(2)).then {_ in
-                XCTAssertTrue(count == 1)
-                count++
-                block2.fulfill()
-            }
-            .then(fetchUserNameFromId(3)).then {_ in
-                XCTAssertTrue(count == 2)
-                count++
-                block3.fulfill()
-            }
-            .then(fetchUserNameFromId(4)).then { name in
-                XCTAssertTrue(count == 3)
-                count++
-                print("name :\(name)")
-                thenExpectation.fulfill()
-            }
-            waitForExpectationsWithTimeout(10, handler: nil)
+    func testChainedPromisesAreExecutedInOrder() {
+        var count = 0
+        
+        let block1 = expectationWithDescription("block 1 called")
+        let block2 = expectationWithDescription("block 2 called")
+        let block3 = expectationWithDescription("block 3 called")
+        
+        let thenExpectation = expectationWithDescription("then called")
+        fetchUserId()
+        .then(fetchUserNameFromId(1)).then({ _ in
+            XCTAssertTrue(count == 0)
+            count++
+            block1.fulfill()
+        })
+        .then(fetchUserNameFromId(2)).then {_ in
+            XCTAssertTrue(count == 1)
+            count++
+            block2.fulfill()
         }
+        .then(fetchUserNameFromId(3)).then {_ in
+            XCTAssertTrue(count == 2)
+            count++
+            block3.fulfill()
+        }
+        .then(fetchUserNameFromId(4)).then { name in
+            XCTAssertTrue(count == 3)
+            count++
+            print("name :\(name)")
+            thenExpectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
+    
+    func testSynchronousChainsWorksProprely() {
+        globalCount = 0
+        blockPromiseCExpectation = expectationWithDescription("block C called")
+        promiseA()
+            .then(promiseB())
+            .then(promiseC())
+        waitForExpectationsWithTimeout(1, handler: nil)
+
+        
+    }
+    
+    func testOnErrorCalledWhenSynchronousRejects() {
+        let errorblock = expectationWithDescription("error block called")
+        promiseA()
+            .then(syncRejectionPromise())
+            .then(syncRejectionPromise())
+            .onError { (error) -> Void in
+            errorblock.fulfill()
+        }
+        waitForExpectationsWithTimeout(1, handler: nil)
+    }
+    
+    func testFinallyCalledWhenSynchronous() {
+        let finallyblock = expectationWithDescription("error block called")
+        syncRejectionPromise().finally {
+            finallyblock.fulfill()
+        }
+        waitForExpectationsWithTimeout(1, handler: nil)
+    }
 }
 
+var globalCount = 0
+var blockPromiseCExpectation:XCTestExpectation!
+
+func promiseA() -> Promise<Int> {
+    return Promise { resolve, reject in
+        XCTAssertTrue(globalCount == 0)
+        print("Promise A")
+        resolve(result: globalCount++)
+    }
+}
+
+func promiseB() -> Promise<Int> {
+    return Promise { resolve, reject in
+        XCTAssertTrue(globalCount == 1)
+        print("Promise B")
+        resolve(result: globalCount++)
+    }
+}
+
+func promiseC() -> Promise<Int> {
+    return Promise { resolve, reject in
+        XCTAssertTrue(globalCount == 2)
+        print("Promise C")
+        resolve(result: globalCount++)
+        blockPromiseCExpectation.fulfill()
+        
+    }
+}
+
+func syncRejectionPromise() -> Promise<Int> {
+    return Promise { resolve, reject in
+        reject(error: MyError.DefaultError)
+    }
+}
 
 func fetchUserId() -> Promise<Int> {
     return Promise { resolve, reject in
@@ -127,7 +191,7 @@ func failingFetchUserFollowStatusFromName(name:String) -> Promise<Bool> {
 }
 
 func wait(callback:()->()) {
-    let delay = 1 * Double(NSEC_PER_SEC)
+    let delay = 0.5 * Double(NSEC_PER_SEC)
     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
     dispatch_after(time, dispatch_get_main_queue()) {
         callback()

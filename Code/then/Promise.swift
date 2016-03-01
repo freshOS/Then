@@ -25,7 +25,7 @@ public class Promise<T> {
     private var successBlock:(result:T) -> Void = { t in }
     private var failBlock:((error:ErrorType) -> Void) = { err in }
     private var finallyBlock:() -> Void = { t in }
-    private var promiseCallBack:PromiseCallBack = { resolve, reject in    }
+    private var promiseCallBack:PromiseCallBack!
     private var promiseStarted = false
     private var state:PromiseState = .Pending
     private var value:T?
@@ -58,16 +58,16 @@ public class Promise<T> {
     public func then<X>(block:(result:T) -> X) -> Promise<X>{
         startPromiseIfNeeded()
         let p = Promise<X>(callback: { (resolve, reject) -> Void in
-            if self.state == .Fulfilled {
+            switch self.state {
+            case .Fulfilled:
                 let x:X = block(result: self.value!)
                 resolve(result:x)
-            } else if self.state == .Rejected {
+            case .Rejected:
                 reject(error:self.error!)
-            }
-            else {
+            case .Pending:
                 self.registerSuccess(resolve, block: block)
+                self.failBlock = reject
             }
-            self.failBlock = reject
         })
         p.start()
         return p
@@ -110,13 +110,17 @@ public class Promise<T> {
     }
     
     public func onError(block:(error:ErrorType) -> Void) -> Self  {
+        startPromiseIfNeeded()
         if state == .Rejected { block(error: error!) }
         else { failBlock = block }
         return self
     }
     
     public func finally(block:() -> Void) -> Self  {
-        if state != .Pending { block() }
+        startPromiseIfNeeded()
+        if state != .Pending {
+            block()
+        }
         else { finallyBlock = block }
         return self
     }
