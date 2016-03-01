@@ -84,10 +84,7 @@ public class Promise<T> {
         let p = Promise<X>(callback: { (resolve, reject) -> Void in
             switch self.state {
             case .Fulfilled:
-                let nextPromise:Promise<X> = block(result: self.value!)
-                nextPromise.then{ x in
-                    resolve(result: x)
-                    }.onError(reject)
+                self.registerNextPromise(block, result: self.value!,resolve:resolve,reject:reject)
             case .Rejected:
                 reject(error: self.error!)
             case .Pending:
