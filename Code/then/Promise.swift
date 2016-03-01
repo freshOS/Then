@@ -81,12 +81,24 @@ public class Promise<T> {
     
     public func then<X>(block:(result:T) -> Promise<X>) -> Promise<X>{
         startPromiseIfNeeded()
-        return Promise<X>(callback: { (resolve, reject) -> Void in
-            self.successBlock = { t in
-                self.registerNextPromise(block, result: t,resolve:resolve,reject:reject)
+        let p = Promise<X>(callback: { (resolve, reject) -> Void in
+            switch self.state {
+            case .Fulfilled:
+                let nextPromise:Promise<X> = block(result: self.value!)
+                nextPromise.then{ x in
+                    resolve(result: x)
+                    }.onError(reject)
+            case .Rejected:
+                reject(error: self.error!)
+            case .Pending:
+                self.successBlock = { t in
+                    self.registerNextPromise(block, result: t,resolve:resolve,reject:reject)
+                }
+                self.failBlock = reject
             }
-            self.failBlock = reject
         })
+        p.start()
+        return p
     }
     
     func registerNextPromise<X>(block:(result:T) -> Promise<X>, result:T, resolve:(result:X) -> Void,reject:RejectCallBack) {
@@ -97,10 +109,7 @@ public class Promise<T> {
     }
     
     public func then<X>(p:Promise<X>) -> Promise<X>{
-        p.isFirstPromise = false
-        successBlock = { t in p.start() }
-        startPromiseIfNeeded()
-        return p
+        return then { _ in p }
     }
     
     public func onError(block:(error:ErrorType) -> Void) -> Self  {
