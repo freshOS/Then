@@ -135,6 +135,12 @@ func fetchUserId() -> Promise<Int> {
 Here you would typically replace the dummy wait function by your network request <3
 
 
+## Contributors
+
+[S4cha](https://github.com/S4cha), [YannickDot](https://github.com/YannickDot), [Damien](https://github.com/damien-nd),
+[piterlouis](https://github.com/piterlouis)
+
+
 ## Other repos ❤️
 then is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze* :
 - Layout : [Stevia](https://github.com/s4cha/Stevia)
