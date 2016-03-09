@@ -105,8 +105,8 @@ fetchUserId().then { id in
 
 ## Going further 🤓
 
-If we want this to be **maintainable**, it should read *like an english sentence*  
-We can do this by extracting our blocks into separate functions :
+If we want this to be **maintainable**, it should read *like an English sentence*  
+We can do this by extracting our blocks into separate functions:
 
 ```swift
 fetchUserId()
@@ -115,7 +115,7 @@ fetchUserId()
     .finally(reloadList)
 ```
 
-This is now **concise**, **flexible**, **maintainable** and it reads like an english sentence <3  
+This is now **concise**, **flexible**, **maintainable**, and it reads like an English sentence <3  
 Mental sanity saved
 // #goodbyeCallbackHell
 
@@ -142,7 +142,7 @@ Here you would typically replace the dummy wait function by your network request
 
 
 ## Other repos ❤️
-then is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze* :
+then is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze*:
 - Layout : [Stevia](https://github.com/s4cha/Stevia)
 - Json Parsing : [Arrow](https://github.com/s4cha/Arrow)
 - JSON WebServices : [ws](https://github.com/s4cha/ws)
