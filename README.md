@@ -1,4 +1,4 @@
-# then 🎬
+# then 🎬 - *Elegant Async code for Swift*
 [![Language: Swift 2](https://img.shields.io/badge/language-swift2-f48041.svg?style=flat)](https://developer.apple.com/swift)
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Cocoapods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org)
@@ -8,7 +8,8 @@
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/then/blob/master/LICENSE)
 [![Release version](https://img.shields.io/badge/release-1.1-blue.svg)]()
 
-Elegant Async code for Swift
+
+[Reason](#why) - [Example](#example) - [Installation](#installation)
 
 ```swift
 fetchUserId().then { id in
@@ -20,7 +21,25 @@ fetchUserId().then { id in
 }
 ```
 
-## Before
+## Why
+Because async code is hard to write, hard to read, hard to reason about.  
+**A pain to maintain**
+
+## How
+By using a **then** keyword that enables you to write aSync code that *reads like an English sentence*  
+Async code is now **concise**, **flexible** and **maintainable** ❤️
+
+## What
+- [x] Based on the popular Promise/Future concept
+- [x] Lightweight (1 file ~100lines)
+- [x] Pure Swift
+- [x] No magic involved
+- [x] Strongly Typed
+- [x] Chainable
+
+
+## Example
+### Before
 ```swift
 fetchUserId({ id in
     fetchUserNameFromId(id, success: { name in
@@ -44,7 +63,7 @@ fetchUserId({ id in
 
 ----
 
-## After
+### After
 
 ```swift
 fetchUserId()
@@ -56,43 +75,9 @@ fetchUserId()
 ```
 ## 🎉🎉🎉
 
-## Why
-Because async code is hard to write, hard to read, hard to reason about.  
-**A pain to maintain**
 
-## How
-By using a **then** keyword that enables you to write aSync code that *reads like an English sentence*  
-Async code is now **concise**, **flexible** and **maintainable** ❤️
+## Going further 🤓
 
-
-## What
-- [x] Based on the popular Promise/Future concept
-- [x] Lightweight (1 file ~100lines)
-- [x] Pure Swift
-- [x] No magic involved
-- [x] Strongly Typed
-- [x] Chainable
-
-## Installation
-
-### Cocoapods
-```swift
-pod 'thenPromise'
-use_frameworks!
-```
-
-#### Carthage
-```
-github "s4cha/then"
-```
-#### Manually
-Simply Copy and Paste Promise.swift in your Xcode Project :)
-https://github.com/s4cha/then/blob/master/Code/then/Promise.swift
-
-#### As A Framework
-Grab this repository and build the Framework target on the example project. Then Link against this framework.
-
-## Example
 ```swift
 fetchUserId().then { id in
     print("UserID : \(id)")
@@ -102,8 +87,6 @@ fetchUserId().then { id in
     print("Everything is Done :)")
 }
 ```
-
-## Going further 🤓
 
 If we want this to be **maintainable**, it should read *like an English sentence*  
 We can do this by extracting our blocks into separate functions:
@@ -128,11 +111,39 @@ It is a simple function that returns a strongly typed promise :
 func fetchUserId() -> Promise<Int> {
     return Promise { resolve, reject in
         print("fetching user Id ...")
-        wait { resolve(object: 1234) }
+        wait { resolve(1234) }
     }
 }
 ```
 Here you would typically replace the dummy wait function by your network request <3
+
+## Bonus : whenAll
+
+`whenAll` calls you back when all the promises passed are fullfiled :
+```swift
+whenAll(fetchUsersA(),fetchUsersB(), fetchUsersC()).then { allUsers in
+  // All the promises came back
+}
+```
+
+## Installation
+
+### Cocoapods
+```swift
+pod 'thenPromise'
+use_frameworks!
+```
+
+#### Carthage
+```
+github "s4cha/then"
+```
+#### Manually
+Simply Copy and Paste Promise.swift in your Xcode Project :)
+https://github.com/s4cha/then/blob/master/Code/then/Promise.swift
+
+#### As A Framework
+Grab this repository and build the Framework target on the example project. Then Link against this framework.
 
 
 ## Contributors

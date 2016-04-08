@@ -74,22 +74,22 @@ class thenTests: XCTestCase {
         fetchUserId()
         .then(fetchUserNameFromId(1)).then({ _ in
             XCTAssertTrue(count == 0)
-            count++
+            count+=1
             block1.fulfill()
         })
         .then(fetchUserNameFromId(2)).then {_ in
             XCTAssertTrue(count == 1)
-            count++
+            count+=1
             block2.fulfill()
         }
         .then(fetchUserNameFromId(3)).then {_ in
             XCTAssertTrue(count == 2)
-            count++
+            count+=1
             block3.fulfill()
         }
         .then(fetchUserNameFromId(4)).then { name in
             XCTAssertTrue(count == 3)
-            count++
+            count+=1
             print("name :\(name)")
             thenExpectation.fulfill()
         }
@@ -125,6 +125,24 @@ class thenTests: XCTestCase {
         }
         waitForExpectationsWithTimeout(1, handler: nil)
     }
+    
+    func testWhenAll() {
+        let block = expectationWithDescription("Block called")
+        whenAll(promise1(),promise2(),promise3()).then { array in
+            XCTAssertEqual(array, [1,2,3])
+            block.fulfill()
+        }
+        waitForExpectationsWithTimeout(1, handler: nil)
+    }
+    
+    func testWhenAllArray() {
+        let block = expectationWithDescription("Block called")
+        whenAll(promiseArray1(),promiseArray2(),promiseArray3()).then { array in
+            XCTAssertEqual(array, [1,2,3,4,5,6,7,8,9])
+            block.fulfill()
+        }
+        waitForExpectationsWithTimeout(1, handler: nil)
+    }
 }
 
 var globalCount = 0
@@ -133,28 +151,65 @@ var blockPromiseCExpectation:XCTestExpectation!
 func promiseA() -> Promise<Int> {
     return Promise { resolve, reject in
         XCTAssertTrue(globalCount == 0)
-        print("Promise A")
-        resolve(globalCount++)
+        globalCount+=1
+        resolve(globalCount)
     }
 }
 
 func promiseB() -> Promise<Int> {
     return Promise { resolve, reject in
         XCTAssertTrue(globalCount == 1)
-        print("Promise B")
-        resolve(globalCount++)
+        globalCount+=1
+        resolve(globalCount)
     }
 }
 
 func promiseC() -> Promise<Int> {
     return Promise { resolve, reject in
         XCTAssertTrue(globalCount == 2)
-        print("Promise C")
-        resolve(globalCount++)
+        globalCount+=1
+        resolve(globalCount)
         blockPromiseCExpectation.fulfill()
         
     }
 }
+
+func promise1() -> Promise<Int> {
+    return Promise { resolve, _ in
+        resolve(1)
+    }
+}
+
+func promise2() -> Promise<Int> {
+    return Promise { resolve, _ in
+        resolve(2)
+    }
+}
+
+func promise3() -> Promise<Int> {
+    return Promise { resolve, _ in
+        resolve(3)
+    }
+}
+
+func promiseArray1() -> Promise<[Int]> {
+    return Promise { resolve, _ in
+        resolve([1,2,3])
+    }
+}
+
+func promiseArray2() -> Promise<[Int]> {
+    return Promise { resolve, _ in
+        resolve([4,5,6])
+    }
+}
+
+func promiseArray3() -> Promise<[Int]> {
+    return Promise { resolve, _ in
+        resolve([7,8,9])
+    }
+}
+
 
 func syncRejectionPromise() -> Promise<Int> {
     return Promise { resolve, reject in

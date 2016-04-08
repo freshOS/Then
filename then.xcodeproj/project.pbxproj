@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		99AA1C711CB7DDF800ADA4C3 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
 		99B5ACA21C66831C005CDA28 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B5AC971C66831C005CDA28 /* then.framework */; };
 		99B5ACA71C66831C005CDA28 /* thenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5ACA61C66831C005CDA28 /* thenTests.swift */; };
 		99FC63801C86085C008C1155 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC637D1C86085C008C1155 /* Promise.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenAll.swift; sourceTree = "<group>"; };
 		99B5AC971C66831C005CDA28 /* then.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = then.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B5ACA11C66831C005CDA28 /* thenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = thenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B5ACA61C66831C005CDA28 /* thenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = thenTests.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			children = (
 				99FC637C1C86085C008C1155 /* Info.plist */,
 				99FC637D1C86085C008C1155 /* Promise.swift */,
+				99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */,
 				99FC637E1C86085C008C1155 /* then.h */,
 			);
 			path = Source;
@@ -206,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99FC63801C86085C008C1155 /* Promise.swift in Sources */,
+				99AA1C711CB7DDF800ADA4C3 /* WhenAll.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
