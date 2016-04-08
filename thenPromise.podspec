@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/s4cha/then.git",
                          :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/sachadso'
-  s.source_files     = "Code/then/*.swift"
+  s.source_files     = "Source/*.swift"
   s.requires_arc     = true
   s.ios.deployment_target = "8.0"
   s.description  = "Elegant Async code for Swift 🎬- Async code finally readable by a human being"
