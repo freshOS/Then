@@ -134,7 +134,7 @@ func promiseA() -> Promise<Int> {
     return Promise { resolve, reject in
         XCTAssertTrue(globalCount == 0)
         print("Promise A")
-        resolve(result: globalCount++)
+        resolve(globalCount++)
     }
 }
 
@@ -142,7 +142,7 @@ func promiseB() -> Promise<Int> {
     return Promise { resolve, reject in
         XCTAssertTrue(globalCount == 1)
         print("Promise B")
-        resolve(result: globalCount++)
+        resolve(globalCount++)
     }
 }
 
@@ -150,7 +150,7 @@ func promiseC() -> Promise<Int> {
     return Promise { resolve, reject in
         XCTAssertTrue(globalCount == 2)
         print("Promise C")
-        resolve(result: globalCount++)
+        resolve(globalCount++)
         blockPromiseCExpectation.fulfill()
         
     }
@@ -158,35 +158,35 @@ func promiseC() -> Promise<Int> {
 
 func syncRejectionPromise() -> Promise<Int> {
     return Promise { resolve, reject in
-        reject(error: MyError.DefaultError)
+        reject(MyError.DefaultError)
     }
 }
 
 func fetchUserId() -> Promise<Int> {
     return Promise { resolve, reject in
         print("fetching user Id ...")
-        wait { resolve(result: 1234) }
+        wait { resolve(1234) }
     }
 }
 
 func fetchUserNameFromId(id:Int) -> Promise<String> {
     return Promise { resolve, reject in
         print("fetching UserName FromId : \(id) ...")
-        wait { resolve(result: "John Smith") }
+        wait { resolve("John Smith") }
     }
 }
 
 func fetchUserFollowStatusFromName(name:String) -> Promise<Bool> {
     return Promise { resolve, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
-        wait { resolve(result: false) }
+        wait { resolve(false) }
     }
 }
 
 func failingFetchUserFollowStatusFromName(name:String) -> Promise<Bool> {
     return Promise { resolve, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
-        wait { reject(error:MyError.DefaultError) }
+        wait { reject(MyError.DefaultError) }
     }
 }
 
