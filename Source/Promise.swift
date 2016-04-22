@@ -30,7 +30,8 @@ public class Promise<T> {
     private var state:PromiseState = .Pending
     private var value:T?
     private var error:ErrorType?
-    private var isFirstPromise = true
+    var initialPromiseStart:(() -> Void)?
+    var initialPromiseStarted = false
     
     public init(callback:(resolve:ResolveCallBack, reject:RejectCallBack) -> Void) {
         promiseCallBack = callback
@@ -42,7 +43,12 @@ public class Promise<T> {
     }
     
     public func then<X>(block:(T) -> X) -> Promise<X>{
+        tryStartInitialPromise()
         startPromiseIfNeeded()
+        return registerThen(block)
+    }
+    
+    public func registerThen<X>(block:(T) -> X) -> Promise<X>{
         let p = Promise<X>{ resolve, reject in
             switch self.state {
             case .Fulfilled:
@@ -56,6 +62,16 @@ public class Promise<T> {
             }
         }
         p.start()
+        
+        // Pass along First promise start block
+        if let startBlock = self.initialPromiseStart {
+            p.initialPromiseStart = startBlock
+        } else {
+            p.initialPromiseStart = self.start
+        }
+        // Pass along initil promise start state.
+        p.initialPromiseStarted = self.initialPromiseStarted
+
         return p
     }
     
@@ -98,8 +114,15 @@ public class Promise<T> {
         return self
     }
     
+    private func tryStartInitialPromise() {
+        if !initialPromiseStarted {
+            initialPromiseStart?()
+            initialPromiseStarted = true
+        }
+    }
+    
     private func startPromiseIfNeeded() {
-        if !promiseStarted && isFirstPromise { start() }
+        if !promiseStarted { start() }
     }
     
     private func registerSuccess<X>(resolve:(X) -> Void, block:(T) -> X) {

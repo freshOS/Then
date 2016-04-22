@@ -143,6 +143,99 @@ class thenTests: XCTestCase {
         }
         waitForExpectationsWithTimeout(1, handler: nil)
     }
+    
+    //Test registerThen
+    
+    func testClassicThenLaunchesPromise() {
+        let thenExpectation = expectationWithDescription("then called")
+        fetchUserId() .then { id in
+            XCTAssertEqual(id, 1234)
+            thenExpectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(1, handler: nil)
+    }
+    
+    func testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock() {
+        let timerExpectation = expectationWithDescription("timerExpectation")
+        fetchUserId()
+            .registerThen { _ in
+                XCTFail()
+            }.registerThen {_ in
+                XCTFail()
+            }.registerThen {_ in
+                XCTFail()
+            }
+        wait(1) {
+            timerExpectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
+    
+    func testRegisterThenChainedPromisesAreExecutedInOrder() {
+        var count = 0
+        
+        let block1 = expectationWithDescription("block 1 called")
+        let block2 = expectationWithDescription("block 2 called")
+        let block3 = expectationWithDescription("block 3 called")
+        
+        let thenExpectation = expectationWithDescription("thenExpectation")
+        fetchUserId()
+            .registerThen { _ in
+                XCTAssertTrue(count == 0)
+                count+=1
+                block1.fulfill()
+            }.registerThen {_ in
+                XCTAssertTrue(count == 1)
+                count+=1
+                block2.fulfill()
+            }.registerThen {_ in
+                XCTAssertTrue(count == 2)
+                count+=1
+                block3.fulfill()
+            }.then { name in
+                XCTAssertTrue(count == 3)
+                count+=1
+                print("name :\(name)")
+                thenExpectation.fulfill()
+            }
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
+    
+    func testRegisterThenMultipleThenOnlyCallOriginalPromiseOnce() {
+        var count = 0
+        
+        let block1 = expectationWithDescription("block 1 called")
+        let block2 = expectationWithDescription("block 2 called")
+        let block3 = expectationWithDescription("block 3 called")
+        
+        let thenExpectation = expectationWithDescription("thenExpectation")
+        fetchUserId()
+            .registerThen { _ in
+                XCTAssertTrue(count == 0)
+                count+=1
+                block1.fulfill()
+            }.registerThen {_ in
+                XCTAssertTrue(count == 1)
+                count+=1
+                block2.fulfill()
+            }.registerThen {_ in
+                XCTAssertTrue(count == 2)
+                count+=1
+                block3.fulfill()
+            }.then { name in
+                XCTAssertTrue(count == 3)
+                count+=1
+                print("name :\(name)")
+                thenExpectation.fulfill()
+            }.then { _ -> Void in
+                print("Just another then block")
+            }
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
+
+
+    
+    
 }
 
 var globalCount = 0
@@ -247,6 +340,14 @@ func failingFetchUserFollowStatusFromName(name:String) -> Promise<Bool> {
 
 func wait(callback:()->()) {
     let delay = 0.5 * Double(NSEC_PER_SEC)
+    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+    dispatch_after(time, dispatch_get_main_queue()) {
+        callback()
+    }
+}
+
+func wait(time:Double, callback:()->()) {
+    let delay = time * Double(NSEC_PER_SEC)
     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
     dispatch_after(time, dispatch_get_main_queue()) {
         callback()
