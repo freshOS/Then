@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'thenPromise'
-  s.version          = "1.2.1"
+  s.version          = "1.3.0"
   s.summary          = "Elegant Async code for Swift"
   s.homepage         = "https://github.com/s4cha/then"
   s.license          = { :type => "MIT", :file => "LICENSE" }
