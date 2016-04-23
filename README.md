@@ -117,6 +117,24 @@ func fetchUserId() -> Promise<Int> {
 ```
 Here you would typically replace the dummy wait function by your network request <3
 
+## Registering a block for later
+Calling `then` starts a promise if it is not already started.
+In some cases, we only want to register some code for later.
+For instance, in the case of JSON to Swift model parsing, we often want to attach parsing blocks to JSON promises, but without starting them.
+
+In order to do that we need to use `registerThen` instead. It's the exact same thing as `then` without starting the promise right away.
+
+```swift
+let fetchUsers:Promise<[User]> = fetchUsersJSON().registerThen(parseUsersJSON)
+
+// Here promise is not launched yet \o/
+
+// later...
+fetchUsers.then { users in
+    // YAY
+}
+```
+
 ## Bonus : whenAll
 
 `whenAll` calls you back when all the promises passed are fullfiled :

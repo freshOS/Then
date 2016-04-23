@@ -42,6 +42,8 @@ public class Promise<T> {
         promiseCallBack(resolve:resolvePromise, reject:rejectPromise)
     }
     
+    //MARK: - then((T)-> X)
+    
     public func then<X>(block:(T) -> X) -> Promise<X>{
         tryStartInitialPromise()
         startPromiseIfNeeded()
@@ -62,21 +64,19 @@ public class Promise<T> {
             }
         }
         p.start()
-        
-        // Pass along First promise start block
-        if let startBlock = self.initialPromiseStart {
-            p.initialPromiseStart = startBlock
-        } else {
-            p.initialPromiseStart = self.start
-        }
-        // Pass along initil promise start state.
-        p.initialPromiseStarted = self.initialPromiseStarted
-
+        passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }
     
+    //MARK: - then((T)->Promise<X>)
+    
     public func then<X>(block:(T) -> Promise<X>) -> Promise<X>{
+        tryStartInitialPromise()
         startPromiseIfNeeded()
+        return registerThen(block)
+    }
+    
+    public func registerThen<X>(block:(T) -> Promise<X>) -> Promise<X>{
         let p = Promise<X>{ resolve, reject in
             switch self.state {
             case .Fulfilled:
@@ -91,12 +91,22 @@ public class Promise<T> {
             }
         }
         p.start()
+        passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }
+    
+    //MARK: - then(Promise<X>)
     
     public func then<X>(p:Promise<X>) -> Promise<X>{
         return then { _ in p }
     }
+    
+    public func registerThen<X>(p:Promise<X>) -> Promise<X>{
+        return registerThen { _ in p }
+    }
+    
+    
+    //MARK: - Error
     
     public func onError(block:(ErrorType) -> Void) -> Self  {
         startPromiseIfNeeded()
@@ -105,6 +115,8 @@ public class Promise<T> {
         return self
     }
     
+    //MARK: - Finally
+    
     public func finally(block:() -> Void) -> Self  {
         startPromiseIfNeeded()
         if state != .Pending {
@@ -112,6 +124,19 @@ public class Promise<T> {
         }
         else { finallyBlock = block }
         return self
+    }
+    
+    //MARK: - Helpers
+    
+    private func passAlongFirstPromiseStartFunctionAndStateTo<X>(p:Promise<X>) {
+        // Pass along First promise start block
+        if let startBlock = self.initialPromiseStart {
+            p.initialPromiseStart = startBlock
+        } else {
+            p.initialPromiseStart = self.start
+        }
+        // Pass along initil promise start state.
+        p.initialPromiseStarted = self.initialPromiseStarted
     }
     
     private func tryStartInitialPromise() {
