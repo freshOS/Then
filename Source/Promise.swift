@@ -64,7 +64,7 @@ public class Promise<T> {
     }
     
     public func registerThen<X>(block:(T) -> X) -> Promise<X>{
-        let p = Promise<X>{ resolve, reject in
+        let p = Promise<X>{ resolve, reject, progress in
             switch self.state {
             case .Fulfilled:
                 let x:X = block(self.value!)
@@ -75,6 +75,7 @@ public class Promise<T> {
                 self.registerSuccess(resolve, block: block)
                 self.failBlock = reject
             }
+            self.progressBlock = progress
         }
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)

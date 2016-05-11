@@ -324,17 +324,20 @@ class thenTests: XCTestCase {
     func testProgress() {
         
         let progressExpectation = expectationWithDescription("thenExpectation")
-        
-        upload().progress { p in
-            print("PROGRESS \(p)")
-            XCTAssertEqual(p, 0.8)
+        let thenExpectation = expectationWithDescription("thenExpectation")
+    
+        upload().registerThen {
+            print("Done")
         }.then {
             print("Done")
+            thenExpectation.fulfill()
+        }.progress { p in
+            print("PROGRESS \(p)")
+            XCTAssertEqual(p, 0.8)
             progressExpectation.fulfill()
-        }.onError { e in
-            print(e)
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+
+        waitForExpectationsWithTimeout(3, handler: nil)
     }
 }
 
