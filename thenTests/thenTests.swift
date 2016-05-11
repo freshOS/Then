@@ -320,10 +320,38 @@ class thenTests: XCTestCase {
             }
         waitForExpectationsWithTimeout(5, handler: nil)
     }
+    
+    func testProgress() {
+        
+        let progressExpectation = expectationWithDescription("thenExpectation")
+        
+        upload().progress { p in
+            print("PROGRESS \(p)")
+            XCTAssertEqual(p, 0.8)
+        }.then {
+            print("Done")
+            progressExpectation.fulfill()
+        }.onError { e in
+            print(e)
+        }
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
 }
 
 var globalCount = 0
 var blockPromiseCExpectation:XCTestExpectation!
+
+
+func upload() -> Promise<Void> {
+    return Promise<Void> { resolve, reject, progress in
+        wait {
+            progress(0.8)
+            wait {
+                resolve()
+            }
+        }
+    }
+}
 
 func promiseA() -> Promise<Int> {
     return Promise { resolve, reject in

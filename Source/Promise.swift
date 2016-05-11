@@ -19,16 +19,21 @@ public typealias EmptyPromise = Promise<Void>
 public class Promise<T> {
     
     public typealias ResolveCallBack = (T) -> Void
+    public typealias ProgressCallBack = (Float) -> Void
     public typealias RejectCallBack = (ErrorType) -> Void
     public typealias PromiseCallBack = (resolve:ResolveCallBack, reject:RejectCallBack) -> Void
+    public typealias PromiseProgressCallBack = (resolve:ResolveCallBack, reject:RejectCallBack, progress:ProgressCallBack) -> Void
     
     private var successBlock:(T) -> Void = { t in }
+    private var progressBlock:(Float) -> Void = { t in }
     private var failBlock:((ErrorType) -> Void) = { _ in }
     private var finallyBlock:() -> Void = { t in }
     private var promiseCallBack:PromiseCallBack!
+    private var promiseProgressCallBack:PromiseProgressCallBack?
     private var promiseStarted = false
     private var state:PromiseState = .Pending
     private var value:T?
+    private var progress:Float?
     private var error:ErrorType?
     var initialPromiseStart:(() -> Void)?
     var initialPromiseStarted = false
@@ -37,9 +42,17 @@ public class Promise<T> {
         promiseCallBack = callback
     }
     
+    public init(callback:(resolve:ResolveCallBack, reject:RejectCallBack, progress:ProgressCallBack) -> Void) {
+        promiseProgressCallBack = callback
+    }
+    
     public func start() {
         promiseStarted = true
-        promiseCallBack(resolve:resolvePromise, reject:rejectPromise)
+        if let p = promiseProgressCallBack {
+            p(resolve:resolvePromise, reject:rejectPromise, progress:progressPromise)
+        } else {
+            promiseCallBack(resolve:resolvePromise, reject:rejectPromise)
+        }
     }
     
     //MARK: - then((T)-> X)
@@ -126,6 +139,13 @@ public class Promise<T> {
         return self
     }
     
+    //MARK: - Progress
+
+    public func progress(block:(Float) -> Void) -> Self {
+        progressBlock = block
+        return self
+    }
+    
     //MARK: - Helpers
     
     private func passAlongFirstPromiseStartFunctionAndStateTo<X>(p:Promise<X>) {
@@ -175,5 +195,10 @@ public class Promise<T> {
         error = e
         failBlock(error!)
         finallyBlock()
+    }
+    
+    private func progressPromise(p:Float) {
+        progress = p
+        progressBlock(progress!)
     }
 }
