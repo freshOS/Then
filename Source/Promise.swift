@@ -155,13 +155,32 @@ public class Promise<T> {
     
     //MARK: - Finally
     
-    public func finally(block:() -> Void) -> Self  {
+    public func finally<X>(block:() -> X) -> Promise<X>  {
+        tryStartInitialPromise()
         startPromiseIfNeeded()
-        if state != .Pending {
-            block()
+        return registerFinally(block)
+    }
+    
+    public func registerFinally<X>(block:() -> X) -> Promise<X>{
+        let p = Promise<X>{ resolve, reject, progress in
+            switch self.state {
+            case .Fulfilled:()
+                resolve(block())
+            case .Rejected:
+                resolve(block())
+            case .Pending:
+                self.failBlock = { e in
+                    resolve(block())
+                }
+                self.successBlock = { t in
+                    resolve(block())
+                }
+            }
+            self.progressBlock = progress
         }
-        else { finallyBlock = block }
-        return self
+        p.start()
+        passAlongFirstPromiseStartFunctionAndStateTo(p)
+        return p
     }
     
     //MARK: - Progress
