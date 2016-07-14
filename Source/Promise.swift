@@ -57,7 +57,7 @@ public class Promise<T> {
     
     //MARK: - then((T)-> X)
     
-    public func then<X>(block:(T) -> X) -> Promise<X>{
+    public func then<X>(block:(T) -> X) -> Promise<X> {
         tryStartInitialPromise()
         startPromiseIfNeeded()
         return registerThen(block)
@@ -122,11 +122,35 @@ public class Promise<T> {
     
     //MARK: - Error
     
-    public func onError(block:(ErrorType) -> Void) -> Self  {
+    public func onError<X>(block:(ErrorType) -> X) -> Promise<X>  {
+        tryStartInitialPromise()
         startPromiseIfNeeded()
-        if state == .Rejected { block(error!) }
-        else { failBlock = block }
-        return self
+        return registerOnError(block)
+    }
+    
+    public func registerOnError<X>(block:(ErrorType) -> X) -> Promise<X>{
+        let p = Promise<X>{ resolve, reject, progress in
+            switch self.state {
+            case .Fulfilled:()
+            reject(NSError(domain: "", code: 123, userInfo: nil))
+            // No error so do nothing.
+            case .Rejected:
+                // Already failed so call error block
+                resolve(block(self.error!))
+            case .Pending:
+                // if promise fails, resolve error promise
+                self.failBlock = { e in
+                    resolve(block(e))
+                }
+                self.successBlock = { t in
+                    reject(NSError(domain: "", code: 123, userInfo: nil))
+                }
+            }
+            self.progressBlock = progress
+        }
+        p.start()
+        passAlongFirstPromiseStartFunctionAndStateTo(p)
+        return p
     }
     
     //MARK: - Finally
