@@ -6,7 +6,7 @@
 [![codebeat badge](https://codebeat.co/badges/768d3017-1e65-47e0-b287-afcb8954a1da)](https://codebeat.co/projects/github-com-s4cha-then)
 [![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/then/blob/master/LICENSE)
-[![Release version](https://img.shields.io/badge/release-1.3-blue.svg)]()
+[![Release version](https://img.shields.io/badge/release-1.4-blue.svg)]()
 
 
 [Reason](#why) - [Example](#example) - [Installation](#installation)
@@ -116,6 +116,19 @@ func fetchUserId() -> Promise<Int> {
 }
 ```
 Here you would typically replace the dummy wait function by your network request <3
+
+## Progress
+
+As for `then` and `onError`, you can also call a `progress` block for things like uploading an avatar for example.
+
+```swift
+uploadAvatar().progress { p in
+  // Here update progressView for example
+}
+.then(doSomething)
+.onError(showErrorPopup)
+.finally(doSomething)
+```
 
 ## Registering a block for later
 Calling `then` starts a promise if it is not already started.
