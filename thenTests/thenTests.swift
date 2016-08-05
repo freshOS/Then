@@ -15,8 +15,8 @@ class thenTests: XCTestCase {
     override func tearDown() { super.tearDown() }
     
     func testThen() {
-        let thenExpectation = expectationWithDescription("then called")
-        let finallyExpectation = expectationWithDescription("Finally called")
+        let thenExpectation = expectation(description: "then called")
+        let finallyExpectation = expectation(description: "Finally called")
         fetchUserId()
         .then(fetchUserNameFromId)
         .then(fetchUserFollowStatusFromName)
@@ -28,29 +28,29 @@ class thenTests: XCTestCase {
         }.finally {
             finallyExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testError() {
-        let errorExpectation = expectationWithDescription("onError called")
-        let finallyExpectation = expectationWithDescription("Finally called")
+        let errorExpectation = expectation(description: "onError called")
+        let finallyExpectation = expectation(description: "Finally called")
         fetchUserId()
             .then(fetchUserNameFromId)
             .then(failingFetchUserFollowStatusFromName)
             .then { isFollowed in
                 XCTFail("then block shouldn't be called")
             }.onError { e in
-                XCTAssertTrue((e as! MyError) == MyError.DefaultError)
+                XCTAssertTrue((e as! MyError) == MyError.defaultError)
                 errorExpectation.fulfill()
             }.finally {
                 finallyExpectation.fulfill()
             }
         
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testChainedPromises() {
-        let thenExpectation = expectationWithDescription("then called")
+        let thenExpectation = expectation(description: "then called")
         fetchUserId()
         .then(fetchUserNameFromId(1))
         .then(fetchUserNameFromId(2))
@@ -59,17 +59,17 @@ class thenTests: XCTestCase {
             print("name :\(name)")
             thenExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testChainedPromisesAreExecutedInOrder() {
         var count = 0
         
-        let block1 = expectationWithDescription("block 1 called")
-        let block2 = expectationWithDescription("block 2 called")
-        let block3 = expectationWithDescription("block 3 called")
+        let block1 = expectation(description: "block 1 called")
+        let block2 = expectation(description: "block 2 called")
+        let block3 = expectation(description: "block 3 called")
         
-        let thenExpectation = expectationWithDescription("then called")
+        let thenExpectation = expectation(description: "then called")
         fetchUserId()
         .then(fetchUserNameFromId(1)).then({ _ in
             XCTAssertTrue(count == 0)
@@ -92,68 +92,68 @@ class thenTests: XCTestCase {
             print("name :\(name)")
             thenExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testSynchronousChainsWorksProprely() {
         globalCount = 0
-        blockPromiseCExpectation = expectationWithDescription("block C called")
+        blockPromiseCExpectation = expectation(description: "block C called")
         promiseA()
             .then(promiseB())
             .then(promiseC())
-        waitForExpectationsWithTimeout(1, handler: nil)
+        waitForExpectations(timeout: 1, handler: nil)
 
         
     }
     
     func testOnErrorCalledWhenSynchronousRejects() {
-        let errorblock = expectationWithDescription("error block called")
+        let errorblock = expectation(description: "error block called")
         promiseA()
             .then(syncRejectionPromise())
             .then(syncRejectionPromise())
             .onError { (error) -> Void in
             errorblock.fulfill()
         }
-        waitForExpectationsWithTimeout(1, handler: nil)
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
     func testFinallyCalledWhenSynchronous() {
-        let finallyblock = expectationWithDescription("error block called")
+        let finallyblock = expectation(description: "error block called")
         syncRejectionPromise().finally {
             finallyblock.fulfill()
         }
-        waitForExpectationsWithTimeout(1, handler: nil)
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
     func testWhenAll() {
-        let block = expectationWithDescription("Block called")
+        let block = expectation(description: "Block called")
         whenAll(promise1(),promise2(),promise3()).then { array in
             XCTAssertEqual(array, [1,2,3])
             block.fulfill()
         }
-        waitForExpectationsWithTimeout(1, handler: nil)
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
     func testWhenAllArray() {
-        let block = expectationWithDescription("Block called")
+        let block = expectation(description: "Block called")
         whenAll(promiseArray1(),promiseArray2(),promiseArray3()).then { array in
             XCTAssertEqual(array, [1,2,3,4,5,6,7,8,9])
             block.fulfill()
         }
-        waitForExpectationsWithTimeout(1, handler: nil)
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
     func testClassicThenLaunchesPromise() {
-        let thenExpectation = expectationWithDescription("then called")
+        let thenExpectation = expectation(description: "then called")
         fetchUserId().then { id in
             XCTAssertEqual(id, 1234)
             thenExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(1, handler: nil)
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
     func testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock() {
-        let timerExpectation = expectationWithDescription("timerExpectation")
+        let timerExpectation = expectation(description: "timerExpectation")
         fetchUserId()
             .registerThen { _ in
                 XCTFail()
@@ -165,11 +165,11 @@ class thenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
 
     func testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock() {
-        let timerExpectation = expectationWithDescription("timerExpectation")
+        let timerExpectation = expectation(description: "timerExpectation")
         fetchUserId()
             .registerThen(fetchUserNameFromId(10)).registerThen { name in
                 print(name)
@@ -182,11 +182,11 @@ class thenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock() {
-        let timerExpectation = expectationWithDescription("timerExpectation")
+        let timerExpectation = expectation(description: "timerExpectation")
         fetchUserId().registerThen { id in
             return fetchUserNameFromId(id)
         }.registerThen { name in
@@ -198,17 +198,17 @@ class thenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenChainedPromisesAreExecutedInOrder() {
         var count = 0
         
-        let block1 = expectationWithDescription("block 1 called")
-        let block2 = expectationWithDescription("block 2 called")
-        let block3 = expectationWithDescription("block 3 called")
+        let block1 = expectation(description: "block 1 called")
+        let block2 = expectation(description: "block 2 called")
+        let block3 = expectation(description: "block 3 called")
         
-        let thenExpectation = expectationWithDescription("thenExpectation")
+        let thenExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen { _ in
                 XCTAssertTrue(count == 0)
@@ -228,11 +228,11 @@ class thenTests: XCTestCase {
                 print("name :\(name)")
                 thenExpectation.fulfill()
             }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromiseFuncPointerNotCalled() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen(fetchUserNameFromId)
             .registerThen { _ in
@@ -241,11 +241,11 @@ class thenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromise2FuncPointerNotCalled() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId().registerThen { id -> Promise<String> in
             return fetchUserNameFromId(id)
         }.registerThen { _ in
@@ -254,48 +254,48 @@ class thenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromiseFuncPointerCalledWithThenBlock() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen(fetchUserNameFromId)
             .then { name in
                 timerExpectation.fulfill()
             }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromise2FuncPointerCalledWithThenBlock() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId().registerThen { id -> Promise<String> in
             return fetchUserNameFromId(id)
         }.then { name in
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromiseFuncPointerCalledWithMultipleRegisterThenBlocks() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen(fetchUserNameFromId)
             .registerThen(fetchUserFollowStatusFromName)
             .then { name in
                 timerExpectation.fulfill()
             }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenMultipleThenOnlyCallOriginalPromiseOnce() {
         var count = 0
         
-        let block1 = expectationWithDescription("block 1 called")
-        let block2 = expectationWithDescription("block 2 called")
-        let block3 = expectationWithDescription("block 3 called")
+        let block1 = expectation(description: "block 1 called")
+        let block2 = expectation(description: "block 2 called")
+        let block3 = expectation(description: "block 3 called")
         
-        let thenExpectation = expectationWithDescription("thenExpectation")
+        let thenExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen { _ in
                 XCTAssertTrue(count == 0)
@@ -317,12 +317,12 @@ class thenTests: XCTestCase {
             }.then { _ -> Void in
                 print("Just another then block")
             }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testProgress() {
-        let progressExpectation = expectationWithDescription("thenExpectation")
-        let thenExpectation = expectationWithDescription("thenExpectation")        
+        let progressExpectation = expectation(description: "thenExpectation")
+        let thenExpectation = expectation(description: "thenExpectation")        
         upload().progress { p in
             print("PROGRESS \(p)")
             XCTAssertEqual(p, 0.8)
@@ -334,12 +334,12 @@ class thenTests: XCTestCase {
             print("ERROR")
         }
 
-        waitForExpectationsWithTimeout(3, handler: nil)
+        waitForExpectations(timeout: 3, handler: nil)
     }
     
     func testProgressFails() {
-        let progressExpectation = expectationWithDescription("thenExpectation")
-        let errorExpectation = expectationWithDescription("errorExpectation")
+        let progressExpectation = expectation(description: "thenExpectation")
+        let errorExpectation = expectation(description: "errorExpectation")
         failingUpload().progress { p in
             XCTAssertEqual(p, 0.8)
             progressExpectation.fulfill()
@@ -349,15 +349,15 @@ class thenTests: XCTestCase {
             errorExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(3, handler: nil)
+        waitForExpectations(timeout: 3, handler: nil)
     }
     
     
     func testMultipleThenBlockCanBeRegisteredOnSamePromise() {
-        let then1 = expectationWithDescription("then called")
-        let then2 = expectationWithDescription("then called")
-        let then3 = expectationWithDescription("then called")
-        let then4 = expectationWithDescription("then called")
+        let then1 = expectation(description: "then called")
+        let then2 = expectation(description: "then called")
+        let then3 = expectation(description: "then called")
+        let then4 = expectation(description: "then called")
         let p = fetchUserId()
         p.then { _ in
             then1.fulfill()
@@ -371,14 +371,14 @@ class thenTests: XCTestCase {
         p.then { _ in
             then4.fulfill()
         }
-        waitForExpectationsWithTimeout(2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testMultipleErrorBlockCanBeRegisteredOnSamePromise() {
-        let error1 = expectationWithDescription("error called")
-        let error2 = expectationWithDescription("error called")
-        let error3 = expectationWithDescription("error called")
-        let error4 = expectationWithDescription("error called")
+        let error1 = expectation(description: "error called")
+        let error2 = expectation(description: "error called")
+        let error3 = expectation(description: "error called")
+        let error4 = expectation(description: "error called")
         let p = failingFetchUserFollowStatusFromName("")
         p.onError { _ in
             error1.fulfill()
@@ -392,14 +392,14 @@ class thenTests: XCTestCase {
         p.onError { _ in
             error4.fulfill()
         }
-        waitForExpectationsWithTimeout(2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testMultipleFinallyBlockCanBeRegisteredOnSamePromise() {
-        let finally1 = expectationWithDescription("finally called")
-        let finally2 = expectationWithDescription("finally called")
-        let finally3 = expectationWithDescription("finally called")
-        let finally4 = expectationWithDescription("finally called")
+        let finally1 = expectation(description: "finally called")
+        let finally2 = expectation(description: "finally called")
+        let finally3 = expectation(description: "finally called")
+        let finally4 = expectation(description: "finally called")
         let p = failingFetchUserFollowStatusFromName("")
         p.finally {
             finally1.fulfill()
@@ -413,11 +413,11 @@ class thenTests: XCTestCase {
         p.finally {
             finally4.fulfill()
         }
-        waitForExpectationsWithTimeout(2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnFail() {
-        let errorExpectation = expectationWithDescription("then called")
+        let errorExpectation = expectation(description: "then called")
         failingFetchUserFollowStatusFromName("")
             .then { id in
                 XCTFail("on Error shouldn't be called")
@@ -426,12 +426,12 @@ class thenTests: XCTestCase {
             }.onError { e in
                 XCTFail("Second on Error shouldn't be called")
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     
     func testThenWorksAfterErrorBlock() {
-        let thenExpectation = expectationWithDescription("then called")
+        let thenExpectation = expectation(description: "then called")
         fetchUserId()
             .then { id in
                 thenExpectation.fulfill()
@@ -440,12 +440,12 @@ class thenTests: XCTestCase {
             }.then {
                 print("Ok bro")
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnSuccess() {
-        let thenExpectation = expectationWithDescription("then called")
+        let thenExpectation = expectation(description: "then called")
         fetchUserId()
             .then { id in
                 thenExpectation.fulfill()
@@ -466,12 +466,12 @@ class thenTests: XCTestCase {
             }.onError { e in
                 XCTFail("on Error shouldn't be called")
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testCanContinueWithThenAfterErrorBlock() {
-        let thenExpectation = expectationWithDescription("then called")
-        let errorExpectation = expectationWithDescription("Finally called")
+        let thenExpectation = expectation(description: "then called")
+        let errorExpectation = expectation(description: "Finally called")
         failingFetchUserFollowStatusFromName("").then { _ in
             XCTFail()
             }.onError { e in
@@ -480,7 +480,7 @@ class thenTests: XCTestCase {
                 thenExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
 }
 
@@ -575,7 +575,7 @@ func promiseArray3() -> Promise<[Int]> {
 
 func syncRejectionPromise() -> Promise<Int> {
     return Promise { resolve, reject in
-        reject(MyError.DefaultError)
+        reject(MyError.defaultError)
     }
 }
 
@@ -586,43 +586,43 @@ func fetchUserId() -> Promise<Int> {
     }
 }
 
-func fetchUserNameFromId(id:Int) -> Promise<String> {
+func fetchUserNameFromId(_ id:Int) -> Promise<String> {
     return Promise { resolve, reject in
         print("fetching UserName FromId : \(id) ...")
         wait { resolve("John Smith") }
     }
 }
 
-func fetchUserFollowStatusFromName(name:String) -> Promise<Bool> {
+func fetchUserFollowStatusFromName(_ name:String) -> Promise<Bool> {
     return Promise { resolve, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
         wait { resolve(false) }
     }
 }
 
-func failingFetchUserFollowStatusFromName(name:String) -> Promise<Bool> {
+func failingFetchUserFollowStatusFromName(_ name:String) -> Promise<Bool> {
     return Promise { resolve, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
-        wait { reject(MyError.DefaultError) }
+        wait { reject(MyError.defaultError) }
     }
 }
 
-func wait(callback:()->()) {
+func wait(_ callback:()->()) {
     let delay = 0.1 * Double(NSEC_PER_SEC)
-    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-    dispatch_after(time, dispatch_get_main_queue()) {
+    let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: time) {
         callback()
     }
 }
 
-func wait(time:Double, callback:()->()) {
+func wait(_ time:Double, callback:()->()) {
     let delay = time * Double(NSEC_PER_SEC)
-    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-    dispatch_after(time, dispatch_get_main_queue()) {
+    let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: time) {
         callback()
     }
 }
 
-enum MyError:ErrorType {
-    case DefaultError
+enum MyError:Error {
+    case defaultError
 }
