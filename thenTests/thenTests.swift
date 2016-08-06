@@ -143,6 +143,28 @@ class thenTests: XCTestCase {
         waitForExpectationsWithTimeout(1, handler: nil)
     }
     
+    func testWhenAllCallsOnErrorWhenOneFails() {
+        let block = expectationWithDescription("Block called")
+        let finallyBlock = expectationWithDescription("Finally called")
+        let promise1 = Promise<Void> { resolve, reject in
+            reject(MyError.DefaultError)
+        }
+        
+        let promise2 = Promise<Void> { resolve, _ in
+            resolve()
+        }
+        
+        whenAll(promise1, promise2)
+            .then { _ in
+                XCTFail()
+            }.onError { _ in
+                block.fulfill()
+            }.finally { _ in
+                finallyBlock.fulfill()
+            }
+        waitForExpectationsWithTimeout(1, handler: nil)
+    }
+    
     func testClassicThenLaunchesPromise() {
         let thenExpectation = expectationWithDescription("then called")
         fetchUserId().then { id in

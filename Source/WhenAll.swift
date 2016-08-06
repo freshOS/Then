@@ -10,15 +10,20 @@ import Foundation
 
 
 public func whenAll<T>(promises:[Promise<T>]) -> Promise<[T]> {
-    return Promise { resolve, _ in
+    return Promise { resolve, reject in
         var ts = [T]()
+        var error:ErrorType?
         let group = dispatch_group_create()
         for p in promises {
             dispatch_group_enter(group)
-            p.then { r in ts.append(r) }
+            p.then { ts.append($0) }
+                .onError { error = $0 }
                 .finally { dispatch_group_leave(group) }
         }
-        dispatch_group_notify(group, dispatch_get_main_queue()) { resolve(ts) }
+        dispatch_group_notify(group, dispatch_get_main_queue()) {
+            if let e = error { reject(e) }
+            else { resolve(ts) }
+        }
     }
 }
 
@@ -30,15 +35,20 @@ public func whenAll<T>(promises:Promise<T>...) -> Promise<[T]> {
 /// Array version
 
 public func whenAll<T>(promises:[Promise<[T]>]) -> Promise<[T]> {
-    return Promise { resolve, _ in
+    return Promise { resolve, reject in
         var ts = [T]()
+        var error:ErrorType?
         let group = dispatch_group_create()
         for p in promises {
             dispatch_group_enter(group)
-            p.then { r in ts.appendContentsOf(r) }
+            p.then { ts.appendContentsOf($0) }
+                .onError { error = $0 }
                 .finally { dispatch_group_leave(group) }
         }
-        dispatch_group_notify(group, dispatch_get_main_queue()) { resolve(ts) }
+        dispatch_group_notify(group, dispatch_get_main_queue()) {
+            if let e = error { reject(e) }
+            else { resolve(ts) }
+        }
     }
 }
 
