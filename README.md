@@ -5,7 +5,7 @@
 [![Build Status](https://www.bitrise.io/app/ea9933b066f6a2c4.svg?token=i7LK0uQC1rVuXhDq1iskYg&branch=master)](https://www.bitrise.io/app/ea9933b066f6a2c4)
 [![codebeat badge](https://codebeat.co/badges/768d3017-1e65-47e0-b287-afcb8954a1da)](https://codebeat.co/projects/github-com-s4cha-then)
 [![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/then/blob/master/LICENSE)
+[![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/then/blob/master/LICENSE)
 [![Release version](https://img.shields.io/badge/release-1.4-blue.svg)]()
 
 
@@ -167,11 +167,11 @@ use_frameworks!
 
 #### Carthage
 ```
-github "s4cha/then"
+github "freshOS/then"
 ```
 #### Manually
 Simply Copy and Paste Promise.swift in your Xcode Project :)
-https://github.com/s4cha/then/blob/master/Code/then/Promise.swift
+https://github.com/freshOS/then/blob/master/Code/then/Promise.swift
 
 #### As A Framework
 Grab this repository and build the Framework target on the example project. Then Link against this framework.
@@ -186,5 +186,5 @@ Grab this repository and build the Framework target on the example project. Then
 ## Other repos ❤️
 then is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze*:
 - Layout : [Stevia](https://github.com/s4cha/Stevia)
-- Json Parsing : [Arrow](https://github.com/s4cha/Arrow)
-- JSON WebServices : [ws](https://github.com/s4cha/ws)
+- Json Parsing : [Arrow](https://github.com/freshOS/Arrow)
+- JSON WebServices : [ws](https://github.com/freshOS/ws)
