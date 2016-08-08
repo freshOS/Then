@@ -16,8 +16,8 @@ class ViewController: UIViewController {
         fetchUserId().then(displayUserId).onError(showErrorPopup).finally(reload)
     }
     
-    func displayUserId(id:Int) { print("Got user id \(id)") }
-    func showErrorPopup(e:ErrorType) { print("An error occured \(e)") }
+    func displayUserId(identifier: Int) { print("Got user id \(identifier)") }
+    func showErrorPopup(error: ErrorType) { print("An error occured \(error)") }
     func reload() { print("reloading the view") }
 }
 
