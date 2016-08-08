@@ -8,16 +8,10 @@
 
 import Foundation
 
-enum PromiseState {
-    case Pending
-    case Fulfilled
-    case Rejected
-}
-
 public typealias EmptyPromise = Promise<Void>
 
 public class Promise<T> {
-    
+   
     public typealias ResolveCallBack = (T) -> Void
     public typealias ProgressCallBack = (Float) -> Void
     public typealias RejectCallBack = (ErrorType) -> Void
@@ -27,19 +21,18 @@ public class Promise<T> {
         reject: RejectCallBack,
         progress: ProgressCallBack) -> Void
     private typealias SuccessBlock = (T) -> Void
-    private var successBlocks = [SuccessBlock]()
     private typealias FailBlock = (ErrorType) -> Void
-    private var failBlocks = [FailBlock]()
     private typealias ProgressBlock = (Float) -> Void
+    
+    private var successBlocks = [SuccessBlock]()
+    private var failBlocks = [FailBlock]()
     private var progressBlocks = [ProgressBlock]()
     private var finallyBlock: () -> Void = { }
     private var promiseCallBack: PromiseCallBack!
     private var promiseProgressCallBack: PromiseProgressCallBack?
     private var promiseStarted = false
-    private var state: PromiseState = .Pending
-    private var value: T?
+    private var state: PromiseState<T> = .Pending
     private var progress: Float?
-    private var error: ErrorType?
     var initialPromiseStart:(() -> Void)?
     var initialPromiseStarted = false
     
@@ -72,15 +65,11 @@ public class Promise<T> {
     public func registerThen<X>(block: (T) -> X) -> Promise<X> {
         let p = Promise<X> { resolve, reject, progress in
             switch self.state {
-            case .Fulfilled:
-                if let v = self.value {
-                    let x: X = block(v)
-                    resolve(x)
-                }
-            case .Rejected:
-                if let e = self.error {
-                    reject(e)
-                }
+            case let .Fulfilled(value):
+                let x: X = block(value)
+                resolve(x)
+            case let .Rejected(error):
+                reject(error)
             case .Pending:
                 self.successBlocks.append({ t in
                     resolve(block(t))
@@ -107,15 +96,11 @@ public class Promise<T> {
     public func registerThen<X>(block: (T) -> Promise<X>) -> Promise<X> {
         let p = Promise<X> { resolve, reject in
             switch self.state {
-            case .Fulfilled:
-                if let result = self.value {
-                    self.registerNextPromise(block, result: result,
-                    resolve: resolve, reject: reject)
-                }
-            case .Rejected:
-                if let e = self.error {
-                    reject(e)
-                }
+            case let .Fulfilled(value):
+                self.registerNextPromise(block, result: value,
+                resolve: resolve, reject: reject)
+            case let .Rejected(error):
+                reject(error)
             case .Pending:
                 self.successBlocks.append({ t in
                     self.registerNextPromise(block, result: t, resolve: resolve, reject: reject)
@@ -152,11 +137,9 @@ public class Promise<T> {
             case .Fulfilled:
                 reject(NSError(domain: "", code: 123, userInfo: nil))
             // No error so do nothing.
-            case .Rejected:
+            case let .Rejected(error):
                 // Already failed so call error block
-                if let e = self.error {
-                    block(e)
-                }
+                block(error)
                 resolve()
             case .Pending:
                 // if promise fails, resolve error promise
@@ -222,10 +205,8 @@ public class Promise<T> {
             switch self.state {
             case .Fulfilled:
                 resolve()
-            case .Rejected:
-                if let e = self.error {
-                    reject(e)
-                }
+            case let .Rejected(error):
+                reject(error)
             case .Pending:()
                 self.failBlocks.append(reject)
                 self.successBlocks.append({ _ in
@@ -276,8 +257,7 @@ public class Promise<T> {
     }
     
     private func resolvePromise(result: T) {
-        state = .Fulfilled
-        value = result
+        state = .Fulfilled(value:result)
         for sb in successBlocks {
             sb(result)
         }
@@ -285,8 +265,7 @@ public class Promise<T> {
     }
     
     private func rejectPromise(anError: ErrorType) {
-        state = .Rejected
-        error = anError
+        state = .Rejected(error:anError)
         for fb in failBlocks {
             fb(anError)
         }
