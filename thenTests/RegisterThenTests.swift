@@ -1,5 +1,5 @@
 //
-//  ResgisterThenTests.swift
+//  RegisterThenTests.swift
 //  then
 //
 //  Created by Sacha Durand Saint Omer on 08/08/16.
@@ -9,7 +9,7 @@
 import XCTest
 import then
 
-class ResgisterThenTests: XCTestCase {
+class RegisterThenTests: XCTestCase {
 
     func testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock() {
         let timerExpectation = expectationWithDescription("timerExpectation")
