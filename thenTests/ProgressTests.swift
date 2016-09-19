@@ -12,8 +12,8 @@ import then
 class ProgressTests: XCTestCase {
 
     func testProgress() {
-        let progressExpectation = expectationWithDescription("thenExpectation")
-        let thenExpectation = expectationWithDescription("thenExpectation")
+        let progressExpectation = expectation(description: "thenExpectation")
+        let thenExpectation = expectation(description: "thenExpectation")
         upload().progress { p in
             print("PROGRESS \(p)")
             XCTAssertEqual(p, 0.8)
@@ -24,12 +24,12 @@ class ProgressTests: XCTestCase {
             }.onError { e in
                 print("ERROR")
         }
-        waitForExpectationsWithTimeout(3, handler: nil)
+        waitForExpectations(timeout: 3, handler: nil)
     }
     
     func testProgressFails() {
-        let progressExpectation = expectationWithDescription("thenExpectation")
-        let errorExpectation = expectationWithDescription("errorExpectation")
+        let progressExpectation = expectation(description: "thenExpectation")
+        let errorExpectation = expectation(description: "errorExpectation")
         failingUpload().progress { p in
             XCTAssertEqual(p, 0.8)
             progressExpectation.fulfill()
@@ -38,6 +38,6 @@ class ProgressTests: XCTestCase {
             }.onError { e in
                 errorExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(3, handler: nil)
+        waitForExpectations(timeout: 3, handler: nil)
     }
 }

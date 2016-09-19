@@ -78,7 +78,7 @@ func promiseArray3() -> Promise<[Int]> {
 
 func syncRejectionPromise() -> Promise<Int> {
     return Promise { resolve, reject in
-        reject(MyError.DefaultError)
+        reject(MyError.defaultError)
     }
 }
 
@@ -89,39 +89,39 @@ func fetchUserId() -> Promise<Int> {
     }
 }
 
-func fetchUserNameFromId(identifier: Int) -> Promise<String> {
+func fetchUserNameFromId(_ identifier: Int) -> Promise<String> {
     return Promise { resolve, reject in
         print("fetching UserName FromId : \(identifier) ...")
         wait { resolve("John Smith") }
     }
 }
 
-func fetchUserFollowStatusFromName(name: String) -> Promise<Bool> {
+func fetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
     return Promise { resolve, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
         wait { resolve(false) }
     }
 }
 
-func failingFetchUserFollowStatusFromName(name: String) -> Promise<Bool> {
+func failingFetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
     return Promise { resolve, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
-        wait { reject(MyError.DefaultError) }
+        wait { reject(MyError.defaultError) }
     }
 }
 
-func wait(callback:()->()) {
+func wait(_ callback:@escaping ()->()) {
     let delay = 0.1 * Double(NSEC_PER_SEC)
-    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-    dispatch_after(time, dispatch_get_main_queue()) {
+    let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: time) {
         callback()
     }
 }
 
-func wait(time: Double, callback: ()->()) {
+func wait(_ time: Double, callback: @escaping ()->()) {
     let delay = time * Double(NSEC_PER_SEC)
-    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-    dispatch_after(time, dispatch_get_main_queue()) {
+    let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: time) {
         callback()
     }
 }
@@ -148,6 +148,6 @@ func failingUpload() -> Promise<Void> {
     }
 }
 
-enum MyError: ErrorType {
-    case DefaultError
+enum MyError: Error {
+    case defaultError
 }

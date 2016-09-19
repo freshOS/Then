@@ -9,7 +9,7 @@
 import Foundation
 
 public enum PromiseState<T> {
-    case Pending
-    case Fulfilled(value:T)
-    case Rejected(error:ErrorType)
+    case pending
+    case fulfilled(value:T)
+    case rejected(error:Error)
 }

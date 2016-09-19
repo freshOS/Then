@@ -12,7 +12,7 @@ import then
 class RegisterThenTests: XCTestCase {
 
     func testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock() {
-        let timerExpectation = expectationWithDescription("timerExpectation")
+        let timerExpectation = expectation(description: "timerExpectation")
         fetchUserId()
             .registerThen { _ in
                 XCTFail()
@@ -24,11 +24,11 @@ class RegisterThenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock() {
-        let timerExpectation = expectationWithDescription("timerExpectation")
+        let timerExpectation = expectation(description: "timerExpectation")
         fetchUserId()
             .registerThen(fetchUserNameFromId(10)).registerThen { name in
                 print(name)
@@ -41,11 +41,11 @@ class RegisterThenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock() {
-        let timerExpectation = expectationWithDescription("timerExpectation")
+        let timerExpectation = expectation(description: "timerExpectation")
         fetchUserId().registerThen { id in
             return fetchUserNameFromId(id)
             }.registerThen { name in
@@ -57,17 +57,17 @@ class RegisterThenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenChainedPromisesAreExecutedInOrder() {
         var count = 0
         
-        let block1 = expectationWithDescription("block 1 called")
-        let block2 = expectationWithDescription("block 2 called")
-        let block3 = expectationWithDescription("block 3 called")
+        let block1 = expectation(description: "block 1 called")
+        let block2 = expectation(description: "block 2 called")
+        let block3 = expectation(description: "block 3 called")
         
-        let thenExpectation = expectationWithDescription("thenExpectation")
+        let thenExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen { _ in
                 XCTAssertTrue(count == 0)
@@ -87,11 +87,11 @@ class RegisterThenTests: XCTestCase {
                 print("name :\(name)")
                 thenExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromiseFuncPointerNotCalled() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen(fetchUserNameFromId)
             .registerThen { _ in
@@ -100,11 +100,11 @@ class RegisterThenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromise2FuncPointerNotCalled() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId().registerThen { id -> Promise<String> in
             return fetchUserNameFromId(id)
             }.registerThen { _ in
@@ -113,48 +113,48 @@ class RegisterThenTests: XCTestCase {
         wait(1) {
             timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromiseFuncPointerCalledWithThenBlock() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen(fetchUserNameFromId)
             .then { name in
                 timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromise2FuncPointerCalledWithThenBlock() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId().registerThen { id -> Promise<String> in
             return fetchUserNameFromId(id)
             }.then { name in
                 timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenPromiseFuncPointerCalledWithMultipleRegisterThenBlocks() {
-        let timerExpectation = expectationWithDescription("thenExpectation")
+        let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen(fetchUserNameFromId)
             .registerThen(fetchUserFollowStatusFromName)
             .then { name in
                 timerExpectation.fulfill()
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testRegisterThenMultipleThenOnlyCallOriginalPromiseOnce() {
         var count = 0
         
-        let block1 = expectationWithDescription("block 1 called")
-        let block2 = expectationWithDescription("block 2 called")
-        let block3 = expectationWithDescription("block 3 called")
+        let block1 = expectation(description: "block 1 called")
+        let block2 = expectation(description: "block 2 called")
+        let block3 = expectation(description: "block 3 called")
         
-        let thenExpectation = expectationWithDescription("thenExpectation")
+        let thenExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen { _ in
                 XCTAssertTrue(count == 0)
@@ -176,7 +176,7 @@ class RegisterThenTests: XCTestCase {
             }.then { _ -> Void in
                 print("Just another then block")
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
 
 }

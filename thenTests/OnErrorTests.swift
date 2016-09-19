@@ -12,39 +12,39 @@ import then
 class OnErrorTests: XCTestCase {
 
     func testError() {
-        let errorExpectation = expectationWithDescription("onError called")
-        let finallyExpectation = expectationWithDescription("Finally called")
+        let errorExpectation = expectation(description: "onError called")
+        let finallyExpectation = expectation(description: "Finally called")
         fetchUserId()
             .then(fetchUserNameFromId)
             .then(failingFetchUserFollowStatusFromName)
             .then { isFollowed in
                 XCTFail("then block shouldn't be called")
             }.onError { e in
-                XCTAssertTrue((e as? MyError) == MyError.DefaultError)
+                XCTAssertTrue((e as? MyError) == MyError.defaultError)
                 errorExpectation.fulfill()
             }.finally {
                 finallyExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testOnErrorCalledWhenSynchronousRejects() {
-        let errorblock = expectationWithDescription("error block called")
+        let errorblock = expectation(description: "error block called")
         promiseA()
             .then(syncRejectionPromise())
             .then(syncRejectionPromise())
             .onError { (error) -> Void in
                 errorblock.fulfill()
         }
-        waitForExpectationsWithTimeout(1, handler: nil)
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
     func testMultipleErrorBlockCanBeRegisteredOnSamePromise() {
-        let error1 = expectationWithDescription("error called")
-        let error2 = expectationWithDescription("error called")
-        let error3 = expectationWithDescription("error called")
-        let error4 = expectationWithDescription("error called")
+        let error1 = expectation(description: "error called")
+        let error2 = expectation(description: "error called")
+        let error3 = expectation(description: "error called")
+        let error4 = expectation(description: "error called")
         let p = failingFetchUserFollowStatusFromName("")
         p.onError { _ in
             error1.fulfill()
@@ -58,11 +58,11 @@ class OnErrorTests: XCTestCase {
         p.onError { _ in
             error4.fulfill()
         }
-        waitForExpectationsWithTimeout(2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnFail() {
-        let errorExpectation = expectationWithDescription("then called")
+        let errorExpectation = expectation(description: "then called")
         failingFetchUserFollowStatusFromName("")
             .then { id in
                 XCTFail("on Error shouldn't be called")
@@ -71,11 +71,11 @@ class OnErrorTests: XCTestCase {
             }.onError { e in
                 XCTFail("Second on Error shouldn't be called")
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnSuccess() {
-        let thenExpectation = expectationWithDescription("then called")
+        let thenExpectation = expectation(description: "then called")
         fetchUserId()
             .then { id in
                 thenExpectation.fulfill()
@@ -96,7 +96,7 @@ class OnErrorTests: XCTestCase {
             }.onError { e in
                 XCTFail("on Error shouldn't be called")
         }
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
 
 }
