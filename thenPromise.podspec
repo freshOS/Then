@@ -5,14 +5,9 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/freshOS/then"
   s.license          = { :type => "MIT", :file => "LICENSE" }
   s.author           = 'S4cha'
-<<<<<<< 919f47108e7d7f1836794b56cc56a3eb65781ca5
-  s.platform         = :ios
   s.source           = { :git => "https://github.com/freshOS/then.git",
-=======
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
-  s.source           = { :git => "https://github.com/s4cha/then.git",
->>>>>>> Added macOS support
                          :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/sachadso'
   s.source_files     = "Source/*.swift"
