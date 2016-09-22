@@ -6,9 +6,9 @@ Pod::Spec.new do |s|
   s.license          = { :type => "MIT", :file => "LICENSE" }
   s.author           = 'S4cha'
   s.source           = { :git => "https://github.com/freshOS/then.git",
+                           :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
-                         :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/sachadso'
   s.source_files     = "Source/*.swift"
   s.requires_arc     = true
