@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		816C8BCD1D576C7600DF5727 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC637D1C86085C008C1155 /* Promise.swift */; };
-		816C8BCE1D576C7600DF5727 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
-		816C8BD21D576CEA00DF5727 /* Info-macOS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 816C8BD01D576CEA00DF5727 /* Info-macOS.plist */; };
-		816C8BD31D576D6700DF5727 /* then-macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 816C8BCF1D576CEA00DF5727 /* then-macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9962ADC21D585902005769CD /* ProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC11D585902005769CD /* ProgressTests.swift */; };
 		9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC31D5859CC005769CD /* WhenAllTests.swift */; };
 		9962ADC61D585A06005769CD /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC51D585A06005769CD /* Helpers.swift */; };
@@ -20,7 +16,10 @@
 		99AA1C711CB7DDF800ADA4C3 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
 		99B5ACA21C66831C005CDA28 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B5AC971C66831C005CDA28 /* then.framework */; };
 		99B5ACA71C66831C005CDA28 /* ThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5ACA61C66831C005CDA28 /* ThenTests.swift */; };
-		99C05E421D902DD8005F258F /* PromiseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADCB1D58610E005769CD /* PromiseState.swift */; };
+		99FA7FB61D93C153002274B0 /* thenMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FA7FB41D93C153002274B0 /* thenMacOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		99FA7FCD1D93C1AB002274B0 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA7FC81D93C1AB002274B0 /* Promise.swift */; };
+		99FA7FCE1D93C1AB002274B0 /* PromiseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA7FC91D93C1AB002274B0 /* PromiseState.swift */; };
+		99FA7FD01D93C1AB002274B0 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA7FCB1D93C1AB002274B0 /* WhenAll.swift */; };
 		99FC63801C86085C008C1155 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC637D1C86085C008C1155 /* Promise.swift */; };
 		99FC63811C86085C008C1155 /* then.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FC637E1C86085C008C1155 /* then.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -36,9 +35,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		816C8BC51D576C2D00DF5727 /* then.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = then.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		816C8BCF1D576CEA00DF5727 /* then-macOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "then-macOS.h"; sourceTree = "<group>"; };
-		816C8BD01D576CEA00DF5727 /* Info-macOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
 		9962ADC11D585902005769CD /* ProgressTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTests.swift; sourceTree = "<group>"; };
 		9962ADC31D5859CC005769CD /* WhenAllTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenAllTests.swift; sourceTree = "<group>"; };
 		9962ADC51D585A06005769CD /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
@@ -50,19 +46,18 @@
 		99B5ACA11C66831C005CDA28 /* thenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = thenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B5ACA61C66831C005CDA28 /* ThenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThenTests.swift; sourceTree = "<group>"; };
 		99B5ACA81C66831C005CDA28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		99FA7FB21D93C153002274B0 /* then.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = then.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		99FA7FB41D93C153002274B0 /* thenMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = thenMacOS.h; sourceTree = "<group>"; };
+		99FA7FB51D93C153002274B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		99FA7FC81D93C1AB002274B0 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
+		99FA7FC91D93C1AB002274B0 /* PromiseState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseState.swift; sourceTree = "<group>"; };
+		99FA7FCB1D93C1AB002274B0 /* WhenAll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenAll.swift; sourceTree = "<group>"; };
 		99FC637C1C86085C008C1155 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99FC637D1C86085C008C1155 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		99FC637E1C86085C008C1155 /* then.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = then.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		816C8BC11D576C2D00DF5727 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		99B5AC931C66831C005CDA28 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -78,6 +73,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		99FA7FAE1D93C153002274B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -86,6 +88,7 @@
 			children = (
 				99B5AC991C66831C005CDA28 /* then */,
 				99B5ACA51C66831C005CDA28 /* thenTests */,
+				99FA7FB31D93C153002274B0 /* thenMacOS */,
 				99B5AC981C66831C005CDA28 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,7 +98,7 @@
 			children = (
 				99B5AC971C66831C005CDA28 /* then.framework */,
 				99B5ACA11C66831C005CDA28 /* thenTests.xctest */,
-				816C8BC51D576C2D00DF5727 /* then.framework */,
+				99FA7FB21D93C153002274B0 /* then.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,16 +125,34 @@
 			path = thenTests;
 			sourceTree = "<group>";
 		};
+		99FA7FB31D93C153002274B0 /* thenMacOS */ = {
+			isa = PBXGroup;
+			children = (
+				99FA7FB41D93C153002274B0 /* thenMacOS.h */,
+				99FA7FB51D93C153002274B0 /* Info.plist */,
+				99FA7FC61D93C1AB002274B0 /* Source */,
+			);
+			path = thenMacOS;
+			sourceTree = "<group>";
+		};
+		99FA7FC61D93C1AB002274B0 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				99FA7FC81D93C1AB002274B0 /* Promise.swift */,
+				99FA7FC91D93C1AB002274B0 /* PromiseState.swift */,
+				99FA7FCB1D93C1AB002274B0 /* WhenAll.swift */,
+			);
+			path = Source;
+			sourceTree = SOURCE_ROOT;
+		};
 		99FC637B1C86085C008C1155 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				99FC637C1C86085C008C1155 /* Info.plist */,
-				816C8BD01D576CEA00DF5727 /* Info-macOS.plist */,
 				99FC637D1C86085C008C1155 /* Promise.swift */,
 				9962ADCB1D58610E005769CD /* PromiseState.swift */,
 				99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */,
 				99FC637E1C86085C008C1155 /* then.h */,
-				816C8BCF1D576CEA00DF5727 /* then-macOS.h */,
 			);
 			path = Source;
 			sourceTree = SOURCE_ROOT;
@@ -139,14 +160,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		816C8BC21D576C2D00DF5727 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				816C8BD31D576D6700DF5727 /* then-macOS.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		99B5AC941C66831C005CDA28 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -155,27 +168,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		99FA7FAF1D93C153002274B0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99FA7FB61D93C153002274B0 /* thenMacOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		816C8BC41D576C2D00DF5727 /* then macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 816C8BCC1D576C2D00DF5727 /* Build configuration list for PBXNativeTarget "then macOS" */;
-			buildPhases = (
-				816C8BC01D576C2D00DF5727 /* Sources */,
-				816C8BC11D576C2D00DF5727 /* Frameworks */,
-				816C8BC21D576C2D00DF5727 /* Headers */,
-				816C8BC31D576C2D00DF5727 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "then macOS";
-			productName = "then Mac";
-			productReference = 816C8BC51D576C2D00DF5727 /* then.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		99B5AC961C66831C005CDA28 /* then */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 99B5ACAB1C66831C005CDA28 /* Build configuration list for PBXNativeTarget "then" */;
@@ -213,6 +216,24 @@
 			productReference = 99B5ACA11C66831C005CDA28 /* thenTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		99FA7FB11D93C153002274B0 /* thenMacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 99FA7FB91D93C153002274B0 /* Build configuration list for PBXNativeTarget "thenMacOS" */;
+			buildPhases = (
+				99FA7FAD1D93C153002274B0 /* Sources */,
+				99FA7FAE1D93C153002274B0 /* Frameworks */,
+				99FA7FAF1D93C153002274B0 /* Headers */,
+				99FA7FB01D93C153002274B0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = thenMacOS;
+			productName = thenMacOS;
+			productReference = 99FA7FB21D93C153002274B0 /* then.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -223,10 +244,6 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = s4cha;
 				TargetAttributes = {
-					816C8BC41D576C2D00DF5727 = {
-						CreatedOnToolsVersion = 8.0;
-						ProvisioningStyle = Automatic;
-					};
 					99B5AC961C66831C005CDA28 = {
 						CreatedOnToolsVersion = 7.2;
 						LastSwiftMigration = 0800;
@@ -234,6 +251,10 @@
 					99B5ACA01C66831C005CDA28 = {
 						CreatedOnToolsVersion = 7.2;
 						LastSwiftMigration = 0800;
+					};
+					99FA7FB11D93C153002274B0 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -251,28 +272,27 @@
 			targets = (
 				99B5AC961C66831C005CDA28 /* then */,
 				99B5ACA01C66831C005CDA28 /* thenTests */,
-				816C8BC41D576C2D00DF5727 /* then macOS */,
+				99FA7FB11D93C153002274B0 /* thenMacOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		816C8BC31D576C2D00DF5727 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		99B5AC951C66831C005CDA28 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				816C8BD21D576CEA00DF5727 /* Info-macOS.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		99B5AC9F1C66831C005CDA28 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99FA7FB01D93C153002274B0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -298,16 +318,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		816C8BC01D576C2D00DF5727 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				99C05E421D902DD8005F258F /* PromiseState.swift in Sources */,
-				816C8BCD1D576C7600DF5727 /* Promise.swift in Sources */,
-				816C8BCE1D576C7600DF5727 /* WhenAll.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		99B5AC921C66831C005CDA28 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -331,6 +341,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		99FA7FAD1D93C153002274B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99FA7FD01D93C1AB002274B0 /* WhenAll.swift in Sources */,
+				99FA7FCD1D93C1AB002274B0 /* Promise.swift in Sources */,
+				99FA7FCE1D93C1AB002274B0 /* PromiseState.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -342,58 +362,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		816C8BCA1D576C2D00DF5727 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = com.s4cha.then;
-				PRODUCT_NAME = then;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		816C8BCB1D576C2D00DF5727 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = com.s4cha.then;
-				PRODUCT_NAME = then;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 		99B5ACA91C66831C005CDA28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -550,18 +518,61 @@
 			};
 			name = Release;
 		};
+		99FA7FB71D93C153002274B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = thenMacOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenMacOS;
+				PRODUCT_NAME = then;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		99FA7FB81D93C153002274B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = thenMacOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenMacOS;
+				PRODUCT_NAME = then;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		816C8BCC1D576C2D00DF5727 /* Build configuration list for PBXNativeTarget "then macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				816C8BCA1D576C2D00DF5727 /* Debug */,
-				816C8BCB1D576C2D00DF5727 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		99B5AC911C66831C005CDA28 /* Build configuration list for PBXProject "then" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -588,6 +599,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		99FA7FB91D93C153002274B0 /* Build configuration list for PBXNativeTarget "thenMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				99FA7FB71D93C153002274B0 /* Debug */,
+				99FA7FB81D93C153002274B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

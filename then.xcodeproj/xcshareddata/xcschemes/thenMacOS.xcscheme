@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "816C8BC41D576C2D00DF5727"
-               BuildableName = "then.framework"
-               BlueprintName = "then macOS"
+               BlueprintIdentifier = "99FA7FB11D93C153002274B0"
+               BuildableName = "thenMacOS.framework"
+               BlueprintName = "thenMacOS"
                ReferencedContainer = "container:then.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "816C8BC41D576C2D00DF5727"
-            BuildableName = "then.framework"
-            BlueprintName = "then macOS"
+            BlueprintIdentifier = "99FA7FB11D93C153002274B0"
+            BuildableName = "thenMacOS.framework"
+            BlueprintName = "thenMacOS"
             ReferencedContainer = "container:then.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "816C8BC41D576C2D00DF5727"
-            BuildableName = "then.framework"
-            BlueprintName = "then macOS"
+            BlueprintIdentifier = "99FA7FB11D93C153002274B0"
+            BuildableName = "thenMacOS.framework"
+            BlueprintName = "thenMacOS"
             ReferencedContainer = "container:then.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

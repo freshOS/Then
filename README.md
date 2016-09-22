@@ -21,6 +21,10 @@ fetchUserId().then { id in
 }
 ```
 
+## Swift Version
+Swift 2 -> version **1.4.2**  
+Swift 3 -> version **2.0.0**
+
 ## Why
 Because async code is hard to write, hard to read, hard to reason about.  
 **A pain to maintain**
