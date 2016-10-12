@@ -1,4 +1,4 @@
-![Then](https://raw.githubusercontent.com/freshOS/then/master/banner.png)
+![Then](https://raw.githubusercontent.com/freshOS/then/banner/banner.png)
 
 # then 🎬 - *Elegant Async code for Swift*
 [![Language: Swift 2 and 3](https://img.shields.io/badge/language-swift2|3-f48041.svg?style=flat)](https://developer.apple.com/swift)
