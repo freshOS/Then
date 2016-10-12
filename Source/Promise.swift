@@ -78,8 +78,8 @@ public class Promise<T> {
                         resolve(block(t))
                     })
                     self?.failBlocks.append(reject)
+                    self?.progressBlocks.append(progress)
                 }
-                self?.progressBlocks.append(progress)
             }
         }
         p.start()
