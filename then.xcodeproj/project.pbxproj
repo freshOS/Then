@@ -607,6 +607,7 @@
 				99FA7FB81D93C153002274B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
