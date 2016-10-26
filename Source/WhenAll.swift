@@ -8,25 +8,26 @@
 
 import Foundation
 
+
 public func whenAll<T>(_ promises: [Promise<T>]) -> Promise<[T]> {
-    return Promise { resolve, reject in
-        var ts = [T]()
-        var error: Error?
-        let group = DispatchGroup()
-        for p in promises {
-            group.enter()
-            p.then { ts.append($0) }
-                .onError { error = $0 }
-                .finally { group.leave() }
-        }
-        group.notify(queue: DispatchQueue.main) {
-            if let e = error {
-                reject(e)
-            } else {
-                resolve(ts)
-            }
+    let p = Promise<[T]>()
+    var ts = [T]()
+    var error: Error?
+    let group = DispatchGroup()
+    for p in promises {
+        group.enter()
+        p.then { ts.append($0) }
+            .onError { error = $0 }
+            .finally { group.leave() }
+    }
+    group.notify(queue: DispatchQueue.main) {
+        if let e = error {
+            p.rejectPromise(e)
+        } else {
+            p.resolvePromise(ts)
         }
     }
+    return p
 }
 
 public func whenAll<T>(_ promises: Promise<T>...) -> Promise<[T]> {
@@ -37,24 +38,24 @@ public func whenAll<T>(_ promises: Promise<T>...) -> Promise<[T]> {
 // Array version
 
 public func whenAll<T>(_ promises: [Promise<[T]>]) -> Promise<[T]> {
-    return Promise { resolve, reject in
-        var ts = [T]()
-        var error: Error?
-        let group = DispatchGroup()
-        for p in promises {
-            group.enter()
-            p.then { ts.append(contentsOf: $0) }
-                .onError { error = $0 }
-                .finally { group.leave() }
-        }
-        group.notify(queue: DispatchQueue.main) {
-            if let e = error {
-                reject(e)
-            } else {
-                resolve(ts)
-            }
+    let p = Promise<[T]>()
+    var ts = [T]()
+    var error: Error?
+    let group = DispatchGroup()
+    for p in promises {
+        group.enter()
+        p.then { ts.append(contentsOf: $0) }
+            .onError { error = $0 }
+            .finally { group.leave() }
+    }
+    group.notify(queue: DispatchQueue.main) {
+        if let e = error {
+            p.rejectPromise(e)
+        } else {
+            p.resolvePromise(ts)
         }
     }
+    return p
 }
 
 public func whenAll<T>(_ promises: Promise<[T]>...) -> Promise<[T]> {

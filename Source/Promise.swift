@@ -29,7 +29,7 @@ public class Promise<T> {
     fileprivate var progress: Float = 0
     
     
-    fileprivate convenience init() {
+    internal convenience init() {
         self.init { _, _, _ in }
     }
     
@@ -152,7 +152,7 @@ public extension Promise {
         return registerThen { _ in promise }
     }
     
-    fileprivate func resolvePromise(_ result: T) {
+    internal func resolvePromise(_ result: T) {
         state = .fulfilled(value:result)
         for sb in blocks.success {
             sb(result)
@@ -195,7 +195,7 @@ public extension Promise {
         return p
     }
     
-    fileprivate func rejectPromise(_ anError: Error) {
+    internal func rejectPromise(_ anError: Error) {
         state = .rejected(error:anError)
         for fb in blocks.fail {
             fb(anError)
