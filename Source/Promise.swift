@@ -62,15 +62,12 @@ public class Promise<T> {
         // Pass along initil promise start state.
         promise.initialPromiseStarted = self.initialPromiseStarted
     }
-    
-    fileprivate func tryStartInitialPromise() {
+
+    fileprivate func tryStartInitialPromiseAndStartIfneeded() {
         if !initialPromiseStarted {
             initialPromiseStart?()
             initialPromiseStarted = true
         }
-    }
-    
-    fileprivate func startPromiseIfNeeded() {
         if !promiseStarted {
             start()
         }
@@ -92,8 +89,7 @@ public class Promise<T> {
 public extension Promise {
     
     @discardableResult public func then<X>(_ block: @escaping (T) -> X) -> Promise<X> {
-        tryStartInitialPromise()
-        startPromiseIfNeeded()
+        tryStartInitialPromiseAndStartIfneeded()
         return registerThen(block)
     }
     
@@ -118,8 +114,7 @@ public extension Promise {
     }
     
     @discardableResult public func then<X>(_ block: @escaping (T) -> Promise<X>) -> Promise<X> {
-        tryStartInitialPromise()
-        startPromiseIfNeeded()
+        tryStartInitialPromiseAndStartIfneeded()
         return registerThen(block)
     }
     
@@ -168,8 +163,7 @@ public extension Promise {
 public extension Promise {
 
     @discardableResult public func onError(_ block: @escaping (Error) -> Void) -> Promise<Void> {
-        tryStartInitialPromise()
-        startPromiseIfNeeded()
+        tryStartInitialPromiseAndStartIfneeded()
         let p = Promise<Void>()
         switch state {
         case .fulfilled:
@@ -210,8 +204,7 @@ public extension Promise {
 public extension Promise {
     
     @discardableResult public func progress(block: @escaping (Float) -> Void) -> Promise<Void> {
-        tryStartInitialPromise()
-        startPromiseIfNeeded()
+        tryStartInitialPromiseAndStartIfneeded()
         let p = Promise<Void>()
         switch state {
         case .fulfilled:
@@ -246,8 +239,7 @@ public extension Promise {
 public extension Promise {
     
     @discardableResult public func finally<X>(block: @escaping () -> X) -> Promise<X> {
-        tryStartInitialPromise()
-        startPromiseIfNeeded()
+        tryStartInitialPromiseAndStartIfneeded()
         let p = Promise<X>()
         switch state {
         case .fulfilled:
