@@ -37,6 +37,10 @@ public class Promise<T> {
     var initialPromiseStart:(() -> Void)?
     var initialPromiseStarted = false
     
+    private convenience init() {
+        self.init { _, _, _ in }
+    }
+    
     public init(callback: @escaping (_ resolve: @escaping ResolveCallBack,
         _ reject: @escaping RejectCallBack) -> Void) {
         promiseCallBack = callback
@@ -65,22 +69,19 @@ public class Promise<T> {
     }
     
     @discardableResult public func registerThen<X>(_ block: @escaping (T) -> X) -> Promise<X> {
-        let p = Promise<X> { [weak self] resolve, reject, progress in
-            if let state = self?.state {
-                switch state {
-                case let .fulfilled(value):
-                    let x: X = block(value)
-                    resolve(x)
-                case let .rejected(error):
-                    reject(error)
-                case .pending:
-                    self?.successBlocks.append({ t in
-                        resolve(block(t))
-                    })
-                    self?.failBlocks.append(reject)
-                    self?.progressBlocks.append(progress)
-                }
-            }
+        let p = Promise<X>()
+        switch state {
+        case let .fulfilled(value):
+            let x: X = block(value)
+            p.resolvePromise(x)
+        case let .rejected(error):
+            p.rejectPromise(error)
+        case .pending:
+            successBlocks.append({ t in
+                p.resolvePromise(block(t))
+            })
+            failBlocks.append(p.rejectPromise)
+            progressBlocks.append(p.progressPromise)
         }
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
@@ -97,25 +98,23 @@ public class Promise<T> {
     
     @discardableResult  public func registerThen<X>(_ block: @escaping (T) -> Promise<X>)
         -> Promise<X> {
-            let p = Promise<X> { [weak self] resolve, reject in
-                if let state = self?.state {
-                    switch state {
-                    case let .fulfilled(value):
-                        self?.registerNextPromise(block, result: value,
-                                                  resolve: resolve, reject: reject)
-                    case let .rejected(error):
-                        reject(error)
-                    case .pending:
-                        self?.successBlocks.append({ t in
-                            self?.registerNextPromise(block, result: t, resolve: resolve, reject: reject)
-                        })
-                        self?.failBlocks.append(reject)
-                    }
-                }
-            }
-            p.start()
-            passAlongFirstPromiseStartFunctionAndStateTo(p)
-            return p
+        let p = Promise<X>()
+        switch state {
+        case let .fulfilled(value):
+            registerNextPromise(block, result: value,
+                                      resolve: p.resolvePromise, reject: p.rejectPromise)
+        case let .rejected(error):
+            p.rejectPromise(error)
+        case .pending:
+            successBlocks.append({ t in
+                self.registerNextPromise(block, result: t, resolve: p.resolvePromise,
+                                         reject: p.rejectPromise)
+            })
+            failBlocks.append(p.rejectPromise)
+        }
+        p.start()
+        passAlongFirstPromiseStartFunctionAndStateTo(p)
+        return p
     }
     
     //MARK: - then(Promise<X>)
@@ -140,29 +139,26 @@ public class Promise<T> {
     
     @discardableResult public func registerOnError(_ block:
         @escaping (Error) -> Void) -> Promise<Void> {
-        let p = Promise<Void> { [weak self] resolve, reject, progress in
-            if let state = self?.state {
-                switch state {
-                case .fulfilled:
-                    reject(NSError(domain: "", code: 123, userInfo: nil))
-                // No error so do nothing.
-                case let .rejected(error):
-                    // Already failed so call error block
-                    block(error)
-                    resolve()
-                case .pending:
-                    // if promise fails, resolve error promise
-                    self?.failBlocks.append({ e in
-                        block(e)
-                        resolve()
-                    })
-                    self?.successBlocks.append({ t in
-                        resolve()
-                    })
-                }
-            }
-            self?.progressBlocks.append(progress)
+        let p = Promise<Void>()
+        switch state {
+        case .fulfilled:
+            p.rejectPromise(NSError(domain: "", code: 123, userInfo: nil))
+        // No error so do nothing.
+        case let .rejected(error):
+            // Already failed so call error block
+            block(error)
+            p.resolvePromise()
+        case .pending:
+            // if promise fails, resolve error promise
+            failBlocks.append({ e in
+                block(e)
+                p.resolvePromise()
+            })
+            successBlocks.append({ t in
+                p.resolvePromise()
+            })
         }
+        progressBlocks.append(p.progressPromise)
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
@@ -178,24 +174,21 @@ public class Promise<T> {
     }
     
     @discardableResult public func registerFinally<X>(block: @escaping () -> X) -> Promise<X> {
-        let p = Promise<X> { [weak self] resolve, reject, progress in
-            if let state = self?.state {
-                switch state {
-                case .fulfilled:
-                    resolve(block())
-                case .rejected:
-                    resolve(block())
-                case .pending:
-                    self?.failBlocks.append({ e in
-                        resolve(block())
-                    })
-                    self?.successBlocks.append({ t in
-                        resolve(block())
-                    })
-                }
-            }
-            self?.progressBlocks.append(progress)
+        let p = Promise<X>()
+        switch state {
+        case .fulfilled:
+            p.resolvePromise(block())
+        case .rejected:
+            p.resolvePromise(block())
+        case .pending:
+            failBlocks.append({ e in
+                p.resolvePromise(block())
+            })
+            successBlocks.append({ t in
+                 p.resolvePromise(block())
+            })
         }
+        progressBlocks.append(p.progressPromise)
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
@@ -210,25 +203,22 @@ public class Promise<T> {
     }
     
     public func registerProgress(_ block: @escaping (Float) -> Void) -> Promise<Void> {
-        let p = Promise<Void> { [weak self] resolve, reject, progress in
-            if let state = self?.state {
-                switch state {
-                case .fulfilled:
-                    resolve()
-                case let .rejected(error):
-                    reject(error)
-                case .pending:()
-                self?.failBlocks.append(reject)
-                self?.successBlocks.append({ _ in
-                    resolve()
-                })
-                }
-            }
-            self?.progressBlocks.append({ p in
-                block(p)
-                progress(p)
-            })
+        let p = Promise<Void>()
+        switch state {
+        case .fulfilled:
+            p.resolvePromise()
+        case let .rejected(error):
+            p.rejectPromise(error)
+        case .pending:() //
+        failBlocks.append(p.rejectPromise)
+        successBlocks.append({ _ in
+            p.resolvePromise()
+        })
         }
+        progressBlocks.append({ v in
+            block(v)
+            p.progressPromise(v)
+        })
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
