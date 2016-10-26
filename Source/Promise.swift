@@ -170,11 +170,6 @@ public extension Promise {
     @discardableResult public func onError(_ block: @escaping (Error) -> Void) -> Promise<Void> {
         tryStartInitialPromise()
         startPromiseIfNeeded()
-        return registerOnError(block)
-    }
-
-    @discardableResult public func registerOnError(_ block:
-        @escaping (Error) -> Void) -> Promise<Void> {
         let p = Promise<Void>()
         switch state {
         case .fulfilled:
@@ -217,10 +212,6 @@ public extension Promise {
     @discardableResult public func progress(block: @escaping (Float) -> Void) -> Promise<Void> {
         tryStartInitialPromise()
         startPromiseIfNeeded()
-        return registerProgress(block)
-    }
-    
-    public func registerProgress(_ block: @escaping (Float) -> Void) -> Promise<Void> {
         let p = Promise<Void>()
         switch state {
         case .fulfilled:
@@ -257,10 +248,6 @@ public extension Promise {
     @discardableResult public func finally<X>(block: @escaping () -> X) -> Promise<X> {
         tryStartInitialPromise()
         startPromiseIfNeeded()
-        return registerFinally(block: block)
-    }
-
-    @discardableResult public func registerFinally<X>(block: @escaping () -> X) -> Promise<X> {
         let p = Promise<X>()
         switch state {
         case .fulfilled:
