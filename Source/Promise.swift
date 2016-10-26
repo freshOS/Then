@@ -21,14 +21,8 @@ public class Promise<T> {
         (_ resolve: @escaping ResolveCallBack,
         _ reject: @escaping RejectCallBack,
         _ progress: @escaping ProgressCallBack) -> Void
-    private typealias SuccessBlock = (T) -> Void
-    private typealias FailBlock = (Error) -> Void
-    private typealias ProgressBlock = (Float) -> Void
-    
-    private var successBlocks = [SuccessBlock]()
-    private var failBlocks = [FailBlock]()
-    private var progressBlocks = [ProgressBlock]()
-    private var finallyBlock: () -> Void = { }
+
+
     private var promiseCallBack: PromiseCallBack!
     private var promiseProgressCallBack: PromiseProgressCallBack?
     private var promiseStarted = false
@@ -36,6 +30,8 @@ public class Promise<T> {
     private var progress: Float?
     var initialPromiseStart:(() -> Void)?
     var initialPromiseStarted = false
+    
+    private var blocks = PromiseBlocks<T>()
     
     private convenience init() {
         self.init { _, _, _ in }
@@ -77,11 +73,11 @@ public class Promise<T> {
         case let .rejected(error):
             p.rejectPromise(error)
         case .pending:
-            successBlocks.append({ t in
+            blocks.successBlocks.append({ t in
                 p.resolvePromise(block(t))
             })
-            failBlocks.append(p.rejectPromise)
-            progressBlocks.append(p.progressPromise)
+            blocks.failBlocks.append(p.rejectPromise)
+            blocks.progressBlocks.append(p.progressPromise)
         }
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
@@ -106,11 +102,11 @@ public class Promise<T> {
         case let .rejected(error):
             p.rejectPromise(error)
         case .pending:
-            successBlocks.append({ t in
+            blocks.successBlocks.append({ t in
                 self.registerNextPromise(block, result: t, resolve: p.resolvePromise,
                                          reject: p.rejectPromise)
             })
-            failBlocks.append(p.rejectPromise)
+            blocks.failBlocks.append(p.rejectPromise)
         }
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
@@ -150,15 +146,15 @@ public class Promise<T> {
             p.resolvePromise()
         case .pending:
             // if promise fails, resolve error promise
-            failBlocks.append({ e in
+            blocks.failBlocks.append({ e in
                 block(e)
                 p.resolvePromise()
             })
-            successBlocks.append({ t in
+            blocks.successBlocks.append({ t in
                 p.resolvePromise()
             })
         }
-        progressBlocks.append(p.progressPromise)
+        blocks.progressBlocks.append(p.progressPromise)
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
@@ -181,14 +177,14 @@ public class Promise<T> {
         case .rejected:
             p.resolvePromise(block())
         case .pending:
-            failBlocks.append({ e in
+            blocks.failBlocks.append({ e in
                 p.resolvePromise(block())
             })
-            successBlocks.append({ t in
+            blocks.successBlocks.append({ t in
                  p.resolvePromise(block())
             })
         }
-        progressBlocks.append(p.progressPromise)
+        blocks.progressBlocks.append(p.progressPromise)
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
@@ -210,12 +206,12 @@ public class Promise<T> {
         case let .rejected(error):
             p.rejectPromise(error)
         case .pending:() //
-        failBlocks.append(p.rejectPromise)
-        successBlocks.append({ _ in
+        blocks.failBlocks.append(p.rejectPromise)
+        blocks.successBlocks.append({ _ in
             p.resolvePromise()
         })
         }
-        progressBlocks.append({ v in
+        blocks.progressBlocks.append({ v in
             block(v)
             p.progressPromise(v)
         })
@@ -261,25 +257,25 @@ public class Promise<T> {
     
     private func resolvePromise(_ result: T) {
         state = .fulfilled(value:result)
-        for sb in successBlocks {
+        for sb in blocks.successBlocks {
             sb(result)
         }
-        finallyBlock()
+        blocks.finallyBlock()
         initialPromiseStart = nil
     }
     
     private func rejectPromise(_ anError: Error) {
         state = .rejected(error:anError)
-        for fb in failBlocks {
+        for fb in blocks.failBlocks {
             fb(anError)
         }
-        finallyBlock()
+        blocks.finallyBlock()
         initialPromiseStart = nil
     }
     
     private func progressPromise(_ value: Float) {
         progress = value
-        for pb in progressBlocks {
+        for pb in blocks.progressBlocks {
             if let progress = progress {
                 pb(progress)
             }

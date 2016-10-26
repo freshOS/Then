@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		99255A4D1DC119B500D9FC72 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
 		9962ADC21D585902005769CD /* ProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC11D585902005769CD /* ProgressTests.swift */; };
 		9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC31D5859CC005769CD /* WhenAllTests.swift */; };
 		9962ADC61D585A06005769CD /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC51D585A06005769CD /* Helpers.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseBlocks.swift; sourceTree = "<group>"; };
 		9962ADC11D585902005769CD /* ProgressTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTests.swift; sourceTree = "<group>"; };
 		9962ADC31D5859CC005769CD /* WhenAllTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenAllTests.swift; sourceTree = "<group>"; };
 		9962ADC51D585A06005769CD /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				99FC637C1C86085C008C1155 /* Info.plist */,
 				99FC637D1C86085C008C1155 /* Promise.swift */,
 				9962ADCB1D58610E005769CD /* PromiseState.swift */,
+				99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */,
 				99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */,
 				99FC637E1C86085C008C1155 /* then.h */,
 			);
@@ -325,6 +328,7 @@
 				9962ADCD1D586155005769CD /* PromiseState.swift in Sources */,
 				99FC63801C86085C008C1155 /* Promise.swift in Sources */,
 				99AA1C711CB7DDF800ADA4C3 /* WhenAll.swift in Sources */,
+				99255A4D1DC119B500D9FC72 /* PromiseBlocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
