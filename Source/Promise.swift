@@ -15,31 +15,29 @@ public class Promise<T> {
     public typealias ResolveCallBack = (T) -> Void
     public typealias ProgressCallBack = (Float) -> Void
     public typealias RejectCallBack = (Error) -> Void
-    public typealias PromiseCallBack = (_ resolve: @escaping ResolveCallBack,
-        _ reject: @escaping RejectCallBack) -> Void
     public typealias PromiseProgressCallBack =
         (_ resolve: @escaping ResolveCallBack,
         _ reject: @escaping RejectCallBack,
         _ progress: @escaping ProgressCallBack) -> Void
 
-
-    private var promiseCallBack: PromiseCallBack!
-    private var promiseProgressCallBack: PromiseProgressCallBack?
-    private var promiseStarted = false
-    private var state: PromiseState<T> = .pending
-    private var progress: Float?
-    var initialPromiseStart:(() -> Void)?
-    var initialPromiseStarted = false
+    fileprivate var promiseProgressCallBack: PromiseProgressCallBack?
+    fileprivate var state: PromiseState<T> = .pending
+    fileprivate var blocks = PromiseBlocks<T>()
+    fileprivate var initialPromiseStart:(() -> Void)?
+    fileprivate var initialPromiseStarted = false
+    fileprivate var promiseStarted = false
+    fileprivate var progress: Float = 0
     
-    private var blocks = PromiseBlocks<T>()
     
-    private convenience init() {
+    fileprivate convenience init() {
         self.init { _, _, _ in }
     }
     
-    public init(callback: @escaping (_ resolve: @escaping ResolveCallBack,
+    public convenience init(callback: @escaping (_ resolve: @escaping ResolveCallBack,
         _ reject: @escaping RejectCallBack) -> Void) {
-        promiseCallBack = callback
+        self.init { rs, rj, pg in
+            callback(rs, rj)
+        }
     }
     
     public init(callback: @escaping (_ resolve: @escaping ResolveCallBack,
@@ -51,12 +49,47 @@ public class Promise<T> {
         promiseStarted = true
         if let p = promiseProgressCallBack {
             p(resolvePromise, rejectPromise, progressPromise)
-        } else {
-            promiseCallBack(resolvePromise, rejectPromise)
         }
     }
     
-    //MARK: - then((T)-> X)
+    fileprivate func passAlongFirstPromiseStartFunctionAndStateTo<X>(_ promise: Promise<X>) {
+        // Pass along First promise start block
+        if let startBlock = self.initialPromiseStart {
+            promise.initialPromiseStart = startBlock
+        } else {
+            promise.initialPromiseStart = self.start
+        }
+        // Pass along initil promise start state.
+        promise.initialPromiseStarted = self.initialPromiseStarted
+    }
+    
+    fileprivate func tryStartInitialPromise() {
+        if !initialPromiseStarted {
+            initialPromiseStart?()
+            initialPromiseStarted = true
+        }
+    }
+    
+    fileprivate func startPromiseIfNeeded() {
+        if !promiseStarted {
+            start()
+        }
+    }
+    
+    fileprivate func registerNextPromise<X>(_ block: (T) -> Promise<X>,
+                                     result: T,
+                                     resolve: @escaping (X) -> Void,
+                                     reject: @escaping RejectCallBack) {
+        let nextPromise: Promise<X> = block(result)
+        nextPromise.then { x in
+            resolve(x)
+        }.onError(reject)
+    }
+}
+
+//MARK: - Then
+
+public extension Promise {
     
     @discardableResult public func then<X>(_ block: @escaping (T) -> X) -> Promise<X> {
         tryStartInitialPromise()
@@ -73,18 +106,16 @@ public class Promise<T> {
         case let .rejected(error):
             p.rejectPromise(error)
         case .pending:
-            blocks.successBlocks.append({ t in
+            blocks.success.append({ t in
                 p.resolvePromise(block(t))
             })
-            blocks.failBlocks.append(p.rejectPromise)
-            blocks.progressBlocks.append(p.progressPromise)
+            blocks.fail.append(p.rejectPromise)
+            blocks.progress.append(p.progressPromise)
         }
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }
-    
-    //MARK: - then((T)->Promise<X>)
     
     @discardableResult public func then<X>(_ block: @escaping (T) -> Promise<X>) -> Promise<X> {
         tryStartInitialPromise()
@@ -94,27 +125,24 @@ public class Promise<T> {
     
     @discardableResult  public func registerThen<X>(_ block: @escaping (T) -> Promise<X>)
         -> Promise<X> {
-        let p = Promise<X>()
-        switch state {
-        case let .fulfilled(value):
-            registerNextPromise(block, result: value,
-                                      resolve: p.resolvePromise, reject: p.rejectPromise)
-        case let .rejected(error):
-            p.rejectPromise(error)
-        case .pending:
-            blocks.successBlocks.append({ t in
-                self.registerNextPromise(block, result: t, resolve: p.resolvePromise,
-                                         reject: p.rejectPromise)
-            })
-            blocks.failBlocks.append(p.rejectPromise)
-        }
-        p.start()
-        passAlongFirstPromiseStartFunctionAndStateTo(p)
-        return p
+            let p = Promise<X>()
+            switch state {
+            case let .fulfilled(value):
+                registerNextPromise(block, result: value,
+                                    resolve: p.resolvePromise, reject: p.rejectPromise)
+            case let .rejected(error):
+                p.rejectPromise(error)
+            case .pending:
+                blocks.success.append({ t in
+                    self.registerNextPromise(block, result: t, resolve: p.resolvePromise,
+                                             reject: p.rejectPromise)
+                })
+                blocks.fail.append(p.rejectPromise)
+            }
+            p.start()
+            passAlongFirstPromiseStartFunctionAndStateTo(p)
+            return p
     }
-    
-    //MARK: - then(Promise<X>)
-    
     
     @discardableResult public func then<X>(_ promise: Promise<X>) -> Promise<X> {
         return then { _ in promise }
@@ -124,15 +152,27 @@ public class Promise<T> {
         return registerThen { _ in promise }
     }
     
-    //MARK: - Error
-    
+    fileprivate func resolvePromise(_ result: T) {
+        state = .fulfilled(value:result)
+        for sb in blocks.success {
+            sb(result)
+        }
+        blocks.finally()
+        initialPromiseStart = nil
+    }
+}
+
+
+//MARK: - Error
+
+public extension Promise {
+
     @discardableResult public func onError(_ block: @escaping (Error) -> Void) -> Promise<Void> {
         tryStartInitialPromise()
         startPromiseIfNeeded()
         return registerOnError(block)
     }
-    
-    
+
     @discardableResult public func registerOnError(_ block:
         @escaping (Error) -> Void) -> Promise<Void> {
         let p = Promise<Void>()
@@ -146,51 +186,33 @@ public class Promise<T> {
             p.resolvePromise()
         case .pending:
             // if promise fails, resolve error promise
-            blocks.failBlocks.append({ e in
+            blocks.fail.append({ e in
                 block(e)
                 p.resolvePromise()
             })
-            blocks.successBlocks.append({ t in
+            blocks.success.append({ t in
                 p.resolvePromise()
             })
         }
-        blocks.progressBlocks.append(p.progressPromise)
+        blocks.progress.append(p.progressPromise)
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }
     
-    //MARK: - Finally
-    
-    
-    @discardableResult public func finally<X>(block: @escaping () -> X) -> Promise<X> {
-        tryStartInitialPromise()
-        startPromiseIfNeeded()
-        return registerFinally(block: block)
-    }
-    
-    @discardableResult public func registerFinally<X>(block: @escaping () -> X) -> Promise<X> {
-        let p = Promise<X>()
-        switch state {
-        case .fulfilled:
-            p.resolvePromise(block())
-        case .rejected:
-            p.resolvePromise(block())
-        case .pending:
-            blocks.failBlocks.append({ e in
-                p.resolvePromise(block())
-            })
-            blocks.successBlocks.append({ t in
-                 p.resolvePromise(block())
-            })
+    fileprivate func rejectPromise(_ anError: Error) {
+        state = .rejected(error:anError)
+        for fb in blocks.fail {
+            fb(anError)
         }
-        blocks.progressBlocks.append(p.progressPromise)
-        p.start()
-        passAlongFirstPromiseStartFunctionAndStateTo(p)
-        return p
+        blocks.finally()
+        initialPromiseStart = nil
     }
-    
-    //MARK: - Progress
+}
+
+//MARK: - Progress
+
+public extension Promise {
     
     @discardableResult public func progress(block: @escaping (Float) -> Void) -> Promise<Void> {
         tryStartInitialPromise()
@@ -205,13 +227,13 @@ public class Promise<T> {
             p.resolvePromise()
         case let .rejected(error):
             p.rejectPromise(error)
-        case .pending:() //
-        blocks.failBlocks.append(p.rejectPromise)
-        blocks.successBlocks.append({ _ in
+        case .pending:()
+        blocks.fail.append(p.rejectPromise)
+        blocks.success.append({ _ in
             p.resolvePromise()
         })
         }
-        blocks.progressBlocks.append({ v in
+        blocks.progress.append({ v in
             block(v)
             p.progressPromise(v)
         })
@@ -220,65 +242,42 @@ public class Promise<T> {
         return p
     }
     
-    
-    //MARK: - Helpers
-    
-    private func passAlongFirstPromiseStartFunctionAndStateTo<X>(_ promise: Promise<X>) {
-        // Pass along First promise start block
-        if let startBlock = self.initialPromiseStart {
-            promise.initialPromiseStart = startBlock
-        } else {
-            promise.initialPromiseStart = self.start
-        }
-        // Pass along initil promise start state.
-        promise.initialPromiseStarted = self.initialPromiseStarted
-    }
-    
-    private func tryStartInitialPromise() {
-        if !initialPromiseStarted {
-            initialPromiseStart?()
-            initialPromiseStarted = true
-        }
-    }
-    
-    private func startPromiseIfNeeded() {
-        if !promiseStarted { start() }
-    }
-    
-    private func registerNextPromise<X>(_ block: (T) -> Promise<X>,
-                                     result: T,
-                                     resolve: @escaping (X) -> Void,
-                                     reject: @escaping RejectCallBack) {
-        let nextPromise: Promise<X> = block(result)
-        nextPromise.then { x in
-            resolve(x)
-            }.onError(reject)
-    }
-    
-    private func resolvePromise(_ result: T) {
-        state = .fulfilled(value:result)
-        for sb in blocks.successBlocks {
-            sb(result)
-        }
-        blocks.finallyBlock()
-        initialPromiseStart = nil
-    }
-    
-    private func rejectPromise(_ anError: Error) {
-        state = .rejected(error:anError)
-        for fb in blocks.failBlocks {
-            fb(anError)
-        }
-        blocks.finallyBlock()
-        initialPromiseStart = nil
-    }
-    
-    private func progressPromise(_ value: Float) {
+    fileprivate func progressPromise(_ value: Float) {
         progress = value
-        for pb in blocks.progressBlocks {
-            if let progress = progress {
-                pb(progress)
-            }
+        for pb in blocks.progress {
+            pb(progress)
         }
+    }
+}
+
+//MARK: - Finally
+
+public extension Promise {
+    
+    @discardableResult public func finally<X>(block: @escaping () -> X) -> Promise<X> {
+        tryStartInitialPromise()
+        startPromiseIfNeeded()
+        return registerFinally(block: block)
+    }
+
+    @discardableResult public func registerFinally<X>(block: @escaping () -> X) -> Promise<X> {
+        let p = Promise<X>()
+        switch state {
+        case .fulfilled:
+            p.resolvePromise(block())
+        case .rejected:
+            p.resolvePromise(block())
+        case .pending:
+            blocks.fail.append({ e in
+                p.resolvePromise(block())
+            })
+            blocks.success.append({ t in
+                p.resolvePromise(block())
+            })
+        }
+        blocks.progress.append(p.progressPromise)
+        p.start()
+        passAlongFirstPromiseStartFunctionAndStateTo(p)
+        return p
     }
 }

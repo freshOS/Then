@@ -14,8 +14,8 @@ struct PromiseBlocks<T> {
     typealias FailBlock = (Error) -> Void
     typealias ProgressBlock = (Float) -> Void
     
-    var successBlocks = [SuccessBlock]()
-    var failBlocks = [FailBlock]()
-    var progressBlocks = [ProgressBlock]()
-    var finallyBlock: () -> Void = { }
+    var success = [SuccessBlock]()
+    var fail = [FailBlock]()
+    var progress = [ProgressBlock]()
+    var finally: () -> Void = { }
 }
