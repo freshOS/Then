@@ -238,7 +238,7 @@ public extension Promise {
 
 public extension Promise {
     
-    @discardableResult public func finally<X>(block: @escaping () -> X) -> Promise<X> {
+    @discardableResult public func finally<X>(_ block: @escaping () -> X) -> Promise<X> {
         tryStartInitialPromiseAndStartIfneeded()
         let p = Promise<X>()
         switch state {
