@@ -260,3 +260,10 @@ public extension Promise {
         return p
     }
 }
+
+
+public extension Promise {    
+    public class func reject(error: Error) -> Promise<T> {
+        return Promise { _, reject in reject(error) }
+    }
+}
