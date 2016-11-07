@@ -25,7 +25,7 @@ fetchUserId().then { id in
 
 ## Swift Version
 Swift 2 -> version **1.4.2**  
-Swift 3 -> version **2.0.1**
+Swift 3 -> version **2.0.2**
 
 ## Why
 Because async code is hard to write, hard to read, hard to reason about.  
@@ -161,6 +161,21 @@ fetchUsers.then { users in
 whenAll(fetchUsersA(),fetchUsersB(), fetchUsersC()).then { allUsers in
   // All the promises came back
 }
+```
+
+## Returning a rejecting promise
+
+Oftetimes we need to return a rejecting promise as such :
+
+```swift
+return Promise { _, reject in
+  reject(anError)
+}
+```
+
+This can be written with the following shortcut :
+```swift
+return Promise.reject(error:anError)
 ```
 
 ## Installation
