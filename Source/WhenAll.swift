@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Dispatch
 
 
 public func whenAll<T>(_ promises: [Promise<T>]) -> Promise<[T]> {
