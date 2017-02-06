@@ -10,7 +10,6 @@
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/then/blob/master/LICENSE)
 [![Release version](https://img.shields.io/badge/release-2.0-blue.svg)]()
 
-
 [Reason](#why) - [Example](#example) - [Installation](#installation)
 
 ```swift
@@ -22,26 +21,22 @@ fetchUserId().then { id in
     print("Everything is Done :)")
 }
 ```
+Because async code is hard to write, hard to read, hard to reason about.   **A pain to maintain**
 
-## Swift Version
-Swift 2 -> version **1.4.2**  
-Swift 3 -> version **2.0.2**
-
-## Why
-Because async code is hard to write, hard to read, hard to reason about.  
-**A pain to maintain**
+## Try it
+then is part of [freshOS](http://freshos.org) iOS toolset. Try it in an example App !   
+<a class="github-button" href="https://github.com/freshOS/StarterProject/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download freshOS/StarterProject on GitHub">Download Starter Project</a>
 
 ## How
 By using a **then** keyword that enables you to write aSync code that *reads like an English sentence*  
 Async code is now **concise**, **flexible** and **maintainable** ❤️
 
 ## What
-- [x] Based on the popular Promise/Future concept
-- [x] Lightweight (1 file ~100lines)
-- [x] Pure Swift
-- [x] No magic involved
+- [x] Based on the popular Promise / Future concept
 - [x] Strongly Typed
+- [x] Pure Swift & Lightweight
 - [x] Chainable
+- [x] Progress support
 
 
 ## Example
@@ -191,8 +186,7 @@ use_frameworks!
 github "freshOS/then"
 ```
 #### Manually
-Simply Copy and Paste Promise.swift in your Xcode Project :)
-https://github.com/freshOS/then/blob/master/Code/then/Promise.swift
+Simply Copy and Paste `.swift` files in your Xcode Project :)
 
 #### As A Framework
 Grab this repository and build the Framework target on the example project. Then Link against this framework.
@@ -203,9 +197,9 @@ Grab this repository and build the Framework target on the example project. Then
 [S4cha](https://github.com/S4cha), [YannickDot](https://github.com/YannickDot), [Damien](https://github.com/damien-nd),
 [piterlouis](https://github.com/piterlouis)
 
+## Swift Version
+Swift 2 -> version **1.4.2**  
+Swift 3 -> version **2.0.2**
 
-## Other repos ❤️
-then is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze*:
-- Layout : [Stevia](https://github.com/s4cha/Stevia)
-- Json Parsing : [Arrow](https://github.com/freshOS/Arrow)
-- JSON WebServices : [ws](https://github.com/freshOS/ws)
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
