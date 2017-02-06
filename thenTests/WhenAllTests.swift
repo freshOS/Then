@@ -32,7 +32,7 @@ class WhenAllTests: XCTestCase {
     func testWhenAllCallsOnErrorWhenOneFails() {
         let block = expectation(description: "Block called")
         let finallyBlock = expectation(description: "Finally called")
-        let promise1 = Promise<Void> { resolve, reject in
+        let promise1 = Promise<Void> { _, reject in
             reject(MyError.defaultError)
         }
         

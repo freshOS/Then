@@ -21,7 +21,7 @@ class ProgressTests: XCTestCase {
             }.then {
                 print("Done")
                 thenExpectation.fulfill()
-            }.onError { e in
+            }.onError { _ in
                 print("ERROR")
         }
         waitForExpectations(timeout: 3, handler: nil)
@@ -35,7 +35,7 @@ class ProgressTests: XCTestCase {
             progressExpectation.fulfill()
             }.then {
                 XCTFail()
-            }.onError { e in
+            }.onError { _ in
                 errorExpectation.fulfill()
         }
         waitForExpectations(timeout: 3, handler: nil)

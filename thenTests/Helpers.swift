@@ -12,9 +12,8 @@ import then
 var globalCount = 0
 var blockPromiseCExpectation: XCTestExpectation!
 
-
 func promiseA() -> Promise<Int> {
-    return Promise { resolve, reject in
+    return Promise { resolve, _ in
         XCTAssertTrue(globalCount == 0)
         globalCount+=1
         resolve(globalCount)
@@ -22,7 +21,7 @@ func promiseA() -> Promise<Int> {
 }
 
 func promiseB() -> Promise<Int> {
-    return Promise { resolve, reject in
+    return Promise { resolve, _ in
         XCTAssertTrue(globalCount == 1)
         globalCount+=1
         resolve(globalCount)
@@ -30,7 +29,7 @@ func promiseB() -> Promise<Int> {
 }
 
 func promiseC() -> Promise<Int> {
-    return Promise { resolve, reject in
+    return Promise { resolve, _ in
         XCTAssertTrue(globalCount == 2)
         globalCount+=1
         resolve(globalCount)
@@ -75,42 +74,41 @@ func promiseArray3() -> Promise<[Int]> {
     }
 }
 
-
 func syncRejectionPromise() -> Promise<Int> {
-    return Promise { resolve, reject in
+    return Promise { _, reject in
         reject(MyError.defaultError)
     }
 }
 
 func fetchUserId() -> Promise<Int> {
-    return Promise { resolve, reject in
+    return Promise { resolve, _ in
         print("fetching user Id ...")
         wait { resolve(1234) }
     }
 }
 
 func fetchUserNameFromId(_ identifier: Int) -> Promise<String> {
-    return Promise { resolve, reject in
+    return Promise { resolve, _ in
         print("fetching UserName FromId : \(identifier) ...")
         wait { resolve("John Smith") }
     }
 }
 
 func fetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
-    return Promise { resolve, reject in
+    return Promise { resolve, _ in
         print("fetchUserFollowStatusFromName: \(name) ...")
         wait { resolve(false) }
     }
 }
 
 func failingFetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
-    return Promise { resolve, reject in
+    return Promise { _, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
         wait { reject(MyError.defaultError) }
     }
 }
 
-func wait(_ callback:@escaping ()->()) {
+func wait(_ callback:@escaping () -> Void) {
     let delay = 0.1 * Double(NSEC_PER_SEC)
     let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
     DispatchQueue.main.asyncAfter(deadline: time) {
@@ -118,7 +116,7 @@ func wait(_ callback:@escaping ()->()) {
     }
 }
 
-func wait(_ time: Double, callback: @escaping ()->()) {
+func wait(_ time: Double, callback: @escaping () -> Void) {
     let delay = time * Double(NSEC_PER_SEC)
     let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
     DispatchQueue.main.asyncAfter(deadline: time) {
@@ -127,7 +125,7 @@ func wait(_ time: Double, callback: @escaping ()->()) {
 }
 
 func upload() -> Promise<Void> {
-    return Promise<Void> { resolve, reject, progress in
+    return Promise<Void> { resolve, _, progress in
         wait {
             progress(0.8)
             wait {
@@ -138,7 +136,7 @@ func upload() -> Promise<Void> {
 }
 
 func failingUpload() -> Promise<Void> {
-    return Promise<Void> { resolve, reject, progress in
+    return Promise<Void> { _, reject, progress in
         wait {
             progress(0.8)
             wait {

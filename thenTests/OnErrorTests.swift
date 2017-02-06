@@ -17,7 +17,7 @@ class OnErrorTests: XCTestCase {
         fetchUserId()
             .then(fetchUserNameFromId)
             .then(failingFetchUserFollowStatusFromName)
-            .then { isFollowed in
+            .then { _ in
                 XCTFail("then block shouldn't be called")
             }.onError { e in
                 XCTAssertTrue((e as? MyError) == MyError.defaultError)
@@ -34,7 +34,7 @@ class OnErrorTests: XCTestCase {
         promiseA()
             .then(syncRejectionPromise())
             .then(syncRejectionPromise())
-            .onError { (error) -> Void in
+            .onError { _ in
                 errorblock.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
@@ -64,11 +64,11 @@ class OnErrorTests: XCTestCase {
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnFail() {
         let errorExpectation = expectation(description: "then called")
         failingFetchUserFollowStatusFromName("")
-            .then { id in
+            .then { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 errorExpectation.fulfill()
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("Second on Error shouldn't be called")
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -77,23 +77,23 @@ class OnErrorTests: XCTestCase {
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnSuccess() {
         let thenExpectation = expectation(description: "then called")
         fetchUserId()
-            .then { id in
+            .then { _ in
                 thenExpectation.fulfill()
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
         }
         waitForExpectations(timeout: 5, handler: nil)

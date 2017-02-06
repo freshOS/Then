@@ -28,14 +28,13 @@ public class Promise<T> {
     fileprivate var promiseStarted = false
     fileprivate var progress: Float = 0
     
-    
     internal convenience init() {
         self.init { _, _, _ in }
     }
     
     public convenience init(callback: @escaping (_ resolve: @escaping ResolveCallBack,
         _ reject: @escaping RejectCallBack) -> Void) {
-        self.init { rs, rj, pg in
+        self.init { rs, rj, _ in
             callback(rs, rj)
         }
     }
@@ -84,7 +83,7 @@ public class Promise<T> {
     }
 }
 
-//MARK: - Then
+// MARK: - Then
 
 public extension Promise {
     
@@ -157,8 +156,7 @@ public extension Promise {
     }
 }
 
-
-//MARK: - Error
+// MARK: - Error
 
 public extension Promise {
 
@@ -179,7 +177,7 @@ public extension Promise {
                 block(e)
                 p.resolvePromise()
             })
-            blocks.success.append({ t in
+            blocks.success.append({ _ in
                 p.resolvePromise()
             })
         }
@@ -199,7 +197,7 @@ public extension Promise {
     }
 }
 
-//MARK: - Progress
+// MARK: - Progress
 
 public extension Promise {
     
@@ -234,7 +232,7 @@ public extension Promise {
     }
 }
 
-//MARK: - Finally
+// MARK: - Finally
 
 public extension Promise {
     
@@ -247,10 +245,10 @@ public extension Promise {
         case .rejected:
             p.resolvePromise(block())
         case .pending:
-            blocks.fail.append({ e in
+            blocks.fail.append({ _ in
                 p.resolvePromise(block())
             })
-            blocks.success.append({ t in
+            blocks.success.append({ _ in
                 p.resolvePromise(block())
             })
         }
@@ -260,7 +258,6 @@ public extension Promise {
         return p
     }
 }
-
 
 public extension Promise {    
     public class func reject(error: Error) -> Promise<T> {

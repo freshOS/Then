@@ -23,7 +23,7 @@ class ThenTests: XCTestCase {
         .then { isFollowed in
             XCTAssertFalse(isFollowed)
             thenExpectation.fulfill()
-        }.onError { e in
+        }.onError { _ in
             XCTFail("on Error shouldn't be called")
         }.finally {
             finallyExpectation.fulfill()
@@ -148,9 +148,9 @@ class ThenTests: XCTestCase {
     func testThenWorksAfterErrorBlock() {
         let thenExpectation = expectation(description: "then called")
         fetchUserId()
-            .then { id in
+            .then { _ in
                 thenExpectation.fulfill()
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
             }.then {
                 print("Ok bro")
@@ -163,7 +163,7 @@ class ThenTests: XCTestCase {
         let errorExpectation = expectation(description: "Finally called")
         failingFetchUserFollowStatusFromName("").then { _ in
             XCTFail()
-            }.onError { e in
+            }.onError { _ in
                 errorExpectation.fulfill()
             }.then {
                 thenExpectation.fulfill()
