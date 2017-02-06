@@ -8,6 +8,7 @@
 
 import XCTest
 import then
+import Dispatch
 
 var globalCount = 0
 var blockPromiseCExpectation: XCTestExpectation!
