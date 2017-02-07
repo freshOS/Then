@@ -17,6 +17,7 @@
 		99AA1C711CB7DDF800ADA4C3 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
 		99B5ACA21C66831C005CDA28 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B5AC971C66831C005CDA28 /* then.framework */; };
 		99B5ACA71C66831C005CDA28 /* ThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5ACA61C66831C005CDA28 /* ThenTests.swift */; };
+		99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
 		99FA7FB61D93C153002274B0 /* thenMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FA7FB41D93C153002274B0 /* thenMacOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99FA7FCD1D93C1AB002274B0 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA7FC81D93C1AB002274B0 /* Promise.swift */; };
 		99FA7FCE1D93C1AB002274B0 /* PromiseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA7FC91D93C1AB002274B0 /* PromiseState.swift */; };
@@ -352,6 +353,7 @@
 				99FA7FD01D93C1AB002274B0 /* WhenAll.swift in Sources */,
 				99FA7FCD1D93C1AB002274B0 /* Promise.swift in Sources */,
 				99FA7FCE1D93C1AB002274B0 /* PromiseState.swift in Sources */,
+				99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
