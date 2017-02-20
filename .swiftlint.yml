@@ -1,6 +1,7 @@
 
 disabled_rules:
 - trailing_whitespace
+- large_tuple
 opt_in_rules:
 # - missing_docs
 - force_unwrapping

@@ -10,18 +10,16 @@ import Foundation
 
 public class Promise<T>: AsyncType {
     public typealias AType = T
-    public typealias PromiseProgressCallBack =
-        (_ resolve: @escaping ((T) -> Void),
-        _ reject: @escaping ((Error) -> Void),
-        _ progress: @escaping ((Float) -> Void)) -> Void
 
-    fileprivate var promiseProgressCallBack: PromiseProgressCallBack?
+    fileprivate var promiseProgressCallBack: ((_ resolve: @escaping ((T) -> Void),
+    _ reject: @escaping ((Error) -> Void),
+    _ progress: @escaping ((Float) -> Void)) -> Void)?
     public var state: PromiseState<T> = .pending
+    public var progress: Float = 0
     internal var blocks = PromiseBlocks<T>()
     fileprivate var initialPromiseStart:(() -> Void)?
     fileprivate var initialPromiseStarted = false
     fileprivate var promiseStarted = false
-    internal var progress: Float = 0
     
     internal convenience init() {
         self.init { _, _, _ in }
