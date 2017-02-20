@@ -52,7 +52,6 @@ class OnErrorTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
 
-
     func testMultipleErrorBlockCanBeRegisteredOnSamePromise() {
         let error1 = expectation(description: "error called")
         let error2 = expectation(description: "error called")

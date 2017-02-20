@@ -10,6 +10,6 @@ import Foundation
 
 public enum PromiseState<T> {
     case pending
-    case fulfilled(value:T)
-    case rejected(error:Error)
+    case fulfilled(value: T)
+    case rejected(error: Error)
 }
