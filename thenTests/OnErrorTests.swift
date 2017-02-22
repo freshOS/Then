@@ -31,7 +31,7 @@ class OnErrorTests: XCTestCase {
     
     func testOnErrorCalledWhenSynchronousRejects() {
         let errorblock = expectation(description: "error block called")
-        promiseA()
+        promise1()
             .then(syncRejectionPromise())
             .then(syncRejectionPromise())
             .onError { _ in
@@ -39,7 +39,20 @@ class OnErrorTests: XCTestCase {
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
-    
+
+    func testThenAfterOnErrorWhenSynchronousResolves() {
+        let thenblock = expectation(description: "then block called")
+        promise1()
+            .then(promise1())
+            .onError { _ in
+                XCTFail("on Error shouldn't be called")
+            }.then { _ in
+                 thenblock.fulfill()
+            }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
+
     func testMultipleErrorBlockCanBeRegisteredOnSamePromise() {
         let error1 = expectation(description: "error called")
         let error2 = expectation(description: "error called")

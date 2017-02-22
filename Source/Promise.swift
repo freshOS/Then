@@ -165,8 +165,8 @@ public extension Promise {
         let p = Promise<Void>()
         switch state {
         case .fulfilled:
-            p.rejectPromise(NSError(domain: "", code: 123, userInfo: nil))
-        // No error so do nothing.
+            // No error so do nothing
+            p.resolvePromise()
         case let .rejected(error):
             // Already failed so call error block
             block(error)
