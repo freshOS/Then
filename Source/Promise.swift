@@ -39,6 +39,12 @@ public class Promise<T>: AsyncType {
         promiseProgressCallBack = callback
     }
     
+    internal func resetState() {
+        state = .pending
+        progress = 0
+        promiseStarted = false
+    }
+    
     public func start() {
         promiseStarted = true
         if let p = promiseProgressCallBack {

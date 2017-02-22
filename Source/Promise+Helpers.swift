@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PromiseDefaultError: Error {
+public struct PromiseDefaultError: Error {
     
 }
 
