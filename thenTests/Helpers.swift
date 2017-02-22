@@ -40,45 +40,31 @@ func promiseC() -> Promise<Int> {
 }
 
 func promise1() -> Promise<Int> {
-    return Promise { resolve, _ in
-        resolve(1)
-    }
+    return Promise.resolve(1)
 }
 
 func promise2() -> Promise<Int> {
-    return Promise { resolve, _ in
-        resolve(2)
-    }
+    return Promise.resolve(2)
 }
 
 func promise3() -> Promise<Int> {
-    return Promise { resolve, _ in
-        resolve(3)
-    }
+    return Promise.resolve(3)
 }
 
 func promiseArray1() -> Promise<[Int]> {
-    return Promise { resolve, _ in
-        resolve([1, 2, 3])
-    }
+    return Promise.resolve([1, 2, 3])
 }
 
 func promiseArray2() -> Promise<[Int]> {
-    return Promise { resolve, _ in
-        resolve([4, 5, 6])
-    }
+    return Promise.resolve([4, 5, 6])
 }
 
 func promiseArray3() -> Promise<[Int]> {
-    return Promise { resolve, _ in
-        resolve([7, 8, 9])
-    }
+    return Promise.resolve([7, 8, 9])
 }
 
 func syncRejectionPromise() -> Promise<Int> {
-    return Promise { _, reject in
-        reject(MyError.defaultError)
-    }
+    return Promise.reject(MyError.defaultError)
 }
 
 func fetchUserId() -> Promise<Int> {
