@@ -21,6 +21,8 @@
 		99B29F7F1E5D688900CF8E98 /* RaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F7E1E5D688900CF8E98 /* RaceTests.swift */; };
 		99B29F811E5D6E0F00CF8E98 /* Promise+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */; };
 		99B29F831E5D6F5500CF8E98 /* RetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F821E5D6F5500CF8E98 /* RetryTests.swift */; };
+		99B29F731E5D58C600CF8E98 /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
+		99B29F771E5D590D00CF8E98 /* RecoverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F761E5D590D00CF8E98 /* RecoverTests.swift */; };
 		99B5ACA21C66831C005CDA28 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B5AC971C66831C005CDA28 /* then.framework */; };
 		99B5ACA71C66831C005CDA28 /* ThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5ACA61C66831C005CDA28 /* ThenTests.swift */; };
 		99E3CB071E5EA53900FEF11A /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
@@ -65,6 +67,8 @@
 		99B29F7E1E5D688900CF8E98 /* RaceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTests.swift; sourceTree = "<group>"; };
 		99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Retry.swift"; sourceTree = "<group>"; };
 		99B29F821E5D6F5500CF8E98 /* RetryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetryTests.swift; sourceTree = "<group>"; };
+		99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Recover.swift"; sourceTree = "<group>"; };
+		99B29F761E5D590D00CF8E98 /* RecoverTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecoverTests.swift; sourceTree = "<group>"; };
 		99B5AC971C66831C005CDA28 /* then.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = then.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B5ACA11C66831C005CDA28 /* thenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = thenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B5ACA61C66831C005CDA28 /* ThenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThenTests.swift; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 				99B29F821E5D6F5500CF8E98 /* RetryTests.swift */,
 				99B29F7E1E5D688900CF8E98 /* RaceTests.swift */,
 				99B29F7A1E5D5F4900CF8E98 /* ValidateTests.swift */,
+				99B29F761E5D590D00CF8E98 /* RecoverTests.swift */,
 				9962ADC51D585A06005769CD /* Helpers.swift */,
 				99B5ACA81C66831C005CDA28 /* Info.plist */,
 			);
@@ -197,6 +202,7 @@
 				99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */,
 				99B29F7C1E5D687F00CF8E98 /* Promise+Race.swift */,
 				99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */,
+				99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */,
 				99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */,
 				99FC637E1C86085C008C1155 /* then.h */,
 			);
@@ -380,6 +386,7 @@
 				99B29F811E5D6E0F00CF8E98 /* Promise+Retry.swift in Sources */,
 				99FA2C661E5B1B8100CA3959 /* PromiseType.swift in Sources */,
 				99FC63801C86085C008C1155 /* Promise.swift in Sources */,
+				99B29F731E5D58C600CF8E98 /* Promise+Recover.swift in Sources */,
 				99FA2C641E5B022D00CA3959 /* Promise+Finally.swift in Sources */,
 				99AA1C711CB7DDF800ADA4C3 /* WhenAll.swift in Sources */,
 				99255A4D1DC119B500D9FC72 /* PromiseBlocks.swift in Sources */,
@@ -392,6 +399,7 @@
 			files = (
 				9962ADC21D585902005769CD /* ProgressTests.swift in Sources */,
 				99B29F7B1E5D5F4900CF8E98 /* ValidateTests.swift in Sources */,
+				99B29F771E5D590D00CF8E98 /* RecoverTests.swift in Sources */,
 				9962ADCA1D585E12005769CD /* RegisterThenTests.swift in Sources */,
 				99B29F7F1E5D688900CF8E98 /* RaceTests.swift in Sources */,
 				9962ADC81D585B00005769CD /* OnErrorTests.swift in Sources */,
