@@ -9,14 +9,6 @@
 import Foundation
 
 public func race<T>(_ promises: Promise<T>...) -> Promise<T> {
-    return race(promises)
-}
-
-public func any<T>(_ promises: Promise<T>...) -> Promise<T> {
-    return race(promises)
-}
-
-private func race<T>(_ promises: [Promise<T>]) -> Promise<T> {
     return Promise { resolve, reject in
         var done = false
         var errorCount = 0
