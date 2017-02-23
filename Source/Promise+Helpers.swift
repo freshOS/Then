@@ -8,12 +8,8 @@
 
 import Foundation
 
-public struct PromiseDefaultError: Error {
-    
-}
-
 public extension Promise {
-    public class func reject(_ error: Error = PromiseDefaultError()) -> Promise<T> {
+    public class func reject(_ error: Error = PromiseError.default) -> Promise<T> {
         return Promise { _, reject in reject(error) }
     }
 }

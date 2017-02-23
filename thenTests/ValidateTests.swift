@@ -25,7 +25,12 @@ class ValidateTests: XCTestCase {
         let e = expectation(description: "")
         Promise<Int>.resolve(16)
             .validate { $0 > 18 }
-            .onError { _ in
+            .onError { error in
+                if let pe = error as? PromiseError {
+                   XCTAssertTrue(pe == .validationFailed)
+                } else {
+                    XCTFail()
+                }
                 e.fulfill()
             }
         waitForExpectations(timeout: 1, handler: nil)

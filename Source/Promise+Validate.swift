@@ -15,7 +15,7 @@ extension Promise {
             if assertionBlock(s) {
                 return Promise.resolve(s)
             }
-            return Promise.reject()
+            return Promise.reject(PromiseError.validationFailed)
         }
     }
 }
