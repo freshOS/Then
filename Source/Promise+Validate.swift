@@ -9,13 +9,15 @@
 import Foundation
 
 extension Promise {
+    
     @discardableResult
-    public func validate(_ assertionBlock:@escaping ((T) -> Bool)) -> Promise<T> {
+    public func validate(withError: Error = PromiseError.validationFailed,
+                         _ assertionBlock:@escaping ((T) -> Bool)) -> Promise<T> {
         return self.then { s in
             if assertionBlock(s) {
                 return Promise.resolve(s)
             }
-            return Promise.reject(PromiseError.validationFailed)
+            return Promise.reject(withError)
         }
     }
 }

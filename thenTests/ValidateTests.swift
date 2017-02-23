@@ -24,7 +24,7 @@ class ValidateTests: XCTestCase {
     func testValidateFails() {
         let e = expectation(description: "")
         Promise<Int>.resolve(16)
-            .validate { $0 > 18 }
+            .validate { ($0 > 18) }
             .onError { error in
                 if let pe = error as? PromiseError {
                    XCTAssertTrue(pe == .validationFailed)
@@ -33,6 +33,21 @@ class ValidateTests: XCTestCase {
                 }
                 e.fulfill()
             }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testValidateWithCustomError() {
+        let e = expectation(description: "")
+        Promise<Int>.resolve(16)
+            .validate(withError: MyError.defaultError, { $0 > 18 })
+            .onError { error in
+                if let pe = error as? MyError {
+                    XCTAssertTrue(pe == MyError.defaultError)
+                } else {
+                    XCTFail()
+                }
+                e.fulfill()
+        }
         waitForExpectations(timeout: 1, handler: nil)
     }
 }
