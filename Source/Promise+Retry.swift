@@ -11,7 +11,7 @@ import Foundation
 extension Promise {
     public func retry(_ nbOfTimes: UInt) -> Promise<T> {
         guard nbOfTimes > 0 else {
-            return Promise.reject(PromiseDefaultError())
+            return Promise.reject(PromiseError.retryInvalidInput)
         }
         return Promise { resolve, reject in
             var numberOfRetriesLeft = nbOfTimes

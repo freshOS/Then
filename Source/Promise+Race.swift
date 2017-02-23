@@ -18,10 +18,10 @@ public func race<T>(_ promises: Promise<T>...) -> Promise<T> {
                     resolve(t)
                     done = true
                 }
-            }.onError { _ in
+            }.onError { e in
                 errorCount += 1
                 if errorCount == promises.count {
-                    reject(PromiseDefaultError())
+                    reject(PromiseError.raceAllFailed(lastError: e))
                 }
             }
         }
