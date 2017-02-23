@@ -9,6 +9,7 @@
 import Foundation
 
 extension Promise {
+    
     public func recover(with value: T) -> Promise<T> {
         return Promise { resolve, _ in
             self.then { t in
@@ -19,14 +20,41 @@ extension Promise {
         }
     }
     
-    public func recover(_ block:@escaping (Error) -> Promise<T>) -> Promise<T> {
-        return Promise<T> { resolve, _ in
+    public func recover(_ errorType: Error, with value: T) -> Promise<T> {
+        // TODO Find a way to compare two Error types for equality
+        return Promise { resolve, _ in
+            self.then { t in
+                resolve(t)
+            }.onError { _ in
+                resolve(value)
+            }
+        }
+    }
+    
+    public func recover(with promise: Promise<T>) -> Promise<T> {
+        return Promise<T> { resolve, reject in
             self.then { t in
                 resolve(t)
             }.onError { e in
-                let p = block(e)
-                p.then { t in
+                promise.then { t in
                     resolve(t)
+                }.onError { e in
+                    reject(e)
+                }
+            }
+        }
+    }
+    
+    public func recover(_ block:@escaping (Error) throws -> T) -> Promise<T> {
+        return Promise<T> { resolve, reject in
+            self.then { t in
+                resolve(t)
+            }.onError { e in
+                do {
+                    let v = try block(e)
+                    resolve(v)
+                } catch {
+                    reject(error)
                 }
             }
         }

@@ -36,4 +36,28 @@ public extension Promise {
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }
+    
+    public func bridgeError(_ block:@escaping (Error) throws -> Void) -> Promise<T> {
+        return Promise<T> { resolve, reject in
+            self.then { t in
+                resolve(t)
+            }.onError { e in
+                do {
+                    try block(e)
+                } catch {
+                    reject(error)
+                }
+            }
+        }
+    }
+    
+    public func bridgeError(to myError: Error) -> Promise<T> {
+        return Promise<T> { resolve, reject in
+            self.then { t in
+                resolve(t)
+            }.onError { _ in
+                reject(myError)
+            }
+        }
+    }
 }
