@@ -20,12 +20,26 @@ extension Promise {
         }
     }
     
-    public func recover(_ errorType: Error, with value: T) -> Promise<T> {
+    public func recover<E: Error>(_ errorType: E, with value: T) -> Promise<T> {
         return Promise { resolve, reject in
             self.then { t in
                 resolve(t)
             }.onError { e in
-                if e._code == errorType._code && e._domain == errorType._domain {
+                if errorMatchesExpectedError(e, expectedError:errorType) {
+                    resolve(value)
+                } else {
+                    reject(e)
+                }
+            }
+        }
+    }
+    
+    public func recover<E: Error>(_ errorType: E, with value: T) -> Promise<T> where E: Equatable {
+        return Promise { resolve, reject in
+            self.then { t in
+                resolve(t)
+            }.onError { e in
+                if errorMatchesExpectedError(e, expectedError:errorType) {
                     resolve(value)
                 } else {
                     reject(e)
@@ -62,4 +76,19 @@ extension Promise {
             }
         }
     }
+}
+
+// Credits to Quick/Nimble for how to compare Errors
+// https://github.com/Quick/Nimble/blob/db706fc1d7130f6ac96c56aaf0e635fa3217fe57/Sources/
+// Nimble/Utils/Errors.swift#L37-L53
+private func errorMatchesExpectedError<T: Error>(_ error: Error, expectedError: T) -> Bool {
+    return error._domain == expectedError._domain && error._code   == expectedError._code
+}
+
+private func errorMatchesExpectedError<T: Error>(_ error: Error,
+                                                 expectedError: T) -> Bool where T: Equatable {
+    if let error = error as? T {
+        return error == expectedError
+    }
+    return false
 }

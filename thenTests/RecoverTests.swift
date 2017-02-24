@@ -114,4 +114,20 @@ class RecoverTests: XCTestCase {
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
+    
+    func testEquatableError() {
+        let exp = expectation(description: "")
+        Promise<Int>.reject(SomeError())
+            .recover(SomeError(), with: 123)
+            .then { _ in
+                exp.fulfill()
+            }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+}
+
+struct SomeError: Error { }
+extension SomeError :Equatable { }
+func == (lhs: SomeError, rhs: SomeError) -> Bool {
+    return true
 }
