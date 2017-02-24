@@ -21,12 +21,15 @@ extension Promise {
     }
     
     public func recover(_ errorType: Error, with value: T) -> Promise<T> {
-        // TODO Find a way to compare two Error types for equality
-        return Promise { resolve, _ in
+        return Promise { resolve, reject in
             self.then { t in
                 resolve(t)
-            }.onError { _ in
-                resolve(value)
+            }.onError { e in
+                if e._code == errorType._code && e._domain == errorType._domain {
+                    resolve(value)
+                } else {
+                    reject(e)
+                }
             }
         }
     }

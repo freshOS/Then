@@ -91,42 +91,6 @@ class RecoverTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testBridgeError() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject()
-            .bridgeError { _ in
-                throw MyError.defaultError
-            }
-           .then { _ in
-                XCTFail("then shouldn't be called")
-            }.onError { e in
-                if let e = e as? MyError {
-                    XCTAssertTrue(e == .defaultError)
-                } else {
-                    XCTFail()
-                }
-                exp.fulfill()
-        }
-        waitForExpectations(timeout: 1, handler: nil)
-    }
-    
-    func testBridgeError2() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject()
-            .bridgeError(to: MyError.defaultError)
-            .then { _ in
-                XCTFail("then shouldn't be called")
-            }.onError { e in
-                if let e = e as? MyError {
-                    XCTAssertTrue(e == .defaultError)
-                } else {
-                    XCTFail()
-                }
-                exp.fulfill()
-        }
-        waitForExpectations(timeout: 1, handler: nil)
-    }
-    
     func testRecoverForSpecificError() {
         let exp = expectation(description: "")
         Promise<Int>.resolve(10)
