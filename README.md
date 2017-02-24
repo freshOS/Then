@@ -131,6 +131,8 @@ uploadAvatar().progress { p in
 ```
 
 ## Registering a block for later
+Our implementation slightly differs from the original javascript Promises. Indeed, they do not start right away, on purpose. Calling `then`, `onError`, or `finally` will start them automatically.
+
 Calling `then` starts a promise if it is not already started.
 In some cases, we only want to register some code for later.
 For instance, in the case of JSON to Swift model parsing, we often want to attach parsing blocks to JSON promises, but without starting them.
