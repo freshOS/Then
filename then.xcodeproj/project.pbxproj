@@ -27,6 +27,19 @@
 		99B29F831E5D6F5500CF8E98 /* RetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F821E5D6F5500CF8E98 /* RetryTests.swift */; };
 		99B5ACA21C66831C005CDA28 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B5AC971C66831C005CDA28 /* then.framework */; };
 		99B5ACA71C66831C005CDA28 /* ThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5ACA61C66831C005CDA28 /* ThenTests.swift */; };
+		99DF35351E66A45A005FD22F /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
+		99DF35361E66A45D005FD22F /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
+		99DF35371E66A45F005FD22F /* Promise+Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */; };
+		99DF35381E66A461005FD22F /* Promise+Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F7C1E5D687F00CF8E98 /* Promise+Race.swift */; };
+		99DF35391E66A465005FD22F /* Promise+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */; };
+		99DF353A1E66A467005FD22F /* Promise+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6D1E5B20EA00CA3959 /* Promise+Helpers.swift */; };
+		99DF353B1E66A469005FD22F /* Promise+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */; };
+		99DF353C1E66A46C005FD22F /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
+		99DF353D1E66A46E005FD22F /* Promise+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */; };
+		99DF353E1E66A471005FD22F /* Promise+Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */; };
+		99DF353F1E66A473005FD22F /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
+		99DF35401E66A47A005FD22F /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
+		99DF35411E66A481005FD22F /* PromiseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C651E5B1B8100CA3959 /* PromiseType.swift */; };
 		99E3CB071E5EA53900FEF11A /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
 		99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
 		99FA2C641E5B022D00CA3959 /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
@@ -422,9 +435,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99DF353B1E66A469005FD22F /* Promise+Aliases.swift in Sources */,
+				99DF353C1E66A46C005FD22F /* Promise+Finally.swift in Sources */,
+				99DF353F1E66A473005FD22F /* Promise+Progress.swift in Sources */,
+				99DF35351E66A45A005FD22F /* Promise+BridgeError.swift in Sources */,
+				99DF353D1E66A46E005FD22F /* Promise+Error.swift in Sources */,
+				99DF35371E66A45F005FD22F /* Promise+Validate.swift in Sources */,
+				99DF35401E66A47A005FD22F /* PromiseError.swift in Sources */,
+				99DF35381E66A461005FD22F /* Promise+Race.swift in Sources */,
+				99DF353A1E66A467005FD22F /* Promise+Helpers.swift in Sources */,
+				99DF35391E66A465005FD22F /* Promise+Retry.swift in Sources */,
 				99FA7FD01D93C1AB002274B0 /* WhenAll.swift in Sources */,
+				99DF35361E66A45D005FD22F /* Promise+Recover.swift in Sources */,
+				99DF353E1E66A471005FD22F /* Promise+Then.swift in Sources */,
 				99FA7FCD1D93C1AB002274B0 /* Promise.swift in Sources */,
 				99FA7FCE1D93C1AB002274B0 /* PromiseState.swift in Sources */,
+				99DF35411E66A481005FD22F /* PromiseType.swift in Sources */,
 				99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

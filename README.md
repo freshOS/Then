@@ -8,7 +8,7 @@
 [![codebeat badge](https://codebeat.co/badges/768d3017-1e65-47e0-b287-afcb8954a1da)](https://codebeat.co/projects/github-com-s4cha-then)
 [![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/then/blob/master/LICENSE)
-[![Release version](https://img.shields.io/badge/release-2.0-blue.svg)]()
+[![Release version](https://img.shields.io/badge/release-2.1-blue.svg)]()
 
 [Reason](#why) - [Example](#example) - [Installation](#installation)
 
@@ -200,7 +200,7 @@ Grab this repository and build the Framework target on the example project. Then
 
 ## Swift Version
 Swift 2 -> version **1.4.2**  
-Swift 3 -> version **2.0.3**
+Swift 3 -> version **2.1.0**
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
