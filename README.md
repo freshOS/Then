@@ -262,7 +262,7 @@ You can:
 .bridgeError(SomeError, to: MyError.defaultError)
 ```
 
-#### BridgeError
+#### WhenAll
 
 With `.whenAll`, you can combine multiple calls and get all the results when all the promises are fulfilled :
 
