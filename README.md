@@ -10,7 +10,7 @@
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/then/blob/master/LICENSE)
 [![Release version](https://img.shields.io/badge/release-2.1-blue.svg)]()
 
-[Reason](#why) - [Example](#example) - [Installation](#installation)
+[Reason](#why) - [Example](#example) -  [Documentation](#documentation) - [Installation](#installation)
 
 ```swift
 fetchUserId().then { id in
@@ -36,6 +36,7 @@ Async code is now **concise**, **flexible** and **maintainable** ❤️
 - [x] Pure Swift & Lightweight
 - [x] Chainable
 - [x] Progress support
+- [x] Common Promise helpers: `race`, `recover` `validate` `retry` `bridgeError` ...
 
 
 ## Example
@@ -103,7 +104,23 @@ Mental sanity saved
 // #goodbyeCallbackHell
 
 
-## Writing your own Promise 💪
+## Documentation
+
+1. [Writing your own Promise](#writing-your-own-promise-💪)
+2. [Progress](#progress)
+3. [Registering a block for later](#registering-a-block-for-later)
+4. [Returning a rejecting promise](#returning-a-rejecting-promise)
+5. [Common Helpers](#common-helpers)
+  1. [race](#race)
+  2. [recover](#recover)
+  3. [validate](#validate)
+  4. [retry](#retry)
+  5. [bridgeError](#bridgeError)
+  6. [whenAll](#whenAll)
+6. [Async](#async)
+
+
+### Writing your own Promise 💪
 Wondering what fetchUserId() is?  
 It is a simple function that returns a strongly typed promise :
 
@@ -117,7 +134,7 @@ func fetchUserId() -> Promise<Int> {
 ```
 Here you would typically replace the dummy wait function by your network request <3
 
-## Progress
+### Progress
 
 As for `then` and `onError`, you can also call a `progress` block for things like uploading an avatar for example.
 
@@ -130,7 +147,7 @@ uploadAvatar().progress { p in
 .finally(doSomething)
 ```
 
-## Registering a block for later
+### Registering a block for later
 Our implementation slightly differs from the original javascript Promises. Indeed, they do not start right away, on purpose. Calling `then`, `onError`, or `finally` will start them automatically.
 
 Calling `then` starts a promise if it is not already started.
@@ -150,16 +167,7 @@ fetchUsers.then { users in
 }
 ```
 
-## Bonus : whenAll
-
-`whenAll` calls you back when all the promises passed are fullfiled :
-```swift
-whenAll(fetchUsersA(),fetchUsersB(), fetchUsersC()).then { allUsers in
-  // All the promises came back
-}
-```
-
-## Returning a rejecting promise
+### Returning a rejecting promise
 
 Oftetimes we need to return a rejecting promise as such :
 
@@ -173,6 +181,102 @@ This can be written with the following shortcut :
 ```swift
 return Promise.reject(error:anError)
 ```
+
+### Common Helpers
+
+#### Race
+
+With `race`, you can send multiple tasks and get the result of the first one coming back :
+```swift
+race(task1, task2, task3).then { work in
+  // The first result !
+}
+```
+
+#### Recover
+
+With `.recover`, you can provide a fallback value for a failed Promise
+You can:
+  - Recover with a value
+  - Recover with a value for a specific Error type
+  - Return a value from a block, enabling you to test the type of error and return distinct values.
+  - Recover with another Promise with the same Type
+
+```swift
+.recover(with: 12)
+.recover(MyError.defaultError, with: 12)
+.recover { e in
+  if e == x { return 32 }
+  if e == y { return 143 }
+  throw MyError.defaultError
+}
+.recover(with: Promise<Int>.resolve(56))
+```
+Note that in the block version you can also throw your own error \o/
+
+
+#### Validate
+
+With `.validate`, you can break the promise chain with an assertion block.
+
+You can:
+  - Insert assertion in Promise chain
+  - Insert assertion and return you own Error
+
+For instance checking if a user is allowed to drink alcohol :
+```swift
+fetchUserAge()
+.validate { $0 > 18 }
+.then { age in
+  // Offer a drink
+}
+
+.validate(withError: MyError.defaultError, { $0 > 18 })`
+```
+A failed validation will retrun a `PromiseError.validationFailed` by default.
+
+#### Retry
+
+With `retry`, you can restart a failed Promise X number of times.
+```swift
+doSomething()
+  .retry(10)
+  .then { v in
+   // YAY!
+  }.onError { e in
+    // Failed 10 times in a row
+  }
+```
+
+#### BridgeError
+
+With `.bridgeError`, you can intercept a low-level Error and return your own high level error.
+The classic use-case is when you receive an api error and you bridge it to your own domain error.
+
+You can:
+  - Catch all errors and use your own Error type
+  - Catch only a specific error
+
+```swift
+.bridgeError(to: MyError.defaultError)
+.bridgeError(SomeError, to: MyError.defaultError)
+```
+
+#### BridgeError
+
+With `.whenAll`, you can combine multiple calls and get all the results when all the promises are fulfilled :
+
+```swift
+whenAll(fetchUsersA(),fetchUsersB(), fetchUsersC()).then { allUsers in
+  // All the promises came back
+}
+```
+
+### Async
+`AsyncTask` and `Async<T>` typealisases are provided for those of use who think that Async can be clearer than `Promise`.
+Feel free to replace `Promise<Void>` by `AsyncTask` and `Promise<T>` by `Async<T>` wherever needed.
+This is purely for the eyes :)
+
 
 ## Installation
 
