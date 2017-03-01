@@ -195,8 +195,8 @@ race(task1, task2, task3).then { work in
 
 #### Recover
 
-With `.recover`, you can provide a fallback value for a failed Promise
-You can:
+With `.recover`, you can provide a fallback value for a failed Promise.  
+You can :
   - Recover with a value
   - Recover with a value for a specific Error type
   - Return a value from a block, enabling you to test the type of error and return distinct values.
@@ -273,8 +273,8 @@ whenAll(fetchUsersA(),fetchUsersB(), fetchUsersC()).then { allUsers in
 ```
 
 ### Async
-`AsyncTask` and `Async<T>` typealisases are provided for those of use who think that Async can be clearer than `Promise`.
-Feel free to replace `Promise<Void>` by `AsyncTask` and `Promise<T>` by `Async<T>` wherever needed.
+`AsyncTask` and `Async<T>` typealisases are provided for those of us who think that Async can be clearer than `Promise`.
+Feel free to replace `Promise<Void>` by `AsyncTask` and `Promise<T>` by `Async<T>` wherever needed.  
 This is purely for the eyes :)
 
 
