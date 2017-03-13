@@ -70,7 +70,10 @@ func syncRejectionPromise() -> Promise<Int> {
 func fetchUserId() -> Promise<Int> {
     return Promise { resolve, _ in
         print("fetching user Id ...")
-        wait { resolve(1234) }
+        wait {
+            resolve(1234)
+            print("GOT USER ID 1234")
+        }
     }
 }
 
@@ -98,7 +101,7 @@ func failingFetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
 func wait(_ callback:@escaping () -> Void) {
     let delay = 0.1 * Double(NSEC_PER_SEC)
     let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-    DispatchQueue.main.asyncAfter(deadline: time) {
+    DispatchQueue.global(qos: DispatchQoS.QoSClass.background).asyncAfter(deadline: time) {
         callback()
     }
 }
