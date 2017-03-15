@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9907A5DF1E76EBAE00826BBE /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
+		9907A5E11E76EBBD00826BBE /* ChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E01E76EBBD00826BBE /* ChainTests.swift */; };
+		9907A5E21E76EBC100826BBE /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
 		991E114F1E600D0700448085 /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
 		991E11511E600D3900448085 /* BridgeErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11501E600D3900448085 /* BridgeErrorTests.swift */; };
 		99255A4D1DC119B500D9FC72 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
@@ -68,6 +71,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Chain.swift"; sourceTree = "<group>"; };
+		9907A5E01E76EBBD00826BBE /* ChainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainTests.swift; sourceTree = "<group>"; };
 		991E114E1E600D0700448085 /* Promise+BridgeError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+BridgeError.swift"; sourceTree = "<group>"; };
 		991E11501E600D3900448085 /* BridgeErrorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgeErrorTests.swift; sourceTree = "<group>"; };
 		99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseBlocks.swift; sourceTree = "<group>"; };
@@ -176,6 +181,7 @@
 				99B29F7A1E5D5F4900CF8E98 /* ValidateTests.swift */,
 				99B29F761E5D590D00CF8E98 /* RecoverTests.swift */,
 				991E11501E600D3900448085 /* BridgeErrorTests.swift */,
+				9907A5E01E76EBBD00826BBE /* ChainTests.swift */,
 				9962ADC51D585A06005769CD /* Helpers.swift */,
 				99B5ACA81C66831C005CDA28 /* Info.plist */,
 			);
@@ -222,6 +228,7 @@
 				99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */,
 				99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */,
 				991E114E1E600D0700448085 /* Promise+BridgeError.swift */,
+				9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */,
 				99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */,
 				99FC637E1C86085C008C1155 /* then.h */,
 			);
@@ -394,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99FA2C681E5B1C2F00CA3959 /* Promise+Progress.swift in Sources */,
+				9907A5DF1E76EBAE00826BBE /* Promise+Chain.swift in Sources */,
 				99FA2C6C1E5B20BB00CA3959 /* Promise+Aliases.swift in Sources */,
 				99B29F7D1E5D687F00CF8E98 /* Promise+Race.swift in Sources */,
 				99E3CB071E5EA53900FEF11A /* PromiseError.swift in Sources */,
@@ -426,6 +434,7 @@
 				9962ADC81D585B00005769CD /* OnErrorTests.swift in Sources */,
 				99B29F831E5D6F5500CF8E98 /* RetryTests.swift in Sources */,
 				99B5ACA71C66831C005CDA28 /* ThenTests.swift in Sources */,
+				9907A5E11E76EBBD00826BBE /* ChainTests.swift in Sources */,
 				9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */,
 				9962ADC61D585A06005769CD /* Helpers.swift in Sources */,
 			);
@@ -436,6 +445,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99DF353B1E66A469005FD22F /* Promise+Aliases.swift in Sources */,
+				9907A5E21E76EBC100826BBE /* Promise+Chain.swift in Sources */,
 				99DF353C1E66A46C005FD22F /* Promise+Finally.swift in Sources */,
 				99DF353F1E66A473005FD22F /* Promise+Progress.swift in Sources */,
 				99DF35351E66A45A005FD22F /* Promise+BridgeError.swift in Sources */,
