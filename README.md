@@ -36,7 +36,7 @@ Async code is now **concise**, **flexible** and **maintainable** ❤️
 - [x] Pure Swift & Lightweight
 - [x] Chainable
 - [x] Progress support
-- [x] Common Promise helpers: `race`, `recover` `validate` `retry` `bridgeError` ...
+- [x] Common Promise helpers: `race`, `recover` `validate` `retry` `bridgeError` `chain` ...
 
 
 ## Example
@@ -117,6 +117,7 @@ Mental sanity saved
   4. [retry](#retry)
   5. [bridgeError](#bridgeError)
   6. [whenAll](#whenAll)
+  7. [Chain](#chain)
 6. [Async](#async)
 
 
@@ -272,6 +273,22 @@ whenAll(fetchUsersA(),fetchUsersB(), fetchUsersC()).then { allUsers in
 }
 ```
 
+#### Chain
+
+With `chain`, you can add behaviours without changing the chain of Promises.
+
+A common use-case is for adding Analytics tracking like so:
+
+```swift
+extension Photo {
+    public func post() -> Async<Photo> {
+        return api.post(self).chain { _ in
+            Tracker.trackEvent(.postPicture)
+        }
+    }
+}
+```
+
 ### Async
 `AsyncTask` and `Async<T>` typealisases are provided for those of us who think that Async can be clearer than `Promise`.
 Feel free to replace `Promise<Void>` by `AsyncTask` and `Promise<T>` by `Async<T>` wherever needed.  
@@ -299,7 +316,7 @@ Grab this repository and build the Framework target on the example project. Then
 
 ## Contributors
 
-[S4cha](https://github.com/S4cha), [YannickDot](https://github.com/YannickDot), [Damien](https://github.com/damien-nd),
+[S4cha](https://github.com/S4cha), [Max Konovalov](https://github.com/maxkonovalov), [YannickDot](https://github.com/YannickDot), [Damien](https://github.com/damien-nd),
 [piterlouis](https://github.com/piterlouis)
 
 ## Swift Version
