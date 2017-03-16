@@ -168,6 +168,7 @@ fetchUsers.then { users in
     // YAY
 }
 ```
+Note that `onError` and `finally` also have their non-starting counterparts : `registerOnError` and `registerFinally`.
 
 ### Returning a rejecting promise
 
