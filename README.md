@@ -21,6 +21,11 @@ fetchUserId().then { id in
     print("Everything is Done :)")
 }
 ```
+
+```swift
+  let userId = try! await(fetchUserId())
+```
+
 Because async code is hard to write, hard to read, hard to reason about.   **A pain to maintain**
 
 ## Try it
@@ -31,13 +36,11 @@ By using a **then** keyword that enables you to write aSync code that *reads lik
 Async code is now **concise**, **flexible** and **maintainable** ❤️
 
 ## What
-- [x] Based on the popular Promise / Future concept
+- [x] Based on the popular `Promise` / `Future` concept
+- [x] `Async` / `Await`
+- [x] `progress` `race` `recover` `validate` `retry` `bridgeError` `chain` `noMatterWhat` ...
 - [x] Strongly Typed
 - [x] Pure Swift & Lightweight
-- [x] Chainable
-- [x] Progress support
-- [x] Common Promise helpers: `race`, `recover` `validate` `retry` `bridgeError` `chain` `noMatterWhat` ...
-
 
 ## Example
 ### Before
@@ -119,8 +122,8 @@ Mental sanity saved
   6. [whenAll](#whenAll)
   7. [chain](#chain)
   8. [noMatterWhat](#nomatterwhat)
-6. [Async](#async)
-
+6. [AsyncTask](#asynctask)
+7. [Async/Await](#async/await)
 
 ### Writing your own Promise 💪
 Wondering what fetchUserId() is?  
@@ -308,12 +311,44 @@ func fetchNext() -> Promise<[T]> {
 }
 ```
 
-
-### Async
+### AsyncTask
 `AsyncTask` and `Async<T>` typealisases are provided for those of us who think that Async can be clearer than `Promise`.
 Feel free to replace `Promise<Void>` by `AsyncTask` and `Promise<T>` by `Async<T>` wherever needed.  
 This is purely for the eyes :)
 
+
+### Async/Await
+
+`await` waits for a promise to complete synchronously and yields the result :
+
+```swift
+let photos = try! await(getPhotos())
+```
+
+`async` takes a block and wraps it in a background Promise.
+
+```swift
+async {
+  let photos = try await(getPhotos())
+}
+```
+Notice how we don't need the `!` anymore because `async` will catch the errors.
+
+
+Together, `async`/`await` enable us to write asynchronous code in a synchronous manner :
+
+```swift
+async {
+  let userId = try await(fetchUserId())
+  let userName = try await(fetchUserNameFromId(userId))
+  let isFollowed = try await(fetchUserFollowStatusFromName(userName))
+  return isFollowed
+}.then { isFollowed in
+  print(isFollowed)
+}.onError { e in
+  // handle errors
+}
+```
 
 ## Installation
 
