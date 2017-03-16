@@ -36,7 +36,7 @@ Async code is now **concise**, **flexible** and **maintainable** ❤️
 - [x] Pure Swift & Lightweight
 - [x] Chainable
 - [x] Progress support
-- [x] Common Promise helpers: `race`, `recover` `validate` `retry` `bridgeError` `chain` ...
+- [x] Common Promise helpers: `race`, `recover` `validate` `retry` `bridgeError` `chain` `noMatterWhat` ...
 
 
 ## Example
@@ -118,6 +118,7 @@ Mental sanity saved
   5. [bridgeError](#bridgeError)
   6. [whenAll](#whenAll)
   7. [chain](#chain)
+  8. [noMatterWhat](#nomatterwhat)
 6. [Async](#async)
 
 
@@ -167,6 +168,7 @@ fetchUsers.then { users in
     // YAY
 }
 ```
+Note that `onError` and `finally` also have their non-starting counterparts : `registerOnError` and `registerFinally`.
 
 ### Returning a rejecting promise
 
@@ -288,6 +290,24 @@ extension Photo {
     }
 }
 ```
+
+#### NoMatterWhat
+
+With `noMatterWhat` you can add code to be executed in the middle of a promise chain, no matter what happens.
+
+```swift
+func fetchNext() -> Promise<[T]> {
+    isLoading = true
+    call.params["page"] = page + 1
+    return call.fetch()
+        .registerThen(parseResponse)
+        .resolveOnMainThread()
+        .noMatterWhat {
+            self.isLoading = false
+    }
+}
+```
+
 
 ### Async
 `AsyncTask` and `Async<T>` typealisases are provided for those of us who think that Async can be clearer than `Promise`.

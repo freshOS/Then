@@ -12,6 +12,10 @@ public extension Promise {
     
     @discardableResult public func finally<X>(_ block: @escaping () -> X) -> Promise<X> {
         tryStartInitialPromiseAndStartIfneeded()
+        return registerFinally(block)
+    }
+    
+    @discardableResult public func registerFinally<X>(_ block: @escaping () -> X) -> Promise<X> {
         let p = Promise<X>()
         switch state {
         case .fulfilled:
