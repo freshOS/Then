@@ -37,6 +37,7 @@
 		99B29F831E5D6F5500CF8E98 /* RetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F821E5D6F5500CF8E98 /* RetryTests.swift */; };
 		99B5ACA21C66831C005CDA28 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B5AC971C66831C005CDA28 /* then.framework */; };
 		99B5ACA71C66831C005CDA28 /* ThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5ACA61C66831C005CDA28 /* ThenTests.swift */; };
+		99B9FA8F1E5F107400D522C8 /* FinallyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B9FA8E1E5F107400D522C8 /* FinallyTests.swift */; };
 		99DF35351E66A45A005FD22F /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
 		99DF35361E66A45D005FD22F /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
 		99DF35371E66A45F005FD22F /* Promise+Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */; };
@@ -50,9 +51,9 @@
 		99DF353F1E66A473005FD22F /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
 		99DF35401E66A47A005FD22F /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
 		99DF35411E66A481005FD22F /* PromiseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C651E5B1B8100CA3959 /* PromiseType.swift */; };
-		99B9FA8F1E5F107400D522C8 /* FinallyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B9FA8E1E5F107400D522C8 /* FinallyTests.swift */; };
 		99E3CB071E5EA53900FEF11A /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
 		99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
+		99E691161E7AC08700272AF2 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
 		99FA2C641E5B022D00CA3959 /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
 		99FA2C661E5B1B8100CA3959 /* PromiseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C651E5B1B8100CA3959 /* PromiseType.swift */; };
 		99FA2C681E5B1C2F00CA3959 /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
@@ -490,6 +491,7 @@
 				99FA7FCE1D93C1AB002274B0 /* PromiseState.swift in Sources */,
 				99DF35411E66A481005FD22F /* PromiseType.swift in Sources */,
 				99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */,
+				99E691161E7AC08700272AF2 /* Promise+NoMatterWhat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
