@@ -117,7 +117,7 @@ Mental sanity saved
   4. [retry](#retry)
   5. [bridgeError](#bridgeError)
   6. [whenAll](#whenAll)
-  7. [Chain](#chain)
+  7. [chain](#chain)
 6. [Async](#async)
 
 
