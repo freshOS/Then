@@ -39,4 +39,25 @@ class FinallyTests: XCTestCase {
         }
         waitForExpectations(timeout: 2, handler: nil)
     }
+    
+    func testRegisterFinallyDoesntStartThePromise() {
+        let exp = expectation(description: "error block called")
+        syncRejectionPromise().registerFinally {
+             XCTFail()
+        }
+        wait(1) {
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testRegisterFinally() {
+        let exp = expectation(description: "error block called")
+        let p = syncRejectionPromise()
+        p.registerFinally {
+            exp.fulfill()
+        }
+        p.start()
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 }

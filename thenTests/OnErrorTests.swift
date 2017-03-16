@@ -110,5 +110,25 @@ class OnErrorTests: XCTestCase {
         }
         waitForExpectations(timeout: 5, handler: nil)
     }
-
+    
+    func testRegisterOnErrorDoesntStartThePromise() {
+        let exp = expectation(description: "error block called")
+        syncRejectionPromise().registerOnError { _ in
+            XCTFail()
+        }
+        wait(1) {
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testRegisterOnError() {
+        let exp = expectation(description: "error block called")
+        let p = syncRejectionPromise()
+        p.registerOnError { _ in
+            exp.fulfill()
+        }
+        p.start()
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 }
