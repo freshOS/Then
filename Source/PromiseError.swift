@@ -13,6 +13,7 @@ public enum PromiseError: Error {
     case validationFailed
     case retryInvalidInput
     case raceAllFailed(lastError: Error)
+    case unwrappingFailed
 }
 
 extension PromiseError: Equatable { }
@@ -26,6 +27,8 @@ public func == (lhs: PromiseError, rhs: PromiseError) -> Bool {
     case (.retryInvalidInput, .retryInvalidInput):
         return true
     case (.raceAllFailed(_), .raceAllFailed(_)):
+        return true
+        case (.unwrappingFailed, .unwrappingFailed):
         return true
     default:
         return false
