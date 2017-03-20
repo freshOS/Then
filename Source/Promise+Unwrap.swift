@@ -8,7 +8,7 @@
 
 import Foundation
 
-public func unwrap<T>(_ param: T?) -> Async<T> {
+public func unwrap<T>(_ param: T?) -> Promise<T> {
     if let param = param {
         return Promise.resolve(param)
     } else {
