@@ -122,6 +122,7 @@ Mental sanity saved
   6. [whenAll](#whenAll)
   7. [chain](#chain)
   8. [noMatterWhat](#nomatterwhat)
+  9. [unwrap](#unwrap)
 6. [AsyncTask](#asynctask)
 7. [Async/Await](#async/await)
 
@@ -310,6 +311,19 @@ func fetchNext() -> Promise<[T]> {
     }
 }
 ```
+
+#### Unwrap
+
+With `unwrap` you can transform an optional into a promise :
+
+```swift    
+func fetch(userId: String?) -> Promise<Void> {
+   return unwrap(userId).then {
+        network.get("/user/\($0)")
+    }
+}
+```
+Unwrap will fail the promise chain with `unwrappingFailed` error in case of a nil value :)
 
 ### AsyncTask
 `AsyncTask` and `Async<T>` typealisases are provided for those of us who think that Async can be clearer than `Promise`.
