@@ -45,7 +45,7 @@ class FinallyTests: XCTestCase {
         syncRejectionPromise().registerFinally {
              XCTFail()
         }
-        wait(1) {
+        testWait(1) {
             exp.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)

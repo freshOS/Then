@@ -2,7 +2,7 @@
 
 # then
 [![Language: Swift 2 and 3](https://img.shields.io/badge/language-swift2|3-f48041.svg?style=flat)](https://developer.apple.com/swift)
-![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+![Platform: iOS 8+/macOS10.11](https://img.shields.io/badge/platform-iOS%208%2B | OSX-blue.svg?style=flat) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Cocoapods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org)
 [![Build Status](https://www.bitrise.io/app/ea9933b066f6a2c4.svg?token=i7LK0uQC1rVuXhDq1iskYg&branch=master)](https://www.bitrise.io/app/ea9933b066f6a2c4)
 [![codebeat badge](https://codebeat.co/badges/768d3017-1e65-47e0-b287-afcb8954a1da)](https://codebeat.co/projects/github-com-s4cha-then)
@@ -390,7 +390,7 @@ Grab this repository and build the Framework target on the example project. Then
 
 ## Swift Version
 Swift 2 -> version **1.4.2**  
-Swift 3 -> version **2.2.1**
+Swift 3 -> version **2.2.2**
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>

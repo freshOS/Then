@@ -28,7 +28,7 @@ class AsyncAwaitTests: XCTestCase {
     func testFailingAsyncAwait() {
         let exp = expectation(description: "")
         async {
-            let _ = try await(failingFetchUserFollowStatusFromName("JohnDoe"))
+            _ = try await(failingFetchUserFollowStatusFromName("JohnDoe"))
             XCTFail()
         }.onError { _ in
             exp.fulfill()
@@ -39,7 +39,7 @@ class AsyncAwaitTests: XCTestCase {
     func testCatchFailingAsyncAwait() {        
         let exp = expectation(description: "")
         do {
-            let _ = try await(failingFetchUserFollowStatusFromName("JohnDoe"))
+            _ = try await(failingFetchUserFollowStatusFromName("JohnDoe"))
             XCTFail()
         } catch {
             exp.fulfill()

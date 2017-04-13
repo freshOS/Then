@@ -116,7 +116,7 @@ class OnErrorTests: XCTestCase {
         syncRejectionPromise().registerOnError { _ in
             XCTFail()
         }
-        wait(1) {
+        testWait(1) {
             exp.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
