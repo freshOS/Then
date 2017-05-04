@@ -29,8 +29,8 @@ public extension Promise {
             blocks.success.append({ _ in
                 p.resolvePromise(block())
             })
+            blocks.progress.append(p.progressPromise)
         }
-        blocks.progress.append(p.progressPromise)
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
