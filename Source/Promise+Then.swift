@@ -50,8 +50,8 @@ public extension Promise {
             case let .rejected(error):
                 p.rejectPromise(error)
             case .pending:
-                blocks.success.append({ t in
-                    self.registerNextPromise(block, result: t, resolve: p.resolvePromise,
+                blocks.success.append({ [weak self] t in
+                    self?.registerNextPromise(block, result: t, resolve: p.resolvePromise,
                                              reject: p.rejectPromise)
                 })
                 blocks.fail.append(p.rejectPromise)
