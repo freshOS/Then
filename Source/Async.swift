@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Dispatch
 
 @discardableResult
 public func async<T>(block:@escaping () throws -> T) -> Async<T> {
