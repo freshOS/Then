@@ -23,7 +23,7 @@ class ThenTests: XCTestCase {
         .then { isFollowed in
             XCTAssertFalse(isFollowed)
             thenExpectation.fulfill()
-        }.onError { e in
+        }.onError { _ in
             XCTFail("on Error shouldn't be called")
         }.finally {
             finallyExpectation.fulfill()
@@ -86,14 +86,6 @@ class ThenTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testFinallyCalledWhenSynchronous() {
-        let finallyblock = expectation(description: "error block called")
-        syncRejectionPromise().finally {
-            finallyblock.fulfill()
-        }
-        waitForExpectations(timeout: 1, handler: nil)
-    }
-    
     func testClassicThenLaunchesPromise() {
         let thenExpectation = expectation(description: "then called")
         fetchUserId().then { id in
@@ -124,33 +116,12 @@ class ThenTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
     
-    func testMultipleFinallyBlockCanBeRegisteredOnSamePromise() {
-        let finally1 = expectation(description: "finally called")
-        let finally2 = expectation(description: "finally called")
-        let finally3 = expectation(description: "finally called")
-        let finally4 = expectation(description: "finally called")
-        let p = failingFetchUserFollowStatusFromName("")
-        p.finally {
-            finally1.fulfill()
-        }
-        p.finally {
-            finally2.fulfill()
-        }
-        p.finally {
-            finally3.fulfill()
-        }
-        p.finally {
-            finally4.fulfill()
-        }
-        waitForExpectations(timeout: 2, handler: nil)
-    }
-    
     func testThenWorksAfterErrorBlock() {
         let thenExpectation = expectation(description: "then called")
         fetchUserId()
-            .then { id in
+            .then { _ in
                 thenExpectation.fulfill()
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
             }.then {
                 print("Ok bro")
@@ -163,7 +134,7 @@ class ThenTests: XCTestCase {
         let errorExpectation = expectation(description: "Finally called")
         failingFetchUserFollowStatusFromName("").then { _ in
             XCTFail()
-            }.onError { e in
+            }.onError { _ in
                 errorExpectation.fulfill()
             }.then {
                 thenExpectation.fulfill()

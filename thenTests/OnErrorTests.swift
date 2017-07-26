@@ -17,7 +17,7 @@ class OnErrorTests: XCTestCase {
         fetchUserId()
             .then(fetchUserNameFromId)
             .then(failingFetchUserFollowStatusFromName)
-            .then { isFollowed in
+            .then { _ in
                 XCTFail("then block shouldn't be called")
             }.onError { e in
                 XCTAssertTrue((e as? MyError) == MyError.defaultError)
@@ -31,15 +31,27 @@ class OnErrorTests: XCTestCase {
     
     func testOnErrorCalledWhenSynchronousRejects() {
         let errorblock = expectation(description: "error block called")
-        promiseA()
+        promise1()
             .then(syncRejectionPromise())
             .then(syncRejectionPromise())
-            .onError { (error) -> Void in
+            .onError { _ in
                 errorblock.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
-    
+
+    func testThenAfterOnErrorWhenSynchronousResolves() {
+        let thenblock = expectation(description: "then block called")
+        promise1()
+            .then(promise1())
+            .onError { _ in
+                XCTFail("on Error shouldn't be called")
+            }.then { _ in
+                 thenblock.fulfill()
+            }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
     func testMultipleErrorBlockCanBeRegisteredOnSamePromise() {
         let error1 = expectation(description: "error called")
         let error2 = expectation(description: "error called")
@@ -64,11 +76,11 @@ class OnErrorTests: XCTestCase {
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnFail() {
         let errorExpectation = expectation(description: "then called")
         failingFetchUserFollowStatusFromName("")
-            .then { id in
+            .then { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 errorExpectation.fulfill()
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("Second on Error shouldn't be called")
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -77,26 +89,46 @@ class OnErrorTests: XCTestCase {
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnSuccess() {
         let thenExpectation = expectation(description: "then called")
         fetchUserId()
-            .then { id in
+            .then { _ in
                 thenExpectation.fulfill()
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
-            }.onError { e in
+            }.onError { _ in
                 XCTFail("on Error shouldn't be called")
         }
         waitForExpectations(timeout: 5, handler: nil)
     }
-
+    
+    func testRegisterOnErrorDoesntStartThePromise() {
+        let exp = expectation(description: "error block called")
+        syncRejectionPromise().registerOnError { _ in
+            XCTFail()
+        }
+        testWait(1) {
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testRegisterOnError() {
+        let exp = expectation(description: "error block called")
+        let p = syncRejectionPromise()
+        p.registerOnError { _ in
+            exp.fulfill()
+        }
+        p.start()
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 }

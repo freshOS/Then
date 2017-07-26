@@ -21,7 +21,7 @@ class RegisterThenTests: XCTestCase {
             }.registerThen {_ in
                 XCTFail()
         }
-        wait(1) {
+        testWait(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -38,7 +38,7 @@ class RegisterThenTests: XCTestCase {
             }.registerThen {_ in
                 XCTFail()
         }
-        wait(1) {
+        testWait(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -54,7 +54,7 @@ class RegisterThenTests: XCTestCase {
             }.registerThen { _ in
                 XCTFail()
         }
-        wait(1) {
+        testWait(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -97,7 +97,7 @@ class RegisterThenTests: XCTestCase {
             .registerThen { _ in
                 XCTFail()
         }
-        wait(1) {
+        testWait(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -110,7 +110,7 @@ class RegisterThenTests: XCTestCase {
             }.registerThen { _ in
                 XCTFail()
         }
-        wait(1) {
+        testWait(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -120,7 +120,7 @@ class RegisterThenTests: XCTestCase {
         let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId()
             .registerThen(fetchUserNameFromId)
-            .then { name in
+            .then { _ in
                 timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -130,7 +130,7 @@ class RegisterThenTests: XCTestCase {
         let timerExpectation = expectation(description: "thenExpectation")
         fetchUserId().registerThen { id -> Promise<String> in
             return fetchUserNameFromId(id)
-            }.then { name in
+            }.then { _ in
                 timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -141,7 +141,7 @@ class RegisterThenTests: XCTestCase {
         fetchUserId()
             .registerThen(fetchUserNameFromId)
             .registerThen(fetchUserFollowStatusFromName)
-            .then { name in
+            .then { _ in
                 timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)

@@ -22,13 +22,13 @@ class ViewController: UIViewController {
 }
 
 func fetchUserId() -> Promise<Int> {
-    return Promise { resolve, reject in
+    return Promise { resolve, _ in
         print("fetching user Id ...")
         wait { resolve(result: 1234) }
     }
 }
 
-func wait(callback:()->()) {
+func wait(callback:() -> Void) {
     let delay = 3 * Double(NSEC_PER_SEC)
     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
     dispatch_after(time, dispatch_get_main_queue()) {

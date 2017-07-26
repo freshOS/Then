@@ -9,7 +9,6 @@
 import Foundation
 import Dispatch
 
-
 public func whenAll<T>(_ promises: [Promise<T>]) -> Promise<[T]> {
     let p = Promise<[T]>()
     var ts = [T]()
@@ -34,7 +33,6 @@ public func whenAll<T>(_ promises: [Promise<T>]) -> Promise<[T]> {
 public func whenAll<T>(_ promises: Promise<T>...) -> Promise<[T]> {
     return whenAll(promises)
 }
-
 
 // Array version
 
