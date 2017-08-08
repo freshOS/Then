@@ -15,28 +15,25 @@ public extension Promise {
         let p = Promise<Void>()
         switch state {
         case .fulfilled:
-            p.resolvePromise()
+            p.fulfill()
         case let .rejected(error):
-            p.rejectPromise(error)
-        case .pending:()
-        blocks.fail.append(p.rejectPromise)
+            p.reject(error)
+        case .dormant, .pending:
+        blocks.fail.append(p.reject)
         blocks.success.append({ _ in
-            p.resolvePromise()
+            p.fulfill()
         })
         }
         blocks.progress.append({ v in
             block(v)
-            p.progressPromise(v)
+            p.setProgress(v)
         })
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }
     
-    internal func progressPromise(_ value: Float) {
-        progress = value
-        for pb in blocks.progress {
-            pb(progress)
-        }
+    internal func setProgress(_ value: Float) {
+        updateState(PromiseState<T>.pending(progress: value))
     }
 }

@@ -76,12 +76,10 @@
 		99DF353E1E66A471005FD22F /* Promise+Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */; };
 		99DF353F1E66A473005FD22F /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
 		99DF35401E66A47A005FD22F /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
-		99DF35411E66A481005FD22F /* PromiseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C651E5B1B8100CA3959 /* PromiseType.swift */; };
 		99E3CB071E5EA53900FEF11A /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
 		99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
 		99E691161E7AC08700272AF2 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
 		99FA2C641E5B022D00CA3959 /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
-		99FA2C661E5B1B8100CA3959 /* PromiseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C651E5B1B8100CA3959 /* PromiseType.swift */; };
 		99FA2C681E5B1C2F00CA3959 /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
 		99FA2C6A1E5B1F2B00CA3959 /* Promise+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */; };
 		99FA2C6C1E5B20BB00CA3959 /* Promise+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */; };
@@ -143,7 +141,6 @@
 		99B9FA8E1E5F107400D522C8 /* FinallyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinallyTests.swift; sourceTree = "<group>"; };
 		99E3CB061E5EA53900FEF11A /* PromiseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseError.swift; sourceTree = "<group>"; };
 		99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Finally.swift"; sourceTree = "<group>"; };
-		99FA2C651E5B1B8100CA3959 /* PromiseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseType.swift; sourceTree = "<group>"; };
 		99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Progress.swift"; sourceTree = "<group>"; };
 		99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Error.swift"; sourceTree = "<group>"; };
 		99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Aliases.swift"; sourceTree = "<group>"; };
@@ -280,7 +277,6 @@
 			isa = PBXGroup;
 			children = (
 				99FC637C1C86085C008C1155 /* Info.plist */,
-				99FA2C651E5B1B8100CA3959 /* PromiseType.swift */,
 				9962ADCB1D58610E005769CD /* PromiseState.swift */,
 				99E3CB061E5EA53900FEF11A /* PromiseError.swift */,
 				99FC637D1C86085C008C1155 /* Promise.swift */,
@@ -553,7 +549,6 @@
 				99B29F791E5D5F3400CF8E98 /* Promise+Validate.swift in Sources */,
 				99FA2C6A1E5B1F2B00CA3959 /* Promise+Error.swift in Sources */,
 				99B29F811E5D6E0F00CF8E98 /* Promise+Retry.swift in Sources */,
-				99FA2C661E5B1B8100CA3959 /* PromiseType.swift in Sources */,
 				991E114F1E600D0700448085 /* Promise+BridgeError.swift in Sources */,
 				99FC63801C86085C008C1155 /* Promise.swift in Sources */,
 				99B29F731E5D58C600CF8E98 /* Promise+Recover.swift in Sources */,
@@ -610,7 +605,6 @@
 				99DF353E1E66A471005FD22F /* Promise+Then.swift in Sources */,
 				99FA7FCD1D93C1AB002274B0 /* Promise.swift in Sources */,
 				99FA7FCE1D93C1AB002274B0 /* PromiseState.swift in Sources */,
-				99DF35411E66A481005FD22F /* PromiseType.swift in Sources */,
 				99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */,
 				99E691161E7AC08700272AF2 /* Promise+NoMatterWhat.swift in Sources */,
 			);

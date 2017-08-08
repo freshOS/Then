@@ -20,15 +20,15 @@ public extension Promise {
         switch state {
         case let .fulfilled(value):
             let x: X = block(value)
-            p.resolvePromise(x)
+            p.fulfill(x)
         case let .rejected(error):
-            p.rejectPromise(error)
-        case .pending:
+            p.reject(error)
+        case .dormant, .pending:
             blocks.success.append({ t in
-                p.resolvePromise(block(t))
+                p.fulfill(block(t))
             })
-            blocks.fail.append(p.rejectPromise)
-            blocks.progress.append(p.progressPromise)
+            blocks.fail.append(p.reject)
+            blocks.progress.append(p.setProgress)
         }
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
@@ -46,15 +46,15 @@ public extension Promise {
             switch state {
             case let .fulfilled(value):
                 registerNextPromise(block, result: value,
-                                    resolve: p.resolvePromise, reject: p.rejectPromise)
+                                    resolve: p.fulfill, reject: p.reject)
             case let .rejected(error):
-                p.rejectPromise(error)
-            case .pending:
+                p.reject(error)
+            case .dormant, .pending:
                 blocks.success.append({ [weak self] t in
-                    self?.registerNextPromise(block, result: t, resolve: p.resolvePromise,
-                                             reject: p.rejectPromise)
+                    self?.registerNextPromise(block, result: t, resolve: p.fulfill,
+                                             reject: p.reject)
                 })
-                blocks.fail.append(p.rejectPromise)
+                blocks.fail.append(p.reject)
             }
             p.start()
             passAlongFirstPromiseStartFunctionAndStateTo(p)

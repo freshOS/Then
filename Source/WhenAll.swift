@@ -22,9 +22,9 @@ public func whenAll<T>(_ promises: [Promise<T>]) -> Promise<[T]> {
     }
     group.notify(queue: DispatchQueue.main) {
         if let e = error {
-            p.rejectPromise(e)
+            p.reject(e)
         } else {
-            p.resolvePromise(ts)
+            p.fulfill(ts)
         }
     }
     return p
@@ -49,9 +49,9 @@ public func whenAll<T>(_ promises: [Promise<[T]>]) -> Promise<[T]> {
     }
     group.notify(queue: DispatchQueue.main) {
         if let e = error {
-            p.rejectPromise(e)
+            p.reject(e)
         } else {
-            p.resolvePromise(ts)
+            p.fulfill(ts)
         }
     }
     return p

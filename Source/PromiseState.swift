@@ -9,7 +9,8 @@
 import Foundation
 
 public enum PromiseState<T> {
-    case pending
+    case dormant
+    case pending(progress: Float)
     case fulfilled(value: T)
     case rejected(error: Error)
 }

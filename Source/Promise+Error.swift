@@ -19,22 +19,22 @@ public extension Promise {
         let p = Promise<Void>()
         switch state {
         case .fulfilled:
-            p.resolvePromise()
+            p.fulfill()
         // No error so do nothing.
         case let .rejected(error):
             // Already failed so call error block
             block(error)
-            p.resolvePromise()
-        case .pending:
+            p.fulfill()
+        case .dormant, .pending:
             // if promise fails, resolve error promise
             blocks.fail.append({ e in
                 block(e)
-                p.resolvePromise()
+                p.fulfill()
             })
             blocks.success.append({ _ in
-                p.resolvePromise()
+                p.fulfill()
             })
-            blocks.progress.append(p.progressPromise)
+            blocks.progress.append(p.setProgress)
         }
         p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
