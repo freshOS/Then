@@ -10,7 +10,18 @@ import Foundation
 
 public class Promise<T> {
 
-    internal var state: PromiseState<T>
+    private let lockQueue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
+    
+    private var threadUnsafeState: PromiseState<T>
+    internal var state: PromiseState<T> {
+        get {
+            return lockQueue.sync { return threadUnsafeState }
+        }
+        set {
+            lockQueue.sync { threadUnsafeState = newValue }
+        }
+    }
+
     internal var blocks = PromiseBlocks<T>()
     private var initialPromiseStart:(() -> Void)?
     private var initialPromiseStarted = false
@@ -19,15 +30,15 @@ public class Promise<T> {
     _ progress: @escaping ((Float) -> Void)) -> Void)?
     
     public init() {
-        state = .dormant
+        threadUnsafeState = .dormant
     }
     
     public init(value: T) {
-        state = .fulfilled(value: value)
+        threadUnsafeState = .fulfilled(value: value)
     }
     
     public init(error: Error) {
-        state = PromiseState.rejected(error: error)
+        threadUnsafeState = PromiseState.rejected(error: error)
     }
 
     public convenience init(callback: @escaping (
@@ -89,20 +100,15 @@ public class Promise<T> {
         updateState(PromiseState<T>.rejected(error:  anError))
     }
     
-    func updateState(_ state: PromiseState<T>) {
-        //  TODO here use sync lock queue to avoid race conditions?
-        // Only change state if state is pending or dormant.
-        switch self.state {
-        case .dormant, .pending:
-            self.state = state
-        default:
-            print("Trying to change a finished promise")
+    internal func updateState(_ newState: PromiseState<T>) {
+        if state.isPendingOrDormant {
+            state = newState
         }
         launchCallbacksIfNeeded()
     }
     
-    func launchCallbacksIfNeeded() {
-        switch self.state {
+    private func launchCallbacksIfNeeded() {
+        switch state {
         case .dormant:
             break
         case .pending(let progress):

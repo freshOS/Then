@@ -42,6 +42,7 @@
 		991E11511E600D3900448085 /* BridgeErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11501E600D3900448085 /* BridgeErrorTests.swift */; };
 		991E11551E6016A000448085 /* NoMatterWhatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11541E6016A000448085 /* NoMatterWhatTests.swift */; };
 		991E11581E60173400448085 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
+		991E16C11F3AFEF700BC997F /* MemoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C01F3AFEF700BC997F /* MemoryTests.swift */; };
 		99255A4D1DC119B500D9FC72 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
 		9962ADC21D585902005769CD /* ProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC11D585902005769CD /* ProgressTests.swift */; };
 		9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC31D5859CC005769CD /* WhenAllTests.swift */; };
@@ -116,6 +117,7 @@
 		991E11501E600D3900448085 /* BridgeErrorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgeErrorTests.swift; sourceTree = "<group>"; };
 		991E11541E6016A000448085 /* NoMatterWhatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoMatterWhatTests.swift; sourceTree = "<group>"; };
 		991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+NoMatterWhat.swift"; sourceTree = "<group>"; };
+		991E16C01F3AFEF700BC997F /* MemoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryTests.swift; sourceTree = "<group>"; };
 		99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseBlocks.swift; sourceTree = "<group>"; };
 		9962ADC11D585902005769CD /* ProgressTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTests.swift; sourceTree = "<group>"; };
 		9962ADC31D5859CC005769CD /* WhenAllTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenAllTests.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 				991E11541E6016A000448085 /* NoMatterWhatTests.swift */,
 				9907A5EC1E76FD5800826BBE /* AsyncAwaitTests.swift */,
 				998C51C31E7DBB530088DEBC /* UnwrapTests.swift */,
+				991E16C01F3AFEF700BC997F /* MemoryTests.swift */,
 				9962ADC51D585A06005769CD /* Helpers.swift */,
 				99B5ACA81C66831C005CDA28 /* Info.plist */,
 			);
@@ -575,6 +578,7 @@
 				99B29F831E5D6F5500CF8E98 /* RetryTests.swift in Sources */,
 				99B5ACA71C66831C005CDA28 /* ThenTests.swift in Sources */,
 				9907A5E11E76EBBD00826BBE /* ChainTests.swift in Sources */,
+				991E16C11F3AFEF700BC997F /* MemoryTests.swift in Sources */,
 				998C51C41E7DBB530088DEBC /* UnwrapTests.swift in Sources */,
 				9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */,
 				9962ADC61D585A06005769CD /* Helpers.swift in Sources */,

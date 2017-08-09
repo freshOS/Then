@@ -14,3 +14,38 @@ public enum PromiseState<T> {
     case fulfilled(value: T)
     case rejected(error: Error)
 }
+
+extension PromiseState {
+    
+    var value: T? {
+        if case let .fulfilled(value) = self {
+            return value
+        }
+        return nil
+    }
+    
+    var error: Error? {
+        if case let .rejected(error) = self {
+            return error
+        }
+        return nil
+    }
+    
+    var isPendingOrDormant: Bool {
+        return !isFulfilled && !isRejected
+    }
+    
+    var isFulfilled: Bool {
+        if case .fulfilled = self {
+            return true
+        }
+        return false
+    }
+    
+    var isRejected: Bool {
+        if case .rejected = self {
+            return true
+        }
+        return false
+    }
+}
