@@ -50,4 +50,15 @@ class ValidateTests: XCTestCase {
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
+    
+    func testValidateNotCalledOnError() {
+        let e = expectation(description: "")
+        Promise.reject().validate {
+            XCTFail()
+            return true
+        }.finally {
+            e.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 }
