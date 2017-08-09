@@ -65,4 +65,72 @@ class MemoryTests: XCTestCase {
         }
         loopState()
     }
+    
+    func testRaceConditionWriteWriteBlocks() {
+        let p = Promise<String>()
+        func loop() {
+            for _ in 0...10000 {
+                p.blocks.success.append({ _ in })
+                p.blocks.fail.append({ _ in })
+                p.blocks.progress.append({ _ in })
+                p.blocks.finally = { }
+            }
+        }
+        if #available(iOS 10.0, *) {
+            let t1 = Thread { loop() }
+            let t2 = Thread { loop() }
+            let t3 = Thread { loop() }
+            let t4 = Thread { loop() }
+            t1.start()
+            t2.start()
+            t3.start()
+            t4.start()
+        } else {
+            // Fallback on earlier versions
+        }
+        loop()
+    }
+    
+    func testRaceConditionWriteReadBlocks() {
+        let p = Promise<String>()
+        p.blocks.success.append({ _ in })
+        p.blocks.fail.append({ _ in })
+        p.blocks.progress.append({ _ in })
+        p.blocks.success.append({ _ in })
+        p.blocks.fail.append({ _ in })
+        p.blocks.progress.append({ _ in })
+        p.blocks.finally = { }
+        
+        func loop() {
+            for _ in 0...10000 {
+                
+                for sb in p.blocks.success {
+                    sb("YO")
+                }
+                
+                for fb in p.blocks.fail {
+                    fb(PromiseError.default)
+                }
+                
+                for p in p.blocks.progress {
+                    p(0.5)
+                }
+                
+                p.blocks.finally()
+            }
+        }
+        if #available(iOS 10.0, *) {
+            let t1 = Thread { loop() }
+            let t2 = Thread { loop() }
+            let t3 = Thread { loop() }
+            let t4 = Thread { loop() }
+            t1.start()
+            t2.start()
+            t3.start()
+            t4.start()
+        } else {
+            // Fallback on earlier versions
+        }
+        loop()
+    }
 }

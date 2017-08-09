@@ -21,8 +21,17 @@ public class Promise<T> {
             lockQueue.sync { threadUnsafeState = newValue }
         }
     }
+    
+    private var threadUnsafeBlocks: PromiseBlocks<T> = PromiseBlocks<T>()
+    internal var blocks: PromiseBlocks<T> {
+        get {
+            return lockQueue.sync { return threadUnsafeBlocks }
+        }
+        set {
+            lockQueue.sync { threadUnsafeBlocks = newValue }
+        }
+    }
 
-    internal var blocks = PromiseBlocks<T>()
     private var initialPromiseStart:(() -> Void)?
     private var initialPromiseStarted = false
     private var promiseProgressCallBack: ((_ resolve: @escaping ((T) -> Void),
