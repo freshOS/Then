@@ -65,9 +65,11 @@ public class Promise<T> {
     }
     
     public func start() {
-        updateState(PromiseState<T>.pending(progress: 0))
-        if let p = promiseProgressCallBack {
-            p(fulfill, reject, setProgress)
+        if state.isDormant {
+            updateState(PromiseState<T>.pending(progress: 0))
+            if let p = promiseProgressCallBack {
+                p(fulfill, reject, setProgress)
+            }
         }
     }
     

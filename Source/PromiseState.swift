@@ -31,6 +31,13 @@ extension PromiseState {
         return nil
     }
     
+    var isDormant: Bool {
+        if case .dormant = self {
+            return true
+        }
+        return false
+    }
+    
     var isPendingOrDormant: Bool {
         return !isFulfilled && !isRejected
     }
