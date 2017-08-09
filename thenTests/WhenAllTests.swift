@@ -10,11 +10,34 @@ import XCTest
 import then
 
 class WhenAllTests: XCTestCase {
+    
+    func testWhenAllAllSynchronousPromises() {
+        let block = expectation(description: "Block called")
+        Promises.whenAll(Promise(value: 1), Promise(value: 2), Promise(value: 3), Promise(value: 4)).then { array in
+            XCTAssertEqual(array, [1, 2, 3, 4])
+            block.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 
     func testWhenAll() {
         let block = expectation(description: "Block called")
-        whenAll(promise1(), promise2(), promise3()).then { array in
-            XCTAssertEqual(array, [1, 2, 3])
+        let promise4 = Promise { resolve, _ in
+            waitTime(0.5) {
+                resolve(4)
+            }
+        }
+        Promises.whenAll(promise1(), promise2(), promise3(), promise4).then { array in
+            XCTAssertEqual(array, [1, 2, 3, 4])
+            block.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testWhenAllEmpty() {
+        let block = expectation(description: "Block called")
+        Promises.whenAll([]).then { (array: [Int]) in
+            XCTAssertEqual(array, [])
             block.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
@@ -22,14 +45,14 @@ class WhenAllTests: XCTestCase {
     
     func testWhenAllArray() {
         let block = expectation(description: "Block called")
-        whenAll(promiseArray1(), promiseArray2(), promiseArray3()).then { array in
+        Promises.whenAll(promiseArray1(), promiseArray2(), promiseArray3()).then { array in
             XCTAssertEqual(array, [1, 2, 3, 4, 5, 6, 7, 8, 9])
             block.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testWhenAllCallsOnErrorWhenOneFails() {
+    func testWhenAllCallsOnErrorWhenOneFailsSynchronous() {
         let block = expectation(description: "Block called")
         let finallyBlock = expectation(description: "Finally called")
         let promise1 = Promise<Void> { _, reject in
@@ -40,7 +63,7 @@ class WhenAllTests: XCTestCase {
             resolve()
         }
         
-        whenAll(promise1, promise2)
+        Promises.whenAll(promise1, promise2)
             .then { _ in
                 XCTFail()
             }.onError { _ in
@@ -50,5 +73,28 @@ class WhenAllTests: XCTestCase {
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
-
+    
+    func testWhenAllCallsOnErrorWhenOneFailsAsynchronous() {
+        let block = expectation(description: "Block called")
+        let finallyBlock = expectation(description: "Finally called")
+        let promise1 = Promise<Void> { _, reject in
+            waitTime(0.5) {
+                reject(MyError.defaultError)
+            }
+        }
+        let promise2 = Promise<Void> { resolve, _ in
+            waitTime(0.3) {
+                resolve()
+            }
+        }
+        Promises.whenAll(promise1, promise2)
+            .then { _ in
+                XCTFail()
+            }.onError { _ in
+                block.fulfill()
+            }.finally { _ in
+                finallyBlock.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 }

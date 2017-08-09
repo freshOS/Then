@@ -47,7 +47,7 @@ class MemoryTests: XCTestCase {
                 p.updateState(PromiseState<String>.fulfilled(value: "Test3-\(i)"))
                 //Access Value
                 let value = p.value
-                print(value)
+                print(value ?? "")
             }
         }
         
