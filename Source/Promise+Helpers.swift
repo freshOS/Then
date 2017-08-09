@@ -19,3 +19,14 @@ public extension Promise {
         return Promise { resolve, _ in resolve(value) }
     }
 }
+
+public extension Promise {
+    
+    public var value: T? {
+        return state.value
+    }
+    
+    public var error: Error? {
+        return state.error
+    }
+}
