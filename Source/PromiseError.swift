@@ -14,6 +14,7 @@ public enum PromiseError: Error {
     case retryInvalidInput
     case raceAllFailed(lastError: Error)
     case unwrappingFailed
+    case timeout
 }
 
 extension PromiseError: Equatable { }
