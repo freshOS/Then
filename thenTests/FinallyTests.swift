@@ -11,9 +11,41 @@ import then
 
 class FinallyTests: XCTestCase {
     
-    func testFinallyCalledWhenSynchronous() {
-        let finallyblock = expectation(description: "error block called")
-        syncRejectionPromise().finally {
+    func testFinallyCalledWhenSynchronousSuccess() {
+        let finallyblock = expectation(description: "finally block block called")
+        Promise.resolve("Done").finally {
+            finallyblock.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testFinallyCalledWhenSynchronousFail() {
+        let finallyblock = expectation(description: "finally block block called")
+        Promise<String>.reject().finally {
+            finallyblock.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testFinallyCalledWhenAsynchronousSuccess() {
+        let finallyblock = expectation(description: "finally block block called")
+        Promise<String> { resolve, _ in
+            waitTime(1) {
+                resolve("Hello")
+            }
+        }.finally {
+            finallyblock.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testFinallyCalledWhenAsynchronousFail() {
+        let finallyblock = expectation(description: "finally block block called")
+        Promise<String> { _, reject in
+            waitTime(1) {
+                reject(PromiseError.default)
+            }
+        }.finally {
             finallyblock.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
@@ -45,7 +77,7 @@ class FinallyTests: XCTestCase {
         syncRejectionPromise().registerFinally {
              XCTFail()
         }
-        testWait(1) {
+        waitTime(1) {
             exp.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)

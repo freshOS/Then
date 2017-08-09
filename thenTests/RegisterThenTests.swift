@@ -21,7 +21,7 @@ class RegisterThenTests: XCTestCase {
             }.registerThen {_ in
                 XCTFail()
         }
-        testWait(1) {
+        waitTime(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -38,7 +38,7 @@ class RegisterThenTests: XCTestCase {
             }.registerThen {_ in
                 XCTFail()
         }
-        testWait(1) {
+        waitTime(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -54,7 +54,7 @@ class RegisterThenTests: XCTestCase {
             }.registerThen { _ in
                 XCTFail()
         }
-        testWait(1) {
+        waitTime(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -97,7 +97,7 @@ class RegisterThenTests: XCTestCase {
             .registerThen { _ in
                 XCTFail()
         }
-        testWait(1) {
+        waitTime(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
@@ -110,7 +110,7 @@ class RegisterThenTests: XCTestCase {
             }.registerThen { _ in
                 XCTFail()
         }
-        testWait(1) {
+        waitTime(1) {
             timerExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)

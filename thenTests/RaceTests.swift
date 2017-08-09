@@ -14,12 +14,12 @@ class RaceTests: XCTestCase {
     func testRaceFirstArrivesFirst() {
         let e = expectation(description: "")
         let p1 = Promise<String> { r, _ in
-            testWait(1) {
+            waitTime(1) {
                 r("1")
             }
         }
         let p2 = Promise<String> { r, _ in
-            testWait(2) {
+            waitTime(2) {
                 r("2")
             }
         }
@@ -34,7 +34,7 @@ class RaceTests: XCTestCase {
         let e = expectation(description: "")
         let p1 = Promise<String>.reject()
         let p2 = Promise<String> { r, _ in
-            testWait(2) {
+            waitTime(2) {
                 r("2")
             }
         }

@@ -70,7 +70,7 @@ func syncRejectionPromise() -> Promise<Int> {
 func fetchUserId() -> Promise<Int> {
     return Promise { resolve, _ in
         print("fetching user Id ...")
-        testWait {
+        waitTime {
             resolve(1234)
             print("GOT USER ID 1234")
         }
@@ -80,25 +80,25 @@ func fetchUserId() -> Promise<Int> {
 func fetchUserNameFromId(_ identifier: Int) -> Promise<String> {
     return Promise { resolve, _ in
         print("fetching UserName FromId : \(identifier) ...")
-        testWait { resolve("John Smith") }
+        waitTime { resolve("John Smith") }
     }
 }
 
 func fetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
     return Promise { resolve, _ in
         print("fetchUserFollowStatusFromName: \(name) ...")
-        testWait { resolve(false) }
+        waitTime { resolve(false) }
     }
 }
 
 func failingFetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
     return Promise { _, reject in
         print("fetchUserFollowStatusFromName: \(name) ...")
-        testWait { reject(MyError.defaultError) }
+        waitTime { reject(MyError.defaultError) }
     }
 }
 
-func testWait(_ callback:@escaping () -> Void) {
+func waitTime(_ callback:@escaping () -> Void) {
     let delay = 0.1 * Double(NSEC_PER_SEC)
     let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
     DispatchQueue.global(qos: DispatchQoS.QoSClass.background).asyncAfter(deadline: time) {
@@ -106,7 +106,7 @@ func testWait(_ callback:@escaping () -> Void) {
     }
 }
 
-func testWait(_ time: Double, callback: @escaping () -> Void) {
+func waitTime(_ time: Double, callback: @escaping () -> Void) {
     let delay = time * Double(NSEC_PER_SEC)
     let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
     DispatchQueue.main.asyncAfter(deadline: time) {
@@ -116,9 +116,9 @@ func testWait(_ time: Double, callback: @escaping () -> Void) {
 
 func upload() -> Promise<Void> {
     return Promise<Void> { resolve, _, progress in
-        testWait {
+        waitTime {
             progress(0.8)
-            testWait {
+            waitTime {
                 resolve()
             }
         }
@@ -127,9 +127,9 @@ func upload() -> Promise<Void> {
 
 func failingUpload() -> Promise<Void> {
     return Promise<Void> { _, reject, progress in
-        testWait {
+        waitTime {
             progress(0.8)
-            testWait {
+            waitTime {
                 reject(NSError(domain: "", code: 1223, userInfo: nil))
             }
         }
