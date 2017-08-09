@@ -38,7 +38,7 @@ class MemoryTests: XCTestCase {
     }
     
     func testRaceConditionReadState() {
-        let p = Promise(value: "Hello")
+        let p = Promise("Hello")
         
         func loopState() {
             for i in 0...10000 {

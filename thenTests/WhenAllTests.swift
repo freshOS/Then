@@ -13,7 +13,7 @@ class WhenAllTests: XCTestCase {
     
     func testWhenAllAllSynchronousPromises() {
         let block = expectation(description: "Block called")
-        Promises.whenAll(Promise(value: 1), Promise(value: 2), Promise(value: 3), Promise(value: 4)).then { array in
+        Promises.whenAll(Promise(1), Promise(2), Promise(3), Promise(4)).then { array in
             XCTAssertEqual(array, [1, 2, 3, 4])
             block.fulfill()
         }

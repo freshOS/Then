@@ -42,7 +42,7 @@ public class Promise<T> {
         threadUnsafeState = .dormant
     }
     
-    public init(value: T) {
+    public init(_ value: T) {
         threadUnsafeState = .fulfilled(value: value)
     }
     
