@@ -23,7 +23,7 @@ class RaceTests: XCTestCase {
                 r("2")
             }
         }
-        race(p1, p2).then { s in
+        Promises.race(p1, p2).then { s in
             e.fulfill()
             XCTAssertEqual(s, "1")
         }
@@ -38,7 +38,7 @@ class RaceTests: XCTestCase {
                 r("2")
             }
         }
-        race(p1, p2).then { s in
+        Promises.race(p1, p2).then { s in
             e.fulfill()
             XCTAssertEqual(s, "2")
         }
@@ -49,7 +49,7 @@ class RaceTests: XCTestCase {
         let e = expectation(description: "")
         let p1 = Promise<String>.reject()
         let p2 = Promise<String>.reject()
-        race(p1, p2).then { _ in
+        Promises.race(p1, p2).then { _ in
             XCTFail()
         }.onError { _ in
             e.fulfill()

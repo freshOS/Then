@@ -8,20 +8,22 @@
 
 import Foundation
 
-public func race<T>(_ promises: Promise<T>...) -> Promise<T> {
-    return Promise { resolve, reject in
-        var done = false
-        var errorCount = 0
-        for p in promises {
-            p.then { t in
-                if !done {
-                    resolve(t)
-                    done = true
-                }
-            }.onError { e in
-                errorCount += 1
-                if errorCount == promises.count {
-                    reject(PromiseError.raceAllFailed(lastError: e))
+extension Promises {
+    public static func race<T>(_ promises: Promise<T>...) -> Promise<T> {
+        return Promise { resolve, reject in
+            var done = false
+            var errorCount = 0
+            for p in promises {
+                p.then { t in
+                    if !done {
+                        resolve(t)
+                        done = true
+                    }
+                }.onError { e in
+                    errorCount += 1
+                    if errorCount == promises.count {
+                        reject(PromiseError.raceAllFailed(lastError: e))
+                    }
                 }
             }
         }
