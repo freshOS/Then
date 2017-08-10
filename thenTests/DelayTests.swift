@@ -11,55 +11,76 @@ import then
 
 class DelayTests: XCTestCase {
     
-    func testfoo() {
-//        
-//        Promises.delay(4.5).then {
-//            
-//        }
-//        
-//        Promise("").delay(4.5).then { _ in
-//            
-//        
-//        }
-   
-    }
-    
-    func testTimeOutTriggers() {
+    func testStaticDelay() {
         let e = expectation(description: "")
-        Promise<String> { resolve, _ in
-            waitTime(1) {
-                resolve("Hello")
-            }
-        }.timeout(2).then { string in
-            print("OK \(string)")
+        var run = false
+        Promises.delay(0.5).then {
+            run = true
             e.fulfill()
-        }.onError { e in
-            XCTFail()
-            print("Error \(e)")
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitTime(0.4) {
+            XCTAssertFalse(run)
+        }
+        waitTime(0.6) {
+            XCTAssertTrue(run)
+        }
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testTimeOutFails() {
+    func testDelay() {
         let e = expectation(description: "")
-        Promise<String> { resolve, _ in
-            waitTime(1) {
-                resolve("Hello")
+        var result: Int? = nil
+        Promise { resolve, _ in
+            waitTime(0.2) {
+                resolve(123)
             }
-        }.timeout(0.5).then { string in
-            print("OK \(string)")
-            XCTFail()
-        }.onError { error in
-            print("Error \(error)")
-            if let error = error as? PromiseError {
-                XCTAssertTrue(error == .timeout)
-            } else {
-                XCTFail()
-            }
+        }.delay(0.8).then { int in
+            result = int
             e.fulfill()
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitTime(0.9) {
+            XCTAssertNil(result)
+        }
+        waitTime(1.1) {
+            XCTAssertEqual(result, 123)
+        }
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
+    func testChainDelays() {
+        let e = expectation(description: "")
+        var run = false
+        Promises.delay(0.5).delay(0.1).delay(0.4).then {
+            run = true
+            e.fulfill()
+        }
+        waitTime(0.9) {
+            XCTAssertFalse(run)
+        }
+        waitTime(1.1) {
+            XCTAssertTrue(run)
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testDelayOnlyAppliesOnSuccessfulPromises() {
+        let e = expectation(description: "")
+        var done = false
+        Promise<Int> { _, reject in
+            waitTime(0.2) {
+                reject(PromiseError.default)
+            }
+        }.delay(0.8).then { _ in
+            XCTFail()
+        }.onError { _ in
+            done = true
+            e.fulfill()
+        }
+        
+        waitTime(0.3) {
+            XCTAssertTrue(done)
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 }

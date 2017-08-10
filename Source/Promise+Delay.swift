@@ -11,48 +11,35 @@ import Foundation
 extension Promise {
     
     public func delay(_ time: TimeInterval) -> Promise<T> {
-        return Promise<T> { resolve, _ in
+        return Promise<T> { resolve, reject in
             self.then { t in
-                if let callingQueue = OperationQueue.current?.underlyingQueue {
-                    DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).asyncAfter(deadline: .now() + time) {
-                        callingQueue.async {
-                            resolve(t)
-                        }
-                    }
+                Promises.callBackOnCallingQueueIn(time: time) {
+                    resolve(t)
                 }
+            }.onError { e in
+                reject(e)
             }
         }
     }
 }
 
 extension Promises {
-    public static func delay(_ time: Double) -> Promise<Void> {
-        return Promise.resolve().delay(time)
+    public static func delay(_ time: TimeInterval) -> Promise<Void> {
+        return Promise { resolve, _ in
+            callBackOnCallingQueueIn(time: time, block: resolve)
+        }
     }
 }
 
+extension Promises {
 
-// TimeOut
-extension Promise {
-    
-    public func timeout(_ time: TimeInterval) -> Promise<T> { 
-        return Promise { resolve, reject in
-            var done = false
-        
-            self.then { t in
-                if !done {
-                    done = true
-                    resolve(t)
-                }
-            }
-            
-            Promises.delay(time).then {
-                if !done {
-                    done = true
-                    reject(PromiseError.timeout)
+    static func callBackOnCallingQueueIn(time: TimeInterval, block: @escaping () -> Void) {
+        if let callingQueue = OperationQueue.current?.underlyingQueue {
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).asyncAfter(deadline: .now() + time) {
+                callingQueue.async {
+                    block()
                 }
             }
         }
     }
 }
-
