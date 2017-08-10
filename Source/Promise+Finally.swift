@@ -10,29 +10,17 @@ import Foundation
 
 public extension Promise {
     
-    @discardableResult public func finally<X>(_ block: @escaping () -> X) -> Promise<X> {
+    public func finally(_ block: @escaping () -> Void) {
         tryStartInitialPromiseAndStartIfneeded()
-        return registerFinally(block)
+        registerFinally(block)
     }
     
-    @discardableResult public func registerFinally<X>(_ block: @escaping () -> X) -> Promise<X> {
-        let p = Promise<X>()
+    public func registerFinally(_ block: @escaping () -> Void) {
         switch state {
-        case .fulfilled:
-            p.fulfill(block())
-        case .rejected:
-            p.fulfill(block())
+        case .rejected, .fulfilled:
+            block()
         case .dormant, .pending:
-            blocks.fail.append({ _ in
-                p.fulfill(block())
-            })
-            blocks.success.append({ _ in
-                p.fulfill(block())
-            })
-            blocks.progress.append(p.setProgress)
+            blocks.finally.append(block)
         }
-        p.start()
-        passAlongFirstPromiseStartFunctionAndStateTo(p)
-        return p
     }
 }

@@ -73,7 +73,7 @@ class MemoryTests: XCTestCase {
                 p.blocks.success.append({ _ in })
                 p.blocks.fail.append({ _ in })
                 p.blocks.progress.append({ _ in })
-                p.blocks.finally = { }
+                p.blocks.finally.append({ })
             }
         }
         if #available(iOS 10.0, *) {
@@ -99,7 +99,7 @@ class MemoryTests: XCTestCase {
         p.blocks.success.append({ _ in })
         p.blocks.fail.append({ _ in })
         p.blocks.progress.append({ _ in })
-        p.blocks.finally = { }
+        p.blocks.finally.append({ })
         
         func loop() {
             for _ in 0...10000 {
@@ -116,7 +116,9 @@ class MemoryTests: XCTestCase {
                     p(0.5)
                 }
                 
-                p.blocks.finally()
+                for fb in p.blocks.finally {
+                    fb()
+                }
             }
         }
         if #available(iOS 10.0, *) {

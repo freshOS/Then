@@ -132,13 +132,17 @@ public class Promise<T> {
             for sb in blocks.success {
                 sb(value)
             }
-            blocks.finally()
+            for fb in blocks.finally {
+                fb()
+            }
             initialPromiseStart = nil
         case .rejected(let anError):
             for fb in blocks.fail {
                 fb(anError)
             }
-            blocks.finally()
+            for fb in blocks.finally {
+                fb()
+            }
             initialPromiseStart = nil
         }
     }
