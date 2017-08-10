@@ -10,26 +10,18 @@ import Foundation
 
 public extension Promise {
     
-    @discardableResult public func progress(block: @escaping (Float) -> Void) -> Promise<Void> {
+    @discardableResult public func progress(_ block: @escaping (Float) -> Void) -> Promise<T> {
         tryStartInitialPromiseAndStartIfneeded()
-        let p = Promise<Void>()
-        switch state {
-        case .fulfilled:
-            p.fulfill()
-        case let .rejected(error):
-            p.reject(error)
-        case .dormant, .pending:
-        blocks.fail.append(p.reject)
-        blocks.success.append({ _ in
-            p.fulfill()
-        })
-        }
-        blocks.progress.append({ v in
-            block(v)
-            p.setProgress(v)
-        })
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: p.reject,
+            progress: { [weak p] f in
+                block(f)
+                p?.setProgress(f)
+            }
+        )
         p.start()
-        passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }
     

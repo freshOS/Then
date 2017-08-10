@@ -123,8 +123,10 @@ public class Promise<T> {
         case .dormant:
             break
         case .pending(let progress):
-            for pb in blocks.progress {
-                pb(progress)
+            if progress != 0 {
+                for pb in blocks.progress {
+                    pb(progress)
+                }
             }
         case .fulfilled(let value):
             for sb in blocks.success {

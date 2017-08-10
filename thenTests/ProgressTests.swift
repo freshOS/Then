@@ -18,11 +18,11 @@ class ProgressTests: XCTestCase {
             print("PROGRESS \(p)")
             XCTAssertEqual(p, 0.8)
             progressExpectation.fulfill()
-            }.then {
-                print("Done")
-                thenExpectation.fulfill()
-            }.onError { _ in
-                print("ERROR")
+        }.then {
+            print("Done")
+            thenExpectation.fulfill()
+        }.onError { _ in
+            print("ERROR")
         }
         waitForExpectations(timeout: 3, handler: nil)
     }
@@ -33,10 +33,10 @@ class ProgressTests: XCTestCase {
         failingUpload().progress { p in
             XCTAssertEqual(p, 0.8)
             progressExpectation.fulfill()
-            }.then {
-                XCTFail()
-            }.onError { _ in
-                errorExpectation.fulfill()
+        }.then {
+            XCTFail()
+        }.onError { _ in
+            errorExpectation.fulfill()
         }
         waitForExpectations(timeout: 3, handler: nil)
     }
