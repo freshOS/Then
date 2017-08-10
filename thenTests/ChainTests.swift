@@ -26,7 +26,7 @@ class ChainTests: XCTestCase {
             XCTAssertEqual(s, "John Smith")
             exp.fulfill()
         }.then { _ in }
-        waitForExpectations(timeout: 0.1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testChainNotCalledWhenSyncPromiseFails() {
@@ -47,5 +47,22 @@ class ChainTests: XCTestCase {
             exp.fulfill()
         }
         waitForExpectations(timeout: 0.1, handler: nil)
+    }
+    
+    func testChainKeepsProgress() {
+        let progressExpectation = expectation(description: "thenExpectation")
+        let thenExpectation = expectation(description: "thenExpectation")
+        let chainExpectation = expectation(description: "chainExpectation")
+        upload().chain {
+            chainExpectation.fulfill()
+        }.progress { p in
+            XCTAssertEqual(p, 0.8)
+            progressExpectation.fulfill()
+        }.then {
+            thenExpectation.fulfill()
+        }.onError { _ in
+             print("ERROR")
+        }
+        waitForExpectations(timeout: 3, handler: nil)
     }
 }

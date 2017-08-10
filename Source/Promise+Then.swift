@@ -55,6 +55,7 @@ public extension Promise {
                                              reject: p.reject)
                 })
                 blocks.fail.append(p.reject)
+                blocks.progress.append(p.setProgress)
             }
             p.start()
             passAlongFirstPromiseStartFunctionAndStateTo(p)
@@ -76,6 +77,6 @@ public extension Promise {
         let nextPromise: Promise<X> = block(result)
         nextPromise.then { x in
             resolve(x)
-            }.onError(reject)
+        }.onError(reject)
     }
 }

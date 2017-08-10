@@ -140,6 +140,27 @@ public class Promise<T> {
             initialPromiseStart = nil
         }
     }
+    
+    internal func newLinkedPromise() -> Promise<T> {
+        let p = Promise<T>()
+        passAlongFirstPromiseStartFunctionAndStateTo(p)
+        return p
+    }
+    
+    internal func syncStateWithCallBacks(success: @escaping ((T) -> Void),
+                                    failure: @escaping ((Error) -> Void),
+                                        progress: @escaping ((Float) -> Void)) {
+        switch state {
+        case let .fulfilled(value):
+            success(value)
+        case let .rejected(error):
+            failure(error)
+        case .dormant, .pending:
+            blocks.success.append(success)
+            blocks.fail.append(failure)
+            blocks.progress.append(progress)
+        }
+    }
 }
 
 // Helpers

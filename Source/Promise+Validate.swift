@@ -13,11 +13,17 @@ extension Promise {
     @discardableResult
     public func validate(withError: Error = PromiseError.validationFailed,
                          _ assertionBlock:@escaping ((T) -> Bool)) -> Promise<T> {
-        return self.then { s in
-            if assertionBlock(s) {
-                return Promise.resolve(s)
-            }
-            return Promise.reject(withError)
-        }
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: { [weak p] t in
+                if assertionBlock(t) {
+                    p?.fulfill(t)
+                } else {
+                    p?.reject(withError)
+                }
+            },
+            failure: p.reject,
+            progress: p.setProgress)
+        return p
     }
 }

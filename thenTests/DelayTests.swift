@@ -24,7 +24,7 @@ class DelayTests: XCTestCase {
         waitTime(0.6) {
             XCTAssertTrue(run)
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testDelay() {
@@ -45,7 +45,7 @@ class DelayTests: XCTestCase {
         waitTime(1.1) {
             XCTAssertEqual(result, 123)
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testChainDelays() {
@@ -55,13 +55,13 @@ class DelayTests: XCTestCase {
             run = true
             e.fulfill()
         }
-        waitTime(0.9) {
+        waitTime(0.8) {
             XCTAssertFalse(run)
         }
         waitTime(1.1) {
             XCTAssertTrue(run)
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testDelayOnlyAppliesOnSuccessfulPromises() {
@@ -81,6 +81,6 @@ class DelayTests: XCTestCase {
         waitTime(0.3) {
             XCTAssertTrue(done)
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 }

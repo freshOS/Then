@@ -11,40 +11,43 @@ import Foundation
 public extension Promise {
     
     public func bridgeError(to myError: Error) -> Promise<T> {
-        return Promise<T> { resolve, reject in
-            self.then { t in
-                resolve(t)
-            }.onError { _ in
-                reject(myError)
-            }
-        }
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: { [weak p] _ in
+                p?.reject(myError)
+            },
+            progress: p.setProgress)
+        return p
     }
     
     public func bridgeError(_ errorType: Error, to myError: Error) -> Promise<T> {
-        return Promise<T> { resolve, reject in
-            self.then { t in
-                resolve(t)
-            }.onError { e in
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: { [weak p] e in
                 if e._code == errorType._code && e._domain == errorType._domain {
-                    reject(myError)
+                    p?.reject(myError)
                 } else {
-                    reject(e)
+                    p?.reject(e)
                 }
-            }
-        }
+            },
+            progress: p.setProgress)
+        return p
     }
     
     public func bridgeError(_ block:@escaping (Error) throws -> Void) -> Promise<T> {
-        return Promise<T> { resolve, reject in
-            self.then { t in
-                resolve(t)
-            }.onError { e in
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: { [weak p] e in
                 do {
                     try block(e)
                 } catch {
-                    reject(error)
+                    p?.reject(error)
                 }
-            }
-        }
+            },
+            progress: p.setProgress)
+        return p
     }
 }

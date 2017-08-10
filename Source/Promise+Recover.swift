@@ -11,70 +11,74 @@ import Foundation
 extension Promise {
     
     public func recover(with value: T) -> Promise<T> {
-        return Promise { resolve, _ in
-            self.then { t in
-                resolve(t)
-            }.onError { _ in
-                resolve(value)
-            }
-        }
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: { [weak p] _ in
+                p?.fulfill(value)
+        }, progress: p.setProgress)
+        return p
     }
-    
+
     public func recover<E: Error>(_ errorType: E, with value: T) -> Promise<T> {
-        return Promise { resolve, reject in
-            self.then { t in
-                resolve(t)
-            }.onError { e in
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: { [weak p] e in
                 if errorMatchesExpectedError(e, expectedError:errorType) {
-                    resolve(value)
+                    p?.fulfill(value)
                 } else {
-                    reject(e)
+                    p?.reject(e)
                 }
-            }
-        }
+            },
+            progress: p.setProgress)
+        return p
     }
     
     public func recover<E: Error>(_ errorType: E, with value: T) -> Promise<T> where E: Equatable {
-        return Promise { resolve, reject in
-            self.then { t in
-                resolve(t)
-            }.onError { e in
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: { [weak p] e in
                 if errorMatchesExpectedError(e, expectedError:errorType) {
-                    resolve(value)
+                    p?.fulfill(value)
                 } else {
-                    reject(e)
+                    p?.reject(e)
                 }
-            }
-        }
+            },
+            progress: p.setProgress)
+        
+        return p
     }
     
     public func recover(with promise: Promise<T>) -> Promise<T> {
-        return Promise<T> { resolve, reject in
-            self.then { t in
-                resolve(t)
-            }.onError { e in
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: { [weak p] _ in
                 promise.then { t in
-                    resolve(t)
-                }.onError { e in
-                    reject(e)
+                    p?.fulfill(t)
+                }.onError { error in
+                    p?.reject(error)
                 }
-            }
-        }
+            },
+            progress: p.setProgress)
+        return p
     }
     
     public func recover(_ block:@escaping (Error) throws -> T) -> Promise<T> {
-        return Promise<T> { resolve, reject in
-            self.then { t in
-                resolve(t)
-            }.onError { e in
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: { [weak p] e in
                 do {
                     let v = try block(e)
-                    resolve(v)
+                    p?.fulfill(v)
                 } catch {
-                    reject(error)
+                    p?.reject(error)
                 }
-            }
-        }
+        }, progress: p.setProgress)
+        return p
     }
 }
 

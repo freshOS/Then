@@ -11,15 +11,16 @@ import Foundation
 extension Promise {
     
     public func delay(_ time: TimeInterval) -> Promise<T> {
-        return Promise<T> { resolve, reject in
-            self.then { t in
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: { [weak p] t in
                 Promises.callBackOnCallingQueueIn(time: time) {
-                    resolve(t)
+                    p?.fulfill(t)
                 }
-            }.onError { e in
-                reject(e)
-            }
-        }
+            },
+            failure: p.reject,
+            progress: p.setProgress)
+        return p
     }
 }
 

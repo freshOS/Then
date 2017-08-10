@@ -11,14 +11,17 @@ import Foundation
 extension Promise {
 
     public func noMatterWhat(_ block: @escaping () -> Void) -> Promise<T> {
-        return Promise { resolve, reject in
-            self.then { result in
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: { [weak p] t in
                 block()
-                resolve(result)
-            }.onError { error in
+                p?.fulfill(t)
+            },
+            failure: { [weak p] e in
                 block()
-                reject(error)
-            }
-        }
+                p?.reject(e)
+            },
+            progress: p.setProgress)
+        return p
     }
 }
