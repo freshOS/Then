@@ -45,6 +45,8 @@
 		991E16C11F3AFEF700BC997F /* MemoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C01F3AFEF700BC997F /* MemoryTests.swift */; };
 		991E16C31F3B44F500BC997F /* Promise+Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C21F3B44F500BC997F /* Promise+Delay.swift */; };
 		991E16C51F3B486900BC997F /* DelayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C41F3B486900BC997F /* DelayTests.swift */; };
+		991E16C71F3C45A800BC997F /* Promise+Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C61F3C45A800BC997F /* Promise+Zip.swift */; };
+		991E16C91F3C45F000BC997F /* ZipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C81F3C45F000BC997F /* ZipTests.swift */; };
 		99255A4D1DC119B500D9FC72 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
 		9962ADC21D585902005769CD /* ProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC11D585902005769CD /* ProgressTests.swift */; };
 		9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC31D5859CC005769CD /* WhenAllTests.swift */; };
@@ -122,6 +124,8 @@
 		991E16C01F3AFEF700BC997F /* MemoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryTests.swift; sourceTree = "<group>"; };
 		991E16C21F3B44F500BC997F /* Promise+Delay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Delay.swift"; sourceTree = "<group>"; };
 		991E16C41F3B486900BC997F /* DelayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelayTests.swift; sourceTree = "<group>"; };
+		991E16C61F3C45A800BC997F /* Promise+Zip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Zip.swift"; sourceTree = "<group>"; };
+		991E16C81F3C45F000BC997F /* ZipTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipTests.swift; sourceTree = "<group>"; };
 		99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseBlocks.swift; sourceTree = "<group>"; };
 		9962ADC11D585902005769CD /* ProgressTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTests.swift; sourceTree = "<group>"; };
 		9962ADC31D5859CC005769CD /* WhenAllTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenAllTests.swift; sourceTree = "<group>"; };
@@ -244,6 +248,7 @@
 				9962ADC71D585B00005769CD /* OnErrorTests.swift */,
 				99B9FA8E1E5F107400D522C8 /* FinallyTests.swift */,
 				9962ADC31D5859CC005769CD /* WhenAllTests.swift */,
+				991E16C81F3C45F000BC997F /* ZipTests.swift */,
 				99B29F821E5D6F5500CF8E98 /* RetryTests.swift */,
 				99B29F7E1E5D688900CF8E98 /* RaceTests.swift */,
 				99B29F7A1E5D5F4900CF8E98 /* ValidateTests.swift */,
@@ -305,6 +310,7 @@
 				998C51BF1E7DBB280088DEBC /* Promise+Unwrap.swift */,
 				991E16C21F3B44F500BC997F /* Promise+Delay.swift */,
 				99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */,
+				991E16C61F3C45A800BC997F /* Promise+Zip.swift */,
 				9907A5E41E76FC7C00826BBE /* Async.swift */,
 				9907A5E61E76FC8200826BBE /* Await.swift */,
 				99FC637E1C86085C008C1155 /* then.h */,
@@ -549,6 +555,7 @@
 				9907A5E71E76FC8200826BBE /* Await.swift in Sources */,
 				99FA2C6C1E5B20BB00CA3959 /* Promise+Aliases.swift in Sources */,
 				99B29F7D1E5D687F00CF8E98 /* Promise+Race.swift in Sources */,
+				991E16C71F3C45A800BC997F /* Promise+Zip.swift in Sources */,
 				99E3CB071E5EA53900FEF11A /* PromiseError.swift in Sources */,
 				9907A5E51E76FC7C00826BBE /* Async.swift in Sources */,
 				9962ADCD1D586155005769CD /* PromiseState.swift in Sources */,
@@ -578,6 +585,7 @@
 				99B9FA8F1E5F107400D522C8 /* FinallyTests.swift in Sources */,
 				991E11551E6016A000448085 /* NoMatterWhatTests.swift in Sources */,
 				99B29F7B1E5D5F4900CF8E98 /* ValidateTests.swift in Sources */,
+				991E16C91F3C45F000BC997F /* ZipTests.swift in Sources */,
 				991E16C51F3B486900BC997F /* DelayTests.swift in Sources */,
 				99B29F771E5D590D00CF8E98 /* RecoverTests.swift in Sources */,
 				9962ADCA1D585E12005769CD /* RegisterThenTests.swift in Sources */,
