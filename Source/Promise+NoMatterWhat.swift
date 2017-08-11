@@ -13,13 +13,13 @@ extension Promise {
     public func noMatterWhat(_ block: @escaping () -> Void) -> Promise<T> {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
-            success: { [weak p] t in
+            success: { t in
                 block()
-                p?.fulfill(t)
+                p.fulfill(t)
             },
-            failure: { [weak p] e in
+            failure: { e in
                 block()
-                p?.reject(e)
+                p.reject(e)
             },
             progress: p.setProgress)
         return p

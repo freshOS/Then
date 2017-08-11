@@ -14,8 +14,8 @@ extension Promise {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
-            failure: { [weak p] _ in
-                p?.fulfill(value)
+            failure: { _ in
+                p.fulfill(value)
         }, progress: p.setProgress)
         return p
     }
@@ -24,11 +24,11 @@ extension Promise {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
-            failure: { [weak p] e in
+            failure: { e in
                 if errorMatchesExpectedError(e, expectedError:errorType) {
-                    p?.fulfill(value)
+                    p.fulfill(value)
                 } else {
-                    p?.reject(e)
+                    p.reject(e)
                 }
             },
             progress: p.setProgress)
@@ -39,11 +39,11 @@ extension Promise {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
-            failure: { [weak p] e in
+            failure: { e in
                 if errorMatchesExpectedError(e, expectedError:errorType) {
-                    p?.fulfill(value)
+                    p.fulfill(value)
                 } else {
-                    p?.reject(e)
+                    p.reject(e)
                 }
             },
             progress: p.setProgress)
@@ -55,11 +55,11 @@ extension Promise {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
-            failure: { [weak p] _ in
+            failure: { _ in
                 promise.then { t in
-                    p?.fulfill(t)
+                    p.fulfill(t)
                 }.onError { error in
-                    p?.reject(error)
+                    p.reject(error)
                 }
             },
             progress: p.setProgress)
@@ -70,12 +70,12 @@ extension Promise {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
-            failure: { [weak p] e in
+            failure: { e in
                 do {
                     let v = try block(e)
-                    p?.fulfill(v)
+                    p.fulfill(v)
                 } catch {
-                    p?.reject(error)
+                    p.reject(error)
                 }
         }, progress: p.setProgress)
         return p

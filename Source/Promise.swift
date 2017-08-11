@@ -55,7 +55,12 @@ public class Promise<T> {
                             _ reject: @escaping ((Error) -> Void)) -> Void) {
         self.init()
         promiseProgressCallBack = { resolve, reject, progress in
-            callback(self.fulfill, self.reject)
+            callback({ [weak self] t in
+                print(self)
+                self?.fulfill(t)
+            }, { [weak self ] e in
+                self?.reject(e)
+            })
         }
     }
     
@@ -79,6 +84,7 @@ public class Promise<T> {
             if let p = promiseProgressCallBack {
                 p(fulfill, reject, setProgress)
             }
+//            promiseProgressCallBack = nil //Remove callba
         }
     }
     
@@ -105,10 +111,14 @@ public class Promise<T> {
     
     internal func fulfill(_ value: T) {
         updateState(PromiseState<T>.fulfilled(value: value))
+        blocks = PromiseBlocks<T>()
+        promiseProgressCallBack = nil
     }
     
     internal func reject(_ anError: Error) {
         updateState(PromiseState<T>.rejected(error:  anError))
+        blocks = PromiseBlocks<T>()
+        promiseProgressCallBack = nil
     }
     
     internal func updateState(_ newState: PromiseState<T>) {

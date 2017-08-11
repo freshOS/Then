@@ -19,12 +19,12 @@ public extension Promise {
         let p = Promise<Void>()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         syncStateWithCallBacks(
-            success: { [weak p] _ in
-                p?.fulfill()
+            success: { _ in
+                p.fulfill()
             },
-            failure: { [weak p] e in
+            failure: { e in
                 block(e)
-                p?.fulfill()
+                p.fulfill()
             },
             progress: p.setProgress
         )

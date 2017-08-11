@@ -11,8 +11,9 @@ import Foundation
 public extension Promise {
     
     @discardableResult public func then<X>(_ block: @escaping (T) -> X) -> Promise<X> {
+        let p = registerThen(block)
         tryStartInitialPromiseAndStartIfneeded()
-        return registerThen(block)
+        return p
     }
     
     @discardableResult public func registerThen<X>(_ block: @escaping (T) -> X) -> Promise<X> {
@@ -27,10 +28,13 @@ public extension Promise {
             blocks.success.append({ t in
                 p.fulfill(block(t))
             })
-            blocks.fail.append(p.reject)
-            blocks.progress.append(p.setProgress)
+            blocks.fail.append({ e in
+                p.reject(e)
+            })
+            blocks.progress.append({ f in
+                p.setProgress(f)
+            })
         }
-        p.start()
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }

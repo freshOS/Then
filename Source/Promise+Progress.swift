@@ -16,9 +16,9 @@ public extension Promise {
         syncStateWithCallBacks(
             success: p.fulfill,
             failure: p.reject,
-            progress: { [weak p] f in
+            progress: { f in
                 block(f)
-                p?.setProgress(f)
+                p.setProgress(f)
             }
         )
         p.start()

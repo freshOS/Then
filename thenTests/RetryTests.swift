@@ -16,7 +16,8 @@ class RetryTests: XCTestCase {
     func testRetryNumberWhenKeepsFailing() {
         let e = expectation(description: "")
         testPromise()
-        .retry(5).then {
+        .retry(5)
+            .then {
             
         }.onError { _ in
             e.fulfill()

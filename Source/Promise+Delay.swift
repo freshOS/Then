@@ -13,9 +13,9 @@ extension Promise {
     public func delay(_ time: TimeInterval) -> Promise<T> {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
-            success: { [weak p] t in
+            success: { t in
                 Promises.callBackOnCallingQueueIn(time: time) {
-                    p?.fulfill(t)
+                    p.fulfill(t)
                 }
             },
             failure: p.reject,

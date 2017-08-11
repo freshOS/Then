@@ -45,7 +45,7 @@ class DelayTests: XCTestCase {
         waitTime(1.1) {
             XCTAssertEqual(result, 123)
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testChainDelays() {

@@ -12,9 +12,9 @@ public extension Promise {
     
     public func chain(_ block:@escaping (T) -> Void) -> Promise<T> {
         let p = newLinkedPromise()
-        syncStateWithCallBacks(success: { [weak p] t in
+        syncStateWithCallBacks(success: { t in
             block(t)
-            p?.fulfill(t)
+            p.fulfill(t)
         }, failure: p.reject, progress: p.setProgress)
         return p
     }

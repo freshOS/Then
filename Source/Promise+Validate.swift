@@ -15,11 +15,11 @@ extension Promise {
                          _ assertionBlock:@escaping ((T) -> Bool)) -> Promise<T> {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
-            success: { [weak p] t in
+            success: { t in
                 if assertionBlock(t) {
-                    p?.fulfill(t)
+                    p.fulfill(t)
                 } else {
-                    p?.reject(withError)
+                    p.reject(withError)
                 }
             },
             failure: p.reject,

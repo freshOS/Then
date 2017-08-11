@@ -14,8 +14,8 @@ public extension Promise {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
-            failure: { [weak p] _ in
-                p?.reject(myError)
+            failure: { _ in
+                p.reject(myError)
             },
             progress: p.setProgress)
         return p
@@ -25,11 +25,11 @@ public extension Promise {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
-            failure: { [weak p] e in
+            failure: { e in
                 if e._code == errorType._code && e._domain == errorType._domain {
-                    p?.reject(myError)
+                    p.reject(myError)
                 } else {
-                    p?.reject(e)
+                    p.reject(e)
                 }
             },
             progress: p.setProgress)
@@ -40,11 +40,11 @@ public extension Promise {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
-            failure: { [weak p] e in
+            failure: { e in
                 do {
                     try block(e)
                 } catch {
-                    p?.reject(error)
+                    p.reject(error)
                 }
             },
             progress: p.setProgress)
