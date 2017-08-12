@@ -13,20 +13,23 @@ extension Promise {
         guard nbOfTimes > 0 else {
             return Promise.reject(PromiseError.retryInvalidInput)
         }
-        return Promise { resolve, reject in
-            var numberOfRetriesLeft = nbOfTimes
-            while numberOfRetriesLeft > 0 {
-                numberOfRetriesLeft -= 1
-                self.resetState()
-                self.then { t in
-                    numberOfRetriesLeft = 0
-                    resolve(t)
-                }.onError { e in
-                    if numberOfRetriesLeft == 0 {
-                        reject(e)
-                    }
+        let p = newLinkedPromise()
+        self.numberOfRetries = nbOfTimes
+        self.syncStateWithCallBacks(
+            success: { [weak self] t in
+                self?.numberOfRetries = 0
+                p.fulfill(t)
+            },
+            failure: { [weak self] e in
+                self?.numberOfRetries -= 1
+                if self?.numberOfRetries == 0 {
+                    p.reject(e)
+                } else {
+                    self?.resetState()
+                    self?.start()
                 }
-            }
-        }
+            },
+            progress: p.setProgress)
+        return p
     }
 }

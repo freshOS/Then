@@ -9,6 +9,8 @@
 import Foundation
 
 public class Promise<T> {
+    
+    internal var numberOfRetries: UInt = 0
 
     private let lockQueue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
     
@@ -56,7 +58,6 @@ public class Promise<T> {
         self.init()
         promiseProgressCallBack = { resolve, reject, progress in
             callback({ [weak self] t in
-                print(self)
                 self?.fulfill(t)
             }, { [weak self ] e in
                 self?.reject(e)
@@ -117,8 +118,11 @@ public class Promise<T> {
     
     internal func reject(_ anError: Error) {
         updateState(PromiseState<T>.rejected(error:  anError))
-        blocks = PromiseBlocks<T>()
-        promiseProgressCallBack = nil
+        // Only release callbacks if no retries a registered.
+        if numberOfRetries == 0 {
+            blocks = PromiseBlocks<T>()
+            promiseProgressCallBack = nil
+        }
     }
     
     internal func updateState(_ newState: PromiseState<T>) {

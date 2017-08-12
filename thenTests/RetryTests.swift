@@ -16,14 +16,13 @@ class RetryTests: XCTestCase {
     func testRetryNumberWhenKeepsFailing() {
         let e = expectation(description: "")
         testPromise()
-        .retry(5)
-            .then {
-            
+        .retry(5).then {
+            XCTFail()
         }.onError { _ in
             e.fulfill()
             XCTAssertEqual(5, self.tryCount)
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 3, handler: nil)
     }
     
     func testRetrySucceedsAfter3times() {
@@ -50,7 +49,9 @@ class RetryTests: XCTestCase {
     func testPromise() -> Promise<Void> {
         return Promise { _, reject in
             self.tryCount += 1
-            reject(ARandomError())
+            waitTime(0.1) {
+                reject(ARandomError())
+            }
         }
     }
     
@@ -64,6 +65,15 @@ class RetryTests: XCTestCase {
             }
         }
     }
+    
+    // TODO test retry with mutliple chained promises.
+    // to see if it still replays the whole chain.
+    // Todo test with sync promise.
+    // Retry does not work with sync promises
+    // I gues it's because they dont register blocks for later?
+    // And these blocks get realsed by the time theyare called again.
+    
+    
     
 }
 
