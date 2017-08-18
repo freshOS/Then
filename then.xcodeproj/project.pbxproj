@@ -7,6 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17D4C4201F4703B1002EF805 /* thenTvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 17D4C41E1F4703B1002EF805 /* thenTvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		17D4C4241F4703D2002EF805 /* PromiseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C651E5B1B8100CA3959 /* PromiseType.swift */; };
+		17D4C4251F4703D2002EF805 /* PromiseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADCB1D58610E005769CD /* PromiseState.swift */; };
+		17D4C4261F4703D2002EF805 /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
+		17D4C4271F4703D2002EF805 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC637D1C86085C008C1155 /* Promise.swift */; };
+		17D4C4281F4703D2002EF805 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
+		17D4C4291F4703D2002EF805 /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
+		17D4C42A1F4703D2002EF805 /* Promise+Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */; };
+		17D4C42B1F4703D2002EF805 /* Promise+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */; };
+		17D4C42C1F4703D2002EF805 /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
+		17D4C42D1F4703D2002EF805 /* Promise+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */; };
+		17D4C42E1F4703D2002EF805 /* Promise+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6D1E5B20EA00CA3959 /* Promise+Helpers.swift */; };
+		17D4C42F1F4703D2002EF805 /* Promise+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */; };
+		17D4C4301F4703D2002EF805 /* Promise+Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F7C1E5D687F00CF8E98 /* Promise+Race.swift */; };
+		17D4C4311F4703D2002EF805 /* Promise+Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */; };
+		17D4C4321F4703D2002EF805 /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
+		17D4C4331F4703D2002EF805 /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
+		17D4C4341F4703D2002EF805 /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
+		17D4C4351F4703D2002EF805 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
+		17D4C4361F4703D2002EF805 /* Promise+Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C51BF1E7DBB280088DEBC /* Promise+Unwrap.swift */; };
+		17D4C4371F4703D2002EF805 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
+		17D4C4381F4703D2002EF805 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E41E76FC7C00826BBE /* Async.swift */; };
+		17D4C4391F4703D2002EF805 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E61E76FC8200826BBE /* Await.swift */; };
 		9907A5DF1E76EBAE00826BBE /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
 		9907A5E11E76EBBD00826BBE /* ChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E01E76EBBD00826BBE /* ChainTests.swift */; };
 		9907A5E21E76EBC100826BBE /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
@@ -83,6 +106,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		17D4C41C1F4703B1002EF805 /* thenTvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = thenTvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		17D4C41E1F4703B1002EF805 /* thenTvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = thenTvOS.h; sourceTree = "<group>"; };
+		17D4C41F1F4703B1002EF805 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Chain.swift"; sourceTree = "<group>"; };
 		9907A5E01E76EBBD00826BBE /* ChainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainTests.swift; sourceTree = "<group>"; };
 		9907A5E41E76FC7C00826BBE /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
@@ -135,6 +161,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		17D4C4181F4703B1002EF805 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		99B5AC931C66831C005CDA28 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -160,12 +193,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17D4C41D1F4703B1002EF805 /* thenTvOS */ = {
+			isa = PBXGroup;
+			children = (
+				17D4C41E1F4703B1002EF805 /* thenTvOS.h */,
+				17D4C41F1F4703B1002EF805 /* Info.plist */,
+			);
+			path = thenTvOS;
+			sourceTree = "<group>";
+		};
 		99B5AC8D1C66831C005CDA28 = {
 			isa = PBXGroup;
 			children = (
 				99B5AC991C66831C005CDA28 /* then */,
 				99B5ACA51C66831C005CDA28 /* thenTests */,
 				99FA7FB31D93C153002274B0 /* thenMacOS */,
+				17D4C41D1F4703B1002EF805 /* thenTvOS */,
 				99B5AC981C66831C005CDA28 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -176,6 +219,7 @@
 				99B5AC971C66831C005CDA28 /* then.framework */,
 				99B5ACA11C66831C005CDA28 /* thenTests.xctest */,
 				99FA7FB21D93C153002274B0 /* then.framework */,
+				17D4C41C1F4703B1002EF805 /* thenTvOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -266,6 +310,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		17D4C4191F4703B1002EF805 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17D4C4201F4703B1002EF805 /* thenTvOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		99B5AC941C66831C005CDA28 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -285,6 +337,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		17D4C41B1F4703B1002EF805 /* thenTvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17D4C4211F4703B1002EF805 /* Build configuration list for PBXNativeTarget "thenTvOS" */;
+			buildPhases = (
+				17D4C4171F4703B1002EF805 /* Sources */,
+				17D4C4181F4703B1002EF805 /* Frameworks */,
+				17D4C4191F4703B1002EF805 /* Headers */,
+				17D4C41A1F4703B1002EF805 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = thenTvOS;
+			productName = thenTvOS;
+			productReference = 17D4C41C1F4703B1002EF805 /* thenTvOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		99B5AC961C66831C005CDA28 /* then */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 99B5ACAB1C66831C005CDA28 /* Build configuration list for PBXNativeTarget "then" */;
@@ -350,6 +420,10 @@
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = s4cha;
 				TargetAttributes = {
+					17D4C41B1F4703B1002EF805 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
 					99B5AC961C66831C005CDA28 = {
 						CreatedOnToolsVersion = 7.2;
 						LastSwiftMigration = 0800;
@@ -379,11 +453,19 @@
 				99B5AC961C66831C005CDA28 /* then */,
 				99B5ACA01C66831C005CDA28 /* thenTests */,
 				99FA7FB11D93C153002274B0 /* thenMacOS */,
+				17D4C41B1F4703B1002EF805 /* thenTvOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		17D4C41A1F4703B1002EF805 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		99B5AC951C66831C005CDA28 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -424,6 +506,35 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		17D4C4171F4703B1002EF805 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17D4C4281F4703D2002EF805 /* PromiseBlocks.swift in Sources */,
+				17D4C4311F4703D2002EF805 /* Promise+Validate.swift in Sources */,
+				17D4C4261F4703D2002EF805 /* PromiseError.swift in Sources */,
+				17D4C42E1F4703D2002EF805 /* Promise+Helpers.swift in Sources */,
+				17D4C4341F4703D2002EF805 /* Promise+Chain.swift in Sources */,
+				17D4C42B1F4703D2002EF805 /* Promise+Error.swift in Sources */,
+				17D4C4331F4703D2002EF805 /* Promise+BridgeError.swift in Sources */,
+				17D4C4291F4703D2002EF805 /* Promise+Progress.swift in Sources */,
+				17D4C42D1F4703D2002EF805 /* Promise+Aliases.swift in Sources */,
+				17D4C4301F4703D2002EF805 /* Promise+Race.swift in Sources */,
+				17D4C4381F4703D2002EF805 /* Async.swift in Sources */,
+				17D4C4321F4703D2002EF805 /* Promise+Recover.swift in Sources */,
+				17D4C42F1F4703D2002EF805 /* Promise+Retry.swift in Sources */,
+				17D4C42A1F4703D2002EF805 /* Promise+Then.swift in Sources */,
+				17D4C4391F4703D2002EF805 /* Await.swift in Sources */,
+				17D4C4241F4703D2002EF805 /* PromiseType.swift in Sources */,
+				17D4C4251F4703D2002EF805 /* PromiseState.swift in Sources */,
+				17D4C42C1F4703D2002EF805 /* Promise+Finally.swift in Sources */,
+				17D4C4361F4703D2002EF805 /* Promise+Unwrap.swift in Sources */,
+				17D4C4271F4703D2002EF805 /* Promise.swift in Sources */,
+				17D4C4351F4703D2002EF805 /* Promise+NoMatterWhat.swift in Sources */,
+				17D4C4371F4703D2002EF805 /* WhenAll.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		99B5AC921C66831C005CDA28 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -516,6 +627,56 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		17D4C4221F4703B1002EF805 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = thenTvOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = te.thenTvOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		17D4C4231F4703B1002EF805 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = thenTvOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = te.thenTvOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
 		99B5ACA91C66831C005CDA28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -690,7 +851,7 @@
 				INFOPLIST_FILE = thenMacOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenMacOS;
 				PRODUCT_NAME = then;
 				SDKROOT = macosx;
@@ -716,7 +877,7 @@
 				INFOPLIST_FILE = thenMacOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenMacOS;
 				PRODUCT_NAME = then;
 				SDKROOT = macosx;
@@ -729,6 +890,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		17D4C4211F4703B1002EF805 /* Build configuration list for PBXNativeTarget "thenTvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17D4C4221F4703B1002EF805 /* Debug */,
+				17D4C4231F4703B1002EF805 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		99B5AC911C66831C005CDA28 /* Build configuration list for PBXProject "then" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
