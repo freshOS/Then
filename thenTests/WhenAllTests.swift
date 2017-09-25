@@ -55,7 +55,7 @@ class WhenAllTests: XCTestCase {
     func testWhenAllCallsOnErrorWhenOneFailsSynchronous() {
         let block = expectation(description: "Block called")
         let finallyBlock = expectation(description: "Finally called")
-        let promise1 = Promise<Void> { _, reject in
+        let promise1 = Promise { _, reject in
             reject(MyError.defaultError)
         }
         
@@ -68,7 +68,7 @@ class WhenAllTests: XCTestCase {
                 XCTFail()
             }.onError { _ in
                 block.fulfill()
-            }.finally { _ in
+            }.finally {
                 finallyBlock.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
@@ -77,7 +77,7 @@ class WhenAllTests: XCTestCase {
     func testWhenAllCallsOnErrorWhenOneFailsAsynchronous() {
         let block = expectation(description: "Block called")
         let finallyBlock = expectation(description: "Finally called")
-        let promise1 = Promise<Void> { _, reject in
+        let promise1 = Promise { _, reject in
             waitTime(0.5) {
                 reject(MyError.defaultError)
             }
@@ -92,8 +92,8 @@ class WhenAllTests: XCTestCase {
                 XCTFail()
             }.onError { _ in
                 block.fulfill()
-            }.finally { _ in
-                finallyBlock.fulfill()
+            }.finally {
+            finallyBlock.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
     }

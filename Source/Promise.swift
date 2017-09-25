@@ -168,8 +168,8 @@ public class Promise<T> {
     }
     
     internal func syncStateWithCallBacks(success: @escaping ((T) -> Void),
-                                    failure: @escaping ((Error) -> Void),
-                                        progress: @escaping ((Float) -> Void)) {
+                                         failure: @escaping ((Error) -> Void),
+                                         progress: @escaping ((Float) -> Void)) {
         switch state {
         case let .fulfilled(value):
             success(value)
@@ -192,6 +192,31 @@ extension Promise {
             return false
         default:
             return true
+        }
+    }
+}
+extension Promise where T == Void {
+    
+    public convenience init(callback: @escaping (
+        _ resolve: @escaping (() -> Void),
+        _ reject: @escaping ((Error) -> Void)) -> Void) {
+        self.init()
+        promiseProgressCallBack = { resolve, reject, progress in
+            callback({ [weak self] in
+                self?.fulfill(())
+            }, { [weak self ] e in
+                    self?.reject(e)
+            })
+        }
+    }
+    
+    public convenience init(callback2: @escaping (
+        _ resolve: @escaping (() -> Void),
+        _ reject: @escaping ((Error) -> Void),
+        _ progress: @escaping ((Float) -> Void)) -> Void) {
+        self.init()
+        promiseProgressCallBack = { resolve, reject, progress in
+            callback2(self.fulfill, self.reject, self.setProgress)
         }
     }
 }

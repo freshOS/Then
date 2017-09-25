@@ -27,7 +27,7 @@ public func == (lhs: PromiseError, rhs: PromiseError) -> Bool {
         return true
     case (.retryInvalidInput, .retryInvalidInput):
         return true
-    case (.raceAllFailed(_), .raceAllFailed(_)):
+    case (.raceAllFailed, .raceAllFailed):
         return true
         case (.unwrappingFailed, .unwrappingFailed):
         return true

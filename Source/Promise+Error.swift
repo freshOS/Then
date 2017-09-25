@@ -20,11 +20,11 @@ public extension Promise {
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         syncStateWithCallBacks(
             success: { _ in
-                p.fulfill()
+                p.fulfill(())
             },
             failure: { e in
                 block(e)
-                p.fulfill()
+                p.fulfill(())
             },
             progress: p.setProgress
         )

@@ -65,16 +65,6 @@ class RetryTests: XCTestCase {
             }
         }
     }
-    
-    // TODO test retry with mutliple chained promises.
-    // to see if it still replays the whole chain.
-    // Todo test with sync promise.
-    // Retry does not work with sync promises
-    // I gues it's because they dont register blocks for later?
-    // And these blocks get realsed by the time theyare called again.
-    
-    
-    
 }
 
 struct ARandomError: Error { }

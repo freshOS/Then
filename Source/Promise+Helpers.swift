@@ -20,6 +20,12 @@ public extension Promise {
     }
 }
 
+extension Promise where T == Void {
+    public class func resolve() -> Promise<Void> {
+        return Promise { resolve, _ in resolve() }
+    }
+}
+
 public extension Promise {
     
     public var value: T? {
