@@ -391,7 +391,7 @@ Grab this repository and build the Framework target on the example project. Then
 ## Swift Version
 Swift 2 -> version **1.4.2**  
 Swift 3 -> version **2.2.5**  
-Swift 4 -> version **3.0.0**
+Swift 4 -> version **3.0.1**
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
