@@ -24,7 +24,9 @@ extension Promises {
                 .onError { error = $0 }
                 .finally { group.leave() }
         }
-        group.notify(queue: DispatchQueue.main) {
+        let callingQueue = OperationQueue.current?.underlyingQueue
+        let queue = callingQueue ?? DispatchQueue.main
+        group.notify(queue: queue) {
             if let e = error {
                 p.reject(e)
             } else {
@@ -51,7 +53,9 @@ extension Promises {
                 .onError { error = $0 }
                 .finally { group.leave() }
         }
-        group.notify(queue: DispatchQueue.main) {
+        let callingQueue = OperationQueue.current?.underlyingQueue
+        let queue = callingQueue ?? DispatchQueue.main
+        group.notify(queue: queue) {
             if let e = error {
                 p.reject(e)
             } else {
