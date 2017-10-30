@@ -10,33 +10,10 @@
 		17D4C4201F4703B1002EF805 /* thenTvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 17D4C41E1F4703B1002EF805 /* thenTvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		17D4C4241F4703D2002EF805 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		17D4C4251F4703D2002EF805 /* PromiseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADCB1D58610E005769CD /* PromiseState.swift */; };
-		17D4C4261F4703D2002EF805 /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
-		17D4C4271F4703D2002EF805 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC637D1C86085C008C1155 /* Promise.swift */; };
-		17D4C4281F4703D2002EF805 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
-		17D4C4291F4703D2002EF805 /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
-		17D4C42A1F4703D2002EF805 /* Promise+Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */; };
-		17D4C42B1F4703D2002EF805 /* Promise+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */; };
-		17D4C42C1F4703D2002EF805 /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
-		17D4C42D1F4703D2002EF805 /* Promise+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */; };
-		17D4C42E1F4703D2002EF805 /* Promise+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6D1E5B20EA00CA3959 /* Promise+Helpers.swift */; };
-		17D4C42F1F4703D2002EF805 /* Promise+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */; };
-		17D4C4301F4703D2002EF805 /* Promise+Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F7C1E5D687F00CF8E98 /* Promise+Race.swift */; };
-		17D4C4311F4703D2002EF805 /* Promise+Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */; };
-		17D4C4321F4703D2002EF805 /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
-		17D4C4331F4703D2002EF805 /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
-		17D4C4341F4703D2002EF805 /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
-		17D4C4351F4703D2002EF805 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
-		17D4C4361F4703D2002EF805 /* Promise+Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C51BF1E7DBB280088DEBC /* Promise+Unwrap.swift */; };
-		17D4C4371F4703D2002EF805 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
-		17D4C4381F4703D2002EF805 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E41E76FC7C00826BBE /* Async.swift */; };
-		17D4C4391F4703D2002EF805 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E61E76FC8200826BBE /* Await.swift */; };
 		9907A5DF1E76EBAE00826BBE /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
 		9907A5E11E76EBBD00826BBE /* ChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E01E76EBBD00826BBE /* ChainTests.swift */; };
-		9907A5E21E76EBC100826BBE /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
 		9907A5E51E76FC7C00826BBE /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E41E76FC7C00826BBE /* Async.swift */; };
 		9907A5E71E76FC8200826BBE /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E61E76FC8200826BBE /* Await.swift */; };
-		9907A5EA1E76FD3F00826BBE /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E41E76FC7C00826BBE /* Async.swift */; };
-		9907A5EB1E76FD4100826BBE /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E61E76FC8200826BBE /* Await.swift */; };
 		9907A5ED1E76FD5800826BBE /* AsyncAwaitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5EC1E76FD5800826BBE /* AsyncAwaitTests.swift */; };
 		991E114F1E600D0700448085 /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
 		991E11511E600D3900448085 /* BridgeErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11501E600D3900448085 /* BridgeErrorTests.swift */; };
@@ -50,6 +27,74 @@
 		991E16CB1F3C4A8900BC997F /* Promise+Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16CA1F3C4A8900BC997F /* Promise+Timeout.swift */; };
 		991E16CD1F3C51C500BC997F /* TimeoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16CC1F3C51C500BC997F /* TimeoutTests.swift */; };
 		99255A4D1DC119B500D9FC72 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
+		993D02F01FA7233900C941C0 /* PromiseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADCB1D58610E005769CD /* PromiseState.swift */; };
+		993D02F11FA7234100C941C0 /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
+		993D02F21FA7234100C941C0 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC637D1C86085C008C1155 /* Promise.swift */; };
+		993D02F31FA7234100C941C0 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
+		993D02F41FA7234100C941C0 /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
+		993D02F51FA7234100C941C0 /* Promise+Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */; };
+		993D02F61FA7234100C941C0 /* Promise+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */; };
+		993D02F71FA7234100C941C0 /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
+		993D02F81FA7234100C941C0 /* Promise+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */; };
+		993D02F91FA7234100C941C0 /* Promise+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6D1E5B20EA00CA3959 /* Promise+Helpers.swift */; };
+		993D02FA1FA7234100C941C0 /* Promise+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */; };
+		993D02FB1FA7234100C941C0 /* Promise+Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F7C1E5D687F00CF8E98 /* Promise+Race.swift */; };
+		993D02FC1FA7234100C941C0 /* Promise+Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */; };
+		993D02FD1FA7234100C941C0 /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
+		993D02FE1FA7234100C941C0 /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
+		993D02FF1FA7234100C941C0 /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
+		993D03001FA7234100C941C0 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
+		993D03011FA7234100C941C0 /* Promise+Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C51BF1E7DBB280088DEBC /* Promise+Unwrap.swift */; };
+		993D03021FA7234100C941C0 /* Promise+Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C21F3B44F500BC997F /* Promise+Delay.swift */; };
+		993D03031FA7234100C941C0 /* Promise+Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16CA1F3C4A8900BC997F /* Promise+Timeout.swift */; };
+		993D03041FA7234100C941C0 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
+		993D03051FA7234100C941C0 /* Promise+Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C61F3C45A800BC997F /* Promise+Zip.swift */; };
+		993D03061FA7234100C941C0 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E41E76FC7C00826BBE /* Async.swift */; };
+		993D03071FA7234100C941C0 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E61E76FC8200826BBE /* Await.swift */; };
+		993D030E1FA7234400C941C0 /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
+		993D030F1FA7234400C941C0 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC637D1C86085C008C1155 /* Promise.swift */; };
+		993D03101FA7234400C941C0 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
+		993D03111FA7234400C941C0 /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
+		993D03121FA7234400C941C0 /* Promise+Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */; };
+		993D03131FA7234400C941C0 /* Promise+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */; };
+		993D03141FA7234400C941C0 /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
+		993D03151FA7234400C941C0 /* Promise+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */; };
+		993D03161FA7234400C941C0 /* Promise+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6D1E5B20EA00CA3959 /* Promise+Helpers.swift */; };
+		993D03171FA7234400C941C0 /* Promise+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */; };
+		993D03181FA7234400C941C0 /* Promise+Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F7C1E5D687F00CF8E98 /* Promise+Race.swift */; };
+		993D03191FA7234400C941C0 /* Promise+Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */; };
+		993D031A1FA7234400C941C0 /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
+		993D031B1FA7234400C941C0 /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
+		993D031C1FA7234400C941C0 /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
+		993D031D1FA7234400C941C0 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
+		993D031E1FA7234400C941C0 /* Promise+Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C51BF1E7DBB280088DEBC /* Promise+Unwrap.swift */; };
+		993D031F1FA7234400C941C0 /* Promise+Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C21F3B44F500BC997F /* Promise+Delay.swift */; };
+		993D03201FA7234400C941C0 /* Promise+Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16CA1F3C4A8900BC997F /* Promise+Timeout.swift */; };
+		993D03211FA7234400C941C0 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
+		993D03221FA7234400C941C0 /* Promise+Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C61F3C45A800BC997F /* Promise+Zip.swift */; };
+		993D03231FA7234400C941C0 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E41E76FC7C00826BBE /* Async.swift */; };
+		993D03241FA7234400C941C0 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E61E76FC8200826BBE /* Await.swift */; };
+		993D03251FA7234500C941C0 /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
+		993D03261FA7234500C941C0 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
+		993D03271FA7234500C941C0 /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
+		993D03281FA7234500C941C0 /* Promise+Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */; };
+		993D03291FA7234500C941C0 /* Promise+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */; };
+		993D032A1FA7234500C941C0 /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
+		993D032B1FA7234500C941C0 /* Promise+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */; };
+		993D032C1FA7234500C941C0 /* Promise+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6D1E5B20EA00CA3959 /* Promise+Helpers.swift */; };
+		993D032D1FA7234500C941C0 /* Promise+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */; };
+		993D032E1FA7234500C941C0 /* Promise+Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F7C1E5D687F00CF8E98 /* Promise+Race.swift */; };
+		993D032F1FA7234500C941C0 /* Promise+Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */; };
+		993D03301FA7234500C941C0 /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
+		993D03311FA7234500C941C0 /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
+		993D03321FA7234500C941C0 /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
+		993D03331FA7234500C941C0 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
+		993D03341FA7234500C941C0 /* Promise+Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C51BF1E7DBB280088DEBC /* Promise+Unwrap.swift */; };
+		993D03351FA7234500C941C0 /* Promise+Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C21F3B44F500BC997F /* Promise+Delay.swift */; };
+		993D03361FA7234500C941C0 /* Promise+Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16CA1F3C4A8900BC997F /* Promise+Timeout.swift */; };
+		993D03371FA7234500C941C0 /* Promise+Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C61F3C45A800BC997F /* Promise+Zip.swift */; };
+		993D03381FA7234500C941C0 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E41E76FC7C00826BBE /* Async.swift */; };
+		993D03391FA7234500C941C0 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E61E76FC8200826BBE /* Await.swift */; };
 		9962ADC21D585902005769CD /* ProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC11D585902005769CD /* ProgressTests.swift */; };
 		9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC31D5859CC005769CD /* WhenAllTests.swift */; };
 		9962ADC61D585A06005769CD /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC51D585A06005769CD /* Helpers.swift */; };
@@ -58,7 +103,6 @@
 		9962ADCD1D586155005769CD /* PromiseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADCB1D58610E005769CD /* PromiseState.swift */; };
 		998C51C01E7DBB280088DEBC /* Promise+Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C51BF1E7DBB280088DEBC /* Promise+Unwrap.swift */; };
 		998C51C41E7DBB530088DEBC /* UnwrapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C51C31E7DBB530088DEBC /* UnwrapTests.swift */; };
-		998C51C51E7DBB560088DEBC /* Promise+Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C51BF1E7DBB280088DEBC /* Promise+Unwrap.swift */; };
 		99AA1C711CB7DDF800ADA4C3 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
 		99B29F731E5D58C600CF8E98 /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
 		99B29F771E5D590D00CF8E98 /* RecoverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F761E5D590D00CF8E98 /* RecoverTests.swift */; };
@@ -71,21 +115,7 @@
 		99B5ACA21C66831C005CDA28 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B5AC971C66831C005CDA28 /* then.framework */; };
 		99B5ACA71C66831C005CDA28 /* ThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5ACA61C66831C005CDA28 /* ThenTests.swift */; };
 		99B9FA8F1E5F107400D522C8 /* FinallyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B9FA8E1E5F107400D522C8 /* FinallyTests.swift */; };
-		99DF35351E66A45A005FD22F /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
-		99DF35361E66A45D005FD22F /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
-		99DF35371E66A45F005FD22F /* Promise+Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */; };
-		99DF35381E66A461005FD22F /* Promise+Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F7C1E5D687F00CF8E98 /* Promise+Race.swift */; };
-		99DF35391E66A465005FD22F /* Promise+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */; };
-		99DF353A1E66A467005FD22F /* Promise+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6D1E5B20EA00CA3959 /* Promise+Helpers.swift */; };
-		99DF353B1E66A469005FD22F /* Promise+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */; };
-		99DF353C1E66A46C005FD22F /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
-		99DF353D1E66A46E005FD22F /* Promise+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */; };
-		99DF353E1E66A471005FD22F /* Promise+Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */; };
-		99DF353F1E66A473005FD22F /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
-		99DF35401E66A47A005FD22F /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
 		99E3CB071E5EA53900FEF11A /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
-		99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
-		99E691161E7AC08700272AF2 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
 		99ED26A51F7BB6C6007D9FBB /* VoidPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ED26A41F7BB6C6007D9FBB /* VoidPromise.swift */; };
 		99ED26A61F7BB6C6007D9FBB /* VoidPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ED26A41F7BB6C6007D9FBB /* VoidPromise.swift */; };
 		99ED26A71F7BB6C6007D9FBB /* VoidPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ED26A41F7BB6C6007D9FBB /* VoidPromise.swift */; };
@@ -533,29 +563,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17D4C4281F4703D2002EF805 /* PromiseBlocks.swift in Sources */,
-				17D4C4311F4703D2002EF805 /* Promise+Validate.swift in Sources */,
-				17D4C4261F4703D2002EF805 /* PromiseError.swift in Sources */,
-				17D4C42E1F4703D2002EF805 /* Promise+Helpers.swift in Sources */,
-				17D4C4341F4703D2002EF805 /* Promise+Chain.swift in Sources */,
-				17D4C42B1F4703D2002EF805 /* Promise+Error.swift in Sources */,
-				17D4C4331F4703D2002EF805 /* Promise+BridgeError.swift in Sources */,
-				17D4C4291F4703D2002EF805 /* Promise+Progress.swift in Sources */,
-				17D4C42D1F4703D2002EF805 /* Promise+Aliases.swift in Sources */,
-				17D4C4301F4703D2002EF805 /* Promise+Race.swift in Sources */,
-				17D4C4381F4703D2002EF805 /* Async.swift in Sources */,
-				17D4C4321F4703D2002EF805 /* Promise+Recover.swift in Sources */,
-				17D4C42F1F4703D2002EF805 /* Promise+Retry.swift in Sources */,
-				17D4C42A1F4703D2002EF805 /* Promise+Then.swift in Sources */,
-				17D4C4391F4703D2002EF805 /* Await.swift in Sources */,
+				993D031A1FA7234400C941C0 /* Promise+Recover.swift in Sources */,
+				993D031C1FA7234400C941C0 /* Promise+Chain.swift in Sources */,
+				993D03181FA7234400C941C0 /* Promise+Race.swift in Sources */,
+				993D03151FA7234400C941C0 /* Promise+Aliases.swift in Sources */,
+				993D03161FA7234400C941C0 /* Promise+Helpers.swift in Sources */,
+				993D031F1FA7234400C941C0 /* Promise+Delay.swift in Sources */,
+				993D03111FA7234400C941C0 /* Promise+Progress.swift in Sources */,
+				993D031D1FA7234400C941C0 /* Promise+NoMatterWhat.swift in Sources */,
+				993D03231FA7234400C941C0 /* Async.swift in Sources */,
 				17D4C4241F4703D2002EF805 /* (null) in Sources */,
+				993D03201FA7234400C941C0 /* Promise+Timeout.swift in Sources */,
+				993D03131FA7234400C941C0 /* Promise+Error.swift in Sources */,
 				99ED26A81F7BB6C6007D9FBB /* VoidPromise.swift in Sources */,
+				993D030F1FA7234400C941C0 /* Promise.swift in Sources */,
+				993D03191FA7234400C941C0 /* Promise+Validate.swift in Sources */,
+				993D03101FA7234400C941C0 /* PromiseBlocks.swift in Sources */,
+				993D03241FA7234400C941C0 /* Await.swift in Sources */,
+				993D031B1FA7234400C941C0 /* Promise+BridgeError.swift in Sources */,
+				993D03211FA7234400C941C0 /* WhenAll.swift in Sources */,
+				993D03221FA7234400C941C0 /* Promise+Zip.swift in Sources */,
+				993D031E1FA7234400C941C0 /* Promise+Unwrap.swift in Sources */,
+				993D030E1FA7234400C941C0 /* PromiseError.swift in Sources */,
+				993D03141FA7234400C941C0 /* Promise+Finally.swift in Sources */,
+				993D03171FA7234400C941C0 /* Promise+Retry.swift in Sources */,
+				993D03121FA7234400C941C0 /* Promise+Then.swift in Sources */,
 				17D4C4251F4703D2002EF805 /* PromiseState.swift in Sources */,
-				17D4C42C1F4703D2002EF805 /* Promise+Finally.swift in Sources */,
-				17D4C4361F4703D2002EF805 /* Promise+Unwrap.swift in Sources */,
-				17D4C4271F4703D2002EF805 /* Promise.swift in Sources */,
-				17D4C4351F4703D2002EF805 /* Promise+NoMatterWhat.swift in Sources */,
-				17D4C4371F4703D2002EF805 /* WhenAll.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,25 +630,49 @@
 			files = (
 				991E11511E600D3900448085 /* BridgeErrorTests.swift in Sources */,
 				9962ADC21D585902005769CD /* ProgressTests.swift in Sources */,
+				993D02FB1FA7234100C941C0 /* Promise+Race.swift in Sources */,
+				993D03041FA7234100C941C0 /* WhenAll.swift in Sources */,
+				993D03031FA7234100C941C0 /* Promise+Timeout.swift in Sources */,
+				993D03071FA7234100C941C0 /* Await.swift in Sources */,
 				99B9FA8F1E5F107400D522C8 /* FinallyTests.swift in Sources */,
+				993D02F01FA7233900C941C0 /* PromiseState.swift in Sources */,
+				993D02F81FA7234100C941C0 /* Promise+Aliases.swift in Sources */,
 				991E16CD1F3C51C500BC997F /* TimeoutTests.swift in Sources */,
+				993D02F51FA7234100C941C0 /* Promise+Then.swift in Sources */,
+				993D02F31FA7234100C941C0 /* PromiseBlocks.swift in Sources */,
 				99ED26A61F7BB6C6007D9FBB /* VoidPromise.swift in Sources */,
 				991E11551E6016A000448085 /* NoMatterWhatTests.swift in Sources */,
 				99B29F7B1E5D5F4900CF8E98 /* ValidateTests.swift in Sources */,
+				993D02F61FA7234100C941C0 /* Promise+Error.swift in Sources */,
 				991E16C91F3C45F000BC997F /* ZipTests.swift in Sources */,
 				991E16C51F3B486900BC997F /* DelayTests.swift in Sources */,
+				993D02FC1FA7234100C941C0 /* Promise+Validate.swift in Sources */,
+				993D02FA1FA7234100C941C0 /* Promise+Retry.swift in Sources */,
 				99B29F771E5D590D00CF8E98 /* RecoverTests.swift in Sources */,
 				9962ADCA1D585E12005769CD /* RegisterThenTests.swift in Sources */,
+				993D02F91FA7234100C941C0 /* Promise+Helpers.swift in Sources */,
 				99B29F7F1E5D688900CF8E98 /* RaceTests.swift in Sources */,
 				9962ADC81D585B00005769CD /* OnErrorTests.swift in Sources */,
+				993D03061FA7234100C941C0 /* Async.swift in Sources */,
 				99B29F831E5D6F5500CF8E98 /* RetryTests.swift in Sources */,
+				993D03011FA7234100C941C0 /* Promise+Unwrap.swift in Sources */,
 				99B5ACA71C66831C005CDA28 /* ThenTests.swift in Sources */,
+				993D02F71FA7234100C941C0 /* Promise+Finally.swift in Sources */,
+				993D03001FA7234100C941C0 /* Promise+NoMatterWhat.swift in Sources */,
 				9907A5E11E76EBBD00826BBE /* ChainTests.swift in Sources */,
+				993D02FF1FA7234100C941C0 /* Promise+Chain.swift in Sources */,
+				993D02F41FA7234100C941C0 /* Promise+Progress.swift in Sources */,
 				991E16C11F3AFEF700BC997F /* MemoryTests.swift in Sources */,
 				998C51C41E7DBB530088DEBC /* UnwrapTests.swift in Sources */,
+				993D02FE1FA7234100C941C0 /* Promise+BridgeError.swift in Sources */,
 				9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */,
+				993D03051FA7234100C941C0 /* Promise+Zip.swift in Sources */,
 				9962ADC61D585A06005769CD /* Helpers.swift in Sources */,
 				9907A5ED1E76FD5800826BBE /* AsyncAwaitTests.swift in Sources */,
+				993D02F11FA7234100C941C0 /* PromiseError.swift in Sources */,
+				993D02FD1FA7234100C941C0 /* Promise+Recover.swift in Sources */,
+				993D02F21FA7234100C941C0 /* Promise.swift in Sources */,
+				993D03021FA7234100C941C0 /* Promise+Delay.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,28 +680,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99DF353B1E66A469005FD22F /* Promise+Aliases.swift in Sources */,
-				9907A5E21E76EBC100826BBE /* Promise+Chain.swift in Sources */,
-				9907A5EB1E76FD4100826BBE /* Await.swift in Sources */,
-				99DF353C1E66A46C005FD22F /* Promise+Finally.swift in Sources */,
-				99DF353F1E66A473005FD22F /* Promise+Progress.swift in Sources */,
-				99DF35351E66A45A005FD22F /* Promise+BridgeError.swift in Sources */,
-				9907A5EA1E76FD3F00826BBE /* Async.swift in Sources */,
-				99DF353D1E66A46E005FD22F /* Promise+Error.swift in Sources */,
-				99DF35371E66A45F005FD22F /* Promise+Validate.swift in Sources */,
-				99DF35401E66A47A005FD22F /* PromiseError.swift in Sources */,
-				998C51C51E7DBB560088DEBC /* Promise+Unwrap.swift in Sources */,
-				99DF35381E66A461005FD22F /* Promise+Race.swift in Sources */,
-				99DF353A1E66A467005FD22F /* Promise+Helpers.swift in Sources */,
-				99DF35391E66A465005FD22F /* Promise+Retry.swift in Sources */,
+				993D03301FA7234500C941C0 /* Promise+Recover.swift in Sources */,
+				993D03321FA7234500C941C0 /* Promise+Chain.swift in Sources */,
+				993D032E1FA7234500C941C0 /* Promise+Race.swift in Sources */,
+				993D032B1FA7234500C941C0 /* Promise+Aliases.swift in Sources */,
+				993D03381FA7234500C941C0 /* Async.swift in Sources */,
+				993D032C1FA7234500C941C0 /* Promise+Helpers.swift in Sources */,
+				993D03371FA7234500C941C0 /* Promise+Zip.swift in Sources */,
+				993D03351FA7234500C941C0 /* Promise+Delay.swift in Sources */,
+				993D03271FA7234500C941C0 /* Promise+Progress.swift in Sources */,
+				993D03331FA7234500C941C0 /* Promise+NoMatterWhat.swift in Sources */,
 				99FA7FD01D93C1AB002274B0 /* WhenAll.swift in Sources */,
+				993D03361FA7234500C941C0 /* Promise+Timeout.swift in Sources */,
+				993D03291FA7234500C941C0 /* Promise+Error.swift in Sources */,
 				99ED26A71F7BB6C6007D9FBB /* VoidPromise.swift in Sources */,
-				99DF35361E66A45D005FD22F /* Promise+Recover.swift in Sources */,
-				99DF353E1E66A471005FD22F /* Promise+Then.swift in Sources */,
 				99FA7FCD1D93C1AB002274B0 /* Promise.swift in Sources */,
+				993D03391FA7234500C941C0 /* Await.swift in Sources */,
+				993D032F1FA7234500C941C0 /* Promise+Validate.swift in Sources */,
+				993D03261FA7234500C941C0 /* PromiseBlocks.swift in Sources */,
+				993D03311FA7234500C941C0 /* Promise+BridgeError.swift in Sources */,
+				993D03341FA7234500C941C0 /* Promise+Unwrap.swift in Sources */,
+				993D03251FA7234500C941C0 /* PromiseError.swift in Sources */,
+				993D032A1FA7234500C941C0 /* Promise+Finally.swift in Sources */,
+				993D032D1FA7234500C941C0 /* Promise+Retry.swift in Sources */,
+				993D03281FA7234500C941C0 /* Promise+Then.swift in Sources */,
 				99FA7FCE1D93C1AB002274B0 /* PromiseState.swift in Sources */,
-				99E4FA0E1E49B59A00E6F10C /* PromiseBlocks.swift in Sources */,
-				99E691161E7AC08700272AF2 /* Promise+NoMatterWhat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
