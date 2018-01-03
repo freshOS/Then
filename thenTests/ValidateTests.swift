@@ -29,7 +29,7 @@ class ValidateTests: XCTestCase {
                 if let pe = error as? PromiseError {
                    XCTAssertTrue(pe == .validationFailed)
                 } else {
-                    XCTFail()
+                    XCTFail("testValidateFails failed")
                 }
                 e.fulfill()
             }
@@ -44,7 +44,7 @@ class ValidateTests: XCTestCase {
                 if let pe = error as? MyError {
                     XCTAssertTrue(pe == MyError.defaultError)
                 } else {
-                    XCTFail()
+                    XCTFail("testValidateWithCustomError failed")
                 }
                 e.fulfill()
         }
@@ -54,7 +54,7 @@ class ValidateTests: XCTestCase {
     func testValidateNotCalledOnError() {
         let e = expectation(description: "")
         Promise.reject().validate {
-            XCTFail()
+            XCTFail("testValidateNotCalledOnError failed")
             return true
         }.finally {
             e.fulfill()

@@ -16,19 +16,19 @@ class UnwrapTests: XCTestCase {
         unwrap(username).then { s in
             XCTAssertEqual(s, username)
         }.onError { _ in
-            XCTFail()
+            XCTFail("testUwrap failed")
         }
     }
     
     func testUwrapFails() {
         let username: String? = nil
         unwrap(username).then { _ in
-            XCTFail()
+            XCTFail("testUwrapFails failed")
         }.onError { e in
             if let pe = e as? PromiseError {
                 XCTAssertTrue(pe == .unwrappingFailed)
             } else {
-                XCTFail()
+                XCTFail("testUwrapFails failed")
             }
         }
     }

@@ -84,7 +84,7 @@ class RecoverTests: XCTestCase {
                 if let e = e as? MyError {
                     XCTAssertTrue(e == .defaultError)
                 } else {
-                    XCTFail()
+                    XCTFail("testRecoverCanThrowANewError failed")
                 }
                 exp.fulfill()
         }
@@ -108,7 +108,7 @@ class RecoverTests: XCTestCase {
         Promise<Int>.reject()
             .recover(PromiseError.validationFailed, with: 123)
             .then { _ in
-                XCTFail()
+                XCTFail("testRecoverForSpecificErrorDoesNotRecoverWhenTypeNotMatching failed")
         }.onError { _ in
             exp.fulfill()
         }
@@ -127,7 +127,7 @@ class RecoverTests: XCTestCase {
 }
 
 struct SomeError: Error { }
-extension SomeError :Equatable { }
+extension SomeError: Equatable { }
 func == (lhs: SomeError, rhs: SomeError) -> Bool {
     return true
 }

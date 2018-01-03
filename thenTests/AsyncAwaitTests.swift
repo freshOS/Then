@@ -29,7 +29,7 @@ class AsyncAwaitTests: XCTestCase {
         let exp = expectation(description: "")
         async {
             _ = try await(failingFetchUserFollowStatusFromName("JohnDoe"))
-            XCTFail()
+            XCTFail("testFailingAsyncAwait failed")
         }.onError { _ in
             exp.fulfill()
         }
@@ -40,7 +40,7 @@ class AsyncAwaitTests: XCTestCase {
         let exp = expectation(description: "")
         do {
             _ = try await(failingFetchUserFollowStatusFromName("JohnDoe"))
-            XCTFail()
+            XCTFail("testCatchFailingAsyncAwait failed")
         } catch {
             exp.fulfill()
         }

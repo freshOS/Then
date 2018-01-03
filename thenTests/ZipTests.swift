@@ -42,7 +42,7 @@ class ZipTests: XCTestCase {
     func testZipSynchronousPromisesFails() {
         let block = expectation(description: "Block called")
         Promises.zip(Promise<Int>.reject(), Promise("Hello")).then { _, _ in
-            XCTFail()
+            XCTFail("testZipSynchronousPromisesFails failed")
         }.onError { _ in
             block.fulfill()
         }
@@ -58,7 +58,7 @@ class ZipTests: XCTestCase {
             waitTime(0.1) { reject(PromiseError.default) }
         }
         Promises.zip(p1, p2).then { _, _ in
-            XCTFail()
+            XCTFail("testZipAsynchronousPromisesFails failed")
         }.onError { _ in
             block.fulfill()
         }
@@ -102,7 +102,7 @@ class ZipTests: XCTestCase {
     func testZip3SynchronousPromisesFails() {
         let block = expectation(description: "Block called")
         Promises.zip(Promise<Int>.reject(), Promise("Hello"), Promise<Double>.reject()).then { _, _, _ in
-            XCTFail()
+            XCTFail("testZip3SynchronousPromisesFails failed")
         }.onError { _ in
             block.fulfill()
         }
@@ -121,7 +121,7 @@ class ZipTests: XCTestCase {
             waitTime(0.1) { resolve(0.45) }
         }
         Promises.zip(p1, p2, p3).then { _, _, _ in
-            XCTFail()
+            XCTFail("testZip3AsynchronousPromisesFails failed")
         }.onError { _ in
             block.fulfill()
         }

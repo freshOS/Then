@@ -32,7 +32,7 @@ class ChainTests: XCTestCase {
     func testChainNotCalledWhenSyncPromiseFails() {
         let exp = expectation(description: "")
         Promise<Int>.reject().chain { _ in
-            XCTFail()
+            XCTFail("testChainNotCalledWhenSyncPromiseFails failed")
         }.onError { _ in
             exp.fulfill()
         }
@@ -42,7 +42,7 @@ class ChainTests: XCTestCase {
     func testChainNotCalledWhenAsyncPromiseFails() {
         let exp = expectation(description: "")
         failingFetchUserFollowStatusFromName("Tom").chain { _ in
-            XCTFail()
+            XCTFail("testChainNotCalledWhenAsyncPromiseFails failed")
         }.onError { _ in
             exp.fulfill()
         }

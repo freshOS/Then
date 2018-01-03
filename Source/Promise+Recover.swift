@@ -25,7 +25,7 @@ extension Promise {
         syncStateWithCallBacks(
             success: p.fulfill,
             failure: { e in
-                if errorMatchesExpectedError(e, expectedError:errorType) {
+                if errorMatchesExpectedError(e, expectedError: errorType) {
                     p.fulfill(value)
                 } else {
                     p.reject(e)
@@ -40,7 +40,7 @@ extension Promise {
         syncStateWithCallBacks(
             success: p.fulfill,
             failure: { e in
-                if errorMatchesExpectedError(e, expectedError:errorType) {
+                if errorMatchesExpectedError(e, expectedError: errorType) {
                     p.fulfill(value)
                 } else {
                     p.reject(e)

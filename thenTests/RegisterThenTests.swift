@@ -15,11 +15,11 @@ class RegisterThenTests: XCTestCase {
         let timerExpectation = expectation(description: "timerExpectation")
         fetchUserId()
             .registerThen { _ in
-                XCTFail()
+                XCTFail("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
             }.registerThen {_ in
-                XCTFail()
+                XCTFail("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
             }.registerThen {_ in
-                XCTFail()
+                XCTFail("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
         }
         waitTime(1) {
             timerExpectation.fulfill()
@@ -32,11 +32,11 @@ class RegisterThenTests: XCTestCase {
         fetchUserId()
             .registerThen(fetchUserNameFromId(10)).registerThen { name in
                 print(name)
-                XCTFail()
+                XCTFail("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
             }.registerThen {_ in
-                XCTFail()
+                XCTFail("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
             }.registerThen {_ in
-                XCTFail()
+                XCTFail("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
         }
         waitTime(1) {
             timerExpectation.fulfill()
@@ -48,11 +48,10 @@ class RegisterThenTests: XCTestCase {
         let timerExpectation = expectation(description: "timerExpectation")
         fetchUserId().registerThen { id in
             return fetchUserNameFromId(id)
-            }.registerThen { name in
-                print(name)
-                XCTFail()
             }.registerThen { _ in
-                XCTFail()
+                XCTFail("testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+            }.registerThen { _ in
+                XCTFail("testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock failed")
         }
         waitTime(1) {
             timerExpectation.fulfill()
@@ -95,7 +94,7 @@ class RegisterThenTests: XCTestCase {
         fetchUserId()
             .registerThen(fetchUserNameFromId)
             .registerThen { _ in
-                XCTFail()
+                XCTFail("testRegisterThenPromiseFuncPointerNotCalled failed")
         }
         waitTime(1) {
             timerExpectation.fulfill()
@@ -108,7 +107,7 @@ class RegisterThenTests: XCTestCase {
         fetchUserId().registerThen { id -> Promise<String> in
             return fetchUserNameFromId(id)
             }.registerThen { _ in
-                XCTFail()
+                XCTFail("testRegisterThenPromise2FuncPointerNotCalled failed")
         }
         waitTime(1) {
             timerExpectation.fulfill()

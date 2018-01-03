@@ -8,7 +8,7 @@
 [![codebeat badge](https://codebeat.co/badges/768d3017-1e65-47e0-b287-afcb8954a1da)](https://codebeat.co/projects/github-com-s4cha-then)
 [![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/then/blob/master/LICENSE)
-[![Release version](https://img.shields.io/badge/release-2.2-blue.svg)]()
+ tag](https://img.shields.io/github/release/freshos/then.svg)]()
 
 [Reason](#why) - [Example](#example) -  [Documentation](#documentation) - [Installation](#installation)
 
@@ -391,14 +391,14 @@ Grab this repository and build the Framework target on the example project. Then
 ## Swift Version
 Swift 2 -> version **1.4.2**  
 Swift 3 -> version **2.2.5**  
-Swift 4 -> version **3.0.1**
+Swift 4 -> version **3.0.2**
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 
 ### Backers
-Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :) 
+Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :)
 
 <a href="https://opencollective.com/freshos/backer/0/website" target="_blank"><img src="https://opencollective.com/freshos/backer/0/avatar.svg"></a>
 <a href="https://opencollective.com/freshos/backer/1/website" target="_blank"><img src="https://opencollective.com/freshos/backer/1/avatar.svg"></a>
@@ -432,7 +432,7 @@ Like the project? Offer coffee or support us with a monthly donation and help us
 <a href="https://opencollective.com/freshos/backer/29/website" target="_blank"><img src="https://opencollective.com/freshos/backer/29/avatar.svg"></a>
 
 ### Sponsors
-Become a sponsor and get your logo on our README on Github with a link to your site :) 
+Become a sponsor and get your logo on our README on Github with a link to your site :)
 
 <a href="https://opencollective.com/freshos/sponsor/0/website" target="_blank"><img src="https://opencollective.com/freshos/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/freshos/sponsor/1/website" target="_blank"><img src="https://opencollective.com/freshos/sponsor/1/avatar.svg"></a>

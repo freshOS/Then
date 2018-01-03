@@ -65,7 +65,7 @@ class WhenAllTests: XCTestCase {
         
         Promises.whenAll(promise1, promise2)
             .then { _ in
-                XCTFail()
+                XCTFail("testWhenAllCallsOnErrorWhenOneFailsSynchronous failed")
             }.onError { _ in
                 block.fulfill()
             }.finally {
@@ -89,7 +89,7 @@ class WhenAllTests: XCTestCase {
         }
         Promises.whenAll(promise1, promise2)
             .then { _ in
-                XCTFail()
+                XCTFail("testWhenAllCallsOnErrorWhenOneFailsAsynchronous failed")
             }.onError { _ in
                 block.fulfill()
             }.finally {

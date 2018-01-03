@@ -21,7 +21,7 @@ class TimeoutTests: XCTestCase {
             XCTAssertEqual(string, "Hello")
             e.fulfill()
         }.onError { _ in
-            XCTFail()
+            XCTFail("testTimeOutTriggers failed")
         }
         waitForExpectations(timeout: 5, handler: nil)
     }
@@ -33,12 +33,12 @@ class TimeoutTests: XCTestCase {
                 resolve("Hello")
             }
         }.timeout(0.5).then { _ in
-            XCTFail()
+            XCTFail("testTimeOutFails failed")
         }.onError { error in
             if case PromiseError.timeout = error {
                 // Good
             } else {
-                XCTFail()
+                XCTFail("testTimeOutFails failed")
             }
             e.fulfill()
         }

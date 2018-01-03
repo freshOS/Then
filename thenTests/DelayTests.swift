@@ -72,7 +72,7 @@ class DelayTests: XCTestCase {
                 reject(PromiseError.default)
             }
         }.delay(0.8).then { _ in
-            XCTFail()
+            XCTFail("testDelayOnlyAppliesOnSuccessfulPromises failed")
         }.onError { _ in
             done = true
             e.fulfill()

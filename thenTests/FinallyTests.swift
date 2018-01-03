@@ -75,7 +75,7 @@ class FinallyTests: XCTestCase {
     func testRegisterFinallyDoesntStartThePromise() {
         let exp = expectation(description: "error block called")
         syncRejectionPromise().registerFinally {
-             XCTFail()
+             XCTFail("testRegisterFinallyDoesntStartThePromise failed")
         }
         waitTime(1) {
             exp.fulfill()

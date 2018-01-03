@@ -118,7 +118,7 @@ public class Promise<T> {
     }
     
     internal func reject(_ anError: Error) {
-        updateState(PromiseState<T>.rejected(error:  anError))
+        updateState(PromiseState<T>.rejected(error: anError))
         // Only release callbacks if no retries a registered.
         if numberOfRetries == 0 {
             blocks = PromiseBlocks<T>()

@@ -50,7 +50,7 @@ class RaceTests: XCTestCase {
         let p1 = Promise<String>.reject()
         let p2 = Promise<String>.reject()
         Promises.race(p1, p2).then { _ in
-            XCTFail()
+            XCTFail("testRaceFailsIfAllFail failed")
         }.onError { _ in
             e.fulfill()
         }

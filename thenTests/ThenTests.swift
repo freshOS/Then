@@ -133,7 +133,7 @@ class ThenTests: XCTestCase {
         let thenExpectation = expectation(description: "then called")
         let errorExpectation = expectation(description: "Finally called")
         failingFetchUserFollowStatusFromName("").then { _ in
-            XCTFail()
+            XCTFail("testCanContinueWithThenAfterErrorBlock failed")
             }.onError { _ in
                 errorExpectation.fulfill()
             }.then {

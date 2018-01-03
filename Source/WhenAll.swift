@@ -13,7 +13,7 @@ public class Promises {}
 
 extension Promises {
     
-    public static func whenAll<T>(_ promises: [Promise<T>]) -> Promise<[T]> {
+    public static func whenAll<T>(_ promises: [Promise<T>], callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
         let p = Promise<[T]>()
         var ts = [T]()
         var error: Error?
@@ -25,7 +25,7 @@ extension Promises {
                 .finally { group.leave() }
         }
         let callingQueue = OperationQueue.current?.underlyingQueue
-        let queue = callingQueue ?? DispatchQueue.main
+        let queue = callbackQueue ?? callingQueue ??  DispatchQueue.main
         group.notify(queue: queue) {
             if let e = error {
                 p.reject(e)
@@ -36,13 +36,13 @@ extension Promises {
         return p
     }
     
-    public static func whenAll<T>(_ promises: Promise<T>...) -> Promise<[T]> {
-        return whenAll(promises)
+    public static func whenAll<T>(_ promises: Promise<T>..., callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
+        return whenAll(promises, callbackQueue: callbackQueue)
     }
     
     // Array version
     
-    public static func whenAll<T>(_ promises: [Promise<[T]>]) -> Promise<[T]> {
+    public static func whenAll<T>(_ promises: [Promise<[T]>], callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
         let p = Promise<[T]>()
         var ts = [T]()
         var error: Error?
@@ -54,7 +54,7 @@ extension Promises {
                 .finally { group.leave() }
         }
         let callingQueue = OperationQueue.current?.underlyingQueue
-        let queue = callingQueue ?? DispatchQueue.main
+        let queue = callbackQueue ?? callingQueue ??  DispatchQueue.main
         group.notify(queue: queue) {
             if let e = error {
                 p.reject(e)
@@ -65,7 +65,7 @@ extension Promises {
         return p
     }
     
-    public static func whenAll<T>(_ promises: Promise<[T]>...) -> Promise<[T]> {
-        return whenAll(promises)
+    public static func whenAll<T>(_ promises: Promise<[T]>..., callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
+        return whenAll(promises, callbackQueue: callbackQueue)
     }
 }

@@ -29,7 +29,7 @@ public func == (lhs: PromiseError, rhs: PromiseError) -> Bool {
         return true
     case (.raceAllFailed, .raceAllFailed):
         return true
-        case (.unwrappingFailed, .unwrappingFailed):
+    case (.unwrappingFailed, .unwrappingFailed):
         return true
     default:
         return false

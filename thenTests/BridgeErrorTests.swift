@@ -21,7 +21,7 @@ class BridgeErrorTests: XCTestCase {
                 if let e = e as? MyError {
                     XCTAssertTrue(e == .defaultError)
                 } else {
-                    XCTFail()
+                    XCTFail("testBridgeAllErrorsToMine failed")
                 }
                 exp.fulfill()
         }
@@ -51,7 +51,7 @@ class BridgeErrorTests: XCTestCase {
                 if let e = e as? MyError {
                     XCTAssertTrue(e == .defaultError)
                 } else {
-                    XCTFail()
+                    XCTFail("testBridgeASpecificErrorToMine failed")
                 }
                 exp.fulfill()
         }
@@ -68,7 +68,7 @@ class BridgeErrorTests: XCTestCase {
                 if let e = e as? PromiseError {
                     XCTAssertTrue(e == .default)
                 } else {
-                    XCTFail()
+                    XCTFail("testBridgeASpecificErrorToMineNotMatchingError failed")
                 }
                 exp.fulfill()
         }
@@ -87,7 +87,7 @@ class BridgeErrorTests: XCTestCase {
                 if let e = e as? MyError {
                     XCTAssertTrue(e == .defaultError)
                 } else {
-                    XCTFail()
+                    XCTFail("failed testBridgeErrorCanUseBlockAndThrow")
                 }
                 exp.fulfill()
         }

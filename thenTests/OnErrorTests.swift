@@ -114,7 +114,7 @@ class OnErrorTests: XCTestCase {
     func testRegisterOnErrorDoesntStartThePromise() {
         let exp = expectation(description: "error block called")
         syncRejectionPromise().registerOnError { _ in
-            XCTFail()
+            XCTFail("testRegisterOnErrorDoesntStartThePromise failed")
         }
         waitTime(1) {
             exp.fulfill()

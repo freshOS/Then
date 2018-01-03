@@ -34,7 +34,7 @@ class ProgressTests: XCTestCase {
             XCTAssertEqual(p, 0.8)
             progressExpectation.fulfill()
         }.then {
-            XCTFail()
+            XCTFail("testProgressFails failed")
         }.onError { _ in
             errorExpectation.fulfill()
         }

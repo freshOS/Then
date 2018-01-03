@@ -17,7 +17,7 @@ class RetryTests: XCTestCase {
         let e = expectation(description: "")
         testPromise()
         .retry(5).then {
-            XCTFail()
+            XCTFail("testRetryNumberWhenKeepsFailing failed")
         }.onError { _ in
             e.fulfill()
             XCTAssertEqual(5, self.tryCount)
@@ -32,7 +32,7 @@ class RetryTests: XCTestCase {
                 e.fulfill()
                 XCTAssertEqual(3, self.tryCount)
             }.onError { _ in
-                XCTFail()
+                XCTFail("testRetrySucceedsAfter3times failed")
             }
         waitForExpectations(timeout: 1, handler: nil)
     }
