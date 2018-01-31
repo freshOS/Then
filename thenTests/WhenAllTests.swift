@@ -17,13 +17,13 @@ class WhenAllTests: XCTestCase {
             XCTAssertEqual(array, [1, 2, 3, 4])
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 
     func testWhenAll() {
         let block = expectation(description: "Block called")
         let promise4 = Promise { resolve, _ in
-            waitTime(0.5) {
+            waitTime(0.1) {
                 resolve(4)
             }
         }
@@ -31,7 +31,7 @@ class WhenAllTests: XCTestCase {
             XCTAssertEqual(array, [1, 2, 3, 4])
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testWhenAllEmpty() {
@@ -40,7 +40,7 @@ class WhenAllTests: XCTestCase {
             XCTAssertEqual(array, [])
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testWhenAllArray() {
@@ -49,7 +49,7 @@ class WhenAllTests: XCTestCase {
             XCTAssertEqual(array, [1, 2, 3, 4, 5, 6, 7, 8, 9])
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testWhenAllCallsOnErrorWhenOneFailsSynchronous() {
@@ -71,19 +71,19 @@ class WhenAllTests: XCTestCase {
             }.finally {
                 finallyBlock.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testWhenAllCallsOnErrorWhenOneFailsAsynchronous() {
         let block = expectation(description: "Block called")
         let finallyBlock = expectation(description: "Finally called")
         let promise1 = Promise { _, reject in
-            waitTime(0.5) {
+            waitTime(0.2) {
                 reject(MyError.defaultError)
             }
         }
         let promise2 = Promise<Void> { resolve, _ in
-            waitTime(0.3) {
+            waitTime(0.1) {
                 resolve()
             }
         }
@@ -95,6 +95,6 @@ class WhenAllTests: XCTestCase {
             }.finally {
             finallyBlock.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
 }

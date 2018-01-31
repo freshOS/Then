@@ -19,7 +19,7 @@ class RecoverTests: XCTestCase {
                 XCTAssertEqual(s, "Banana")
                 e.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRecoverWithInt() {
@@ -30,7 +30,7 @@ class RecoverTests: XCTestCase {
                 XCTAssertEqual(s, 12)
                 e.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRecoverWithPromise() {
@@ -41,7 +41,7 @@ class RecoverTests: XCTestCase {
                 XCTAssertEqual(s, 56)
                 e.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRecoverWithFailablePromise() {
@@ -54,7 +54,7 @@ class RecoverTests: XCTestCase {
             .onError { _ in
                 e.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRecoverCanUseABlock() {
@@ -67,7 +67,7 @@ class RecoverTests: XCTestCase {
                 XCTAssertEqual(s, 32)
                 e.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRecoverCanThrowANewError() {
@@ -88,7 +88,7 @@ class RecoverTests: XCTestCase {
                 }
                 exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRecoverForSpecificError() {
@@ -100,7 +100,7 @@ class RecoverTests: XCTestCase {
                 XCTAssertEqual(i, 123)
                 exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRecoverForSpecificErrorDoesNotRecoverWhenTypeNotMatching() {
@@ -112,7 +112,7 @@ class RecoverTests: XCTestCase {
         }.onError { _ in
             exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testEquatableError() {
@@ -122,7 +122,7 @@ class RecoverTests: XCTestCase {
             .then { _ in
                 exp.fulfill()
             }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }
 

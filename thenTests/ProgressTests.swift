@@ -24,7 +24,7 @@ class ProgressTests: XCTestCase {
         }.onError { _ in
             print("ERROR")
         }
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testProgressFails() {
@@ -38,6 +38,6 @@ class ProgressTests: XCTestCase {
         }.onError { _ in
             errorExpectation.fulfill()
         }
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

@@ -21,7 +21,7 @@ class NoMatterWhatTests: XCTestCase {
             XCTAssertFalse(isLoading)
             exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testNoMatterWhatCalledOnError() {
@@ -34,6 +34,6 @@ class NoMatterWhatTests: XCTestCase {
             XCTAssertFalse(isLoading)
             exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

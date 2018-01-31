@@ -22,7 +22,7 @@ class AsyncAwaitTests: XCTestCase {
             XCTAssertFalse(isFollowed)
             exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testFailingAsyncAwait() {
@@ -33,7 +33,7 @@ class AsyncAwaitTests: XCTestCase {
         }.onError { _ in
             exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testCatchFailingAsyncAwait() {        
@@ -44,7 +44,7 @@ class AsyncAwaitTests: XCTestCase {
         } catch {
             exp.fulfill()
         }
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testAsyncAwaitUnwrapAtYourOwnRisk() {
@@ -56,7 +56,7 @@ class AsyncAwaitTests: XCTestCase {
         let isFollowed = try! await(fetchUserFollowStatusFromName(userName))
         XCTAssertFalse(isFollowed)
         exp.fulfill()
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testAsyncBlockCanReturnAValue() {
@@ -68,6 +68,6 @@ class AsyncAwaitTests: XCTestCase {
             XCTAssertEqual(userId, 1234)
             exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

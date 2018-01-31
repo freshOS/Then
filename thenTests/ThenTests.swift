@@ -28,7 +28,7 @@ class ThenTests: XCTestCase {
         }.finally {
             finallyExpectation.fulfill()
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testChainedPromises() {
@@ -36,12 +36,11 @@ class ThenTests: XCTestCase {
         fetchUserId()
         .then(fetchUserNameFromId(1))
         .then(fetchUserNameFromId(2))
-        .then(fetchUserNameFromId(3))
-        .then(fetchUserNameFromId(4)).then { name in
+        .then(fetchUserNameFromId(3)).then { name in
             print("name :\(name)")
             thenExpectation.fulfill()
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testChainedPromisesAreExecutedInOrder() {
@@ -63,7 +62,7 @@ class ThenTests: XCTestCase {
             count+=1
             block2.fulfill()
         }
-        .then(fetchUserNameFromId(3)).then {_ in
+        .then(fetchUserNameFromId(3)).then { _ in
             XCTAssertTrue(count == 2)
             count+=1
             block3.fulfill()
@@ -74,7 +73,7 @@ class ThenTests: XCTestCase {
             print("name :\(name)")
             thenExpectation.fulfill()
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testSynchronousChainsWorksProprely() {
@@ -83,7 +82,7 @@ class ThenTests: XCTestCase {
         promiseA()
             .then(promiseB())
             .then(promiseC())
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testClassicThenLaunchesPromise() {
@@ -92,7 +91,7 @@ class ThenTests: XCTestCase {
             XCTAssertEqual(id, 1234)
             thenExpectation.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testMultipleThenBlockCanBeRegisteredOnSamePromise() {
@@ -113,7 +112,7 @@ class ThenTests: XCTestCase {
         p.then { _ in
             then4.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testThenWorksAfterErrorBlock() {
@@ -126,7 +125,7 @@ class ThenTests: XCTestCase {
             }.then {
                 print("Ok bro")
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testCanContinueWithThenAfterErrorBlock() {
@@ -140,6 +139,6 @@ class ThenTests: XCTestCase {
                 thenExpectation.fulfill()
         }
         
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

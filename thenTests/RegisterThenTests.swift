@@ -21,10 +21,10 @@ class RegisterThenTests: XCTestCase {
             }.registerThen {_ in
                 XCTFail("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
         }
-        waitTime(1) {
+        waitTime(0.3) {
             timerExpectation.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock() {
@@ -38,10 +38,10 @@ class RegisterThenTests: XCTestCase {
             }.registerThen {_ in
                 XCTFail("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
         }
-        waitTime(1) {
+        waitTime(0.3) {
             timerExpectation.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock() {
@@ -53,10 +53,10 @@ class RegisterThenTests: XCTestCase {
             }.registerThen { _ in
                 XCTFail("testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock failed")
         }
-        waitTime(1) {
+        waitTime(0.3) {
             timerExpectation.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testRegisterThenChainedPromisesAreExecutedInOrder() {
@@ -86,7 +86,7 @@ class RegisterThenTests: XCTestCase {
                 print("name :\(name)")
                 thenExpectation.fulfill()
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRegisterThenPromiseFuncPointerNotCalled() {
@@ -96,10 +96,10 @@ class RegisterThenTests: XCTestCase {
             .registerThen { _ in
                 XCTFail("testRegisterThenPromiseFuncPointerNotCalled failed")
         }
-        waitTime(1) {
+        waitTime(0.3) {
             timerExpectation.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testRegisterThenPromise2FuncPointerNotCalled() {
@@ -109,10 +109,10 @@ class RegisterThenTests: XCTestCase {
             }.registerThen { _ in
                 XCTFail("testRegisterThenPromise2FuncPointerNotCalled failed")
         }
-        waitTime(1) {
+        waitTime(0.3) {
             timerExpectation.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testRegisterThenPromiseFuncPointerCalledWithThenBlock() {
@@ -122,7 +122,7 @@ class RegisterThenTests: XCTestCase {
             .then { _ in
                 timerExpectation.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRegisterThenPromise2FuncPointerCalledWithThenBlock() {
@@ -132,7 +132,7 @@ class RegisterThenTests: XCTestCase {
             }.then { _ in
                 timerExpectation.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRegisterThenPromiseFuncPointerCalledWithMultipleRegisterThenBlocks() {
@@ -143,7 +143,7 @@ class RegisterThenTests: XCTestCase {
             .then { _ in
                 timerExpectation.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRegisterThenMultipleThenOnlyCallOriginalPromiseOnce() {
@@ -175,7 +175,7 @@ class RegisterThenTests: XCTestCase {
             }.then { _ -> Void in
                 print("Just another then block")
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 
 }

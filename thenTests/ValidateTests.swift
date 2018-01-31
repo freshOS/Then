@@ -18,7 +18,7 @@ class ValidateTests: XCTestCase {
             .then { _ in
                 e.fulfill()
             }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testValidateFails() {
@@ -33,7 +33,7 @@ class ValidateTests: XCTestCase {
                 }
                 e.fulfill()
             }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testValidateWithCustomError() {
@@ -48,7 +48,7 @@ class ValidateTests: XCTestCase {
                 }
                 e.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testValidateNotCalledOnError() {
@@ -59,6 +59,6 @@ class ValidateTests: XCTestCase {
         }.finally {
             e.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

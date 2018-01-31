@@ -20,23 +20,23 @@ class ZipTests: XCTestCase {
             XCTAssertEqual(string, "Hello")
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testZipAsynchronousPromises() {
         let block = expectation(description: "Block called")
         let p1 = Promise { resolve, _ in
-            waitTime(0.5) { resolve("Cool") }
+            waitTime(0.1) { resolve("Cool") }
         }
         let p2 = Promise { resolve, _ in
-            waitTime(0.1) { resolve(23) }
+            waitTime(0.2) { resolve(23) }
         }
         Promises.zip(p1, p2).then { string, int in
             XCTAssertEqual(string, "Cool")
             XCTAssertEqual(int, 23)
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testZipSynchronousPromisesFails() {
@@ -46,23 +46,23 @@ class ZipTests: XCTestCase {
         }.onError { _ in
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testZipAsynchronousPromisesFails() {
         let block = expectation(description: "Block called")
         let p1 = Promise { resolve, _ in
-            waitTime(0.5) { resolve("Cool") }
+            waitTime(0.1) { resolve("Cool") }
         }
         let p2 = Promise<Int> { _, reject in
-            waitTime(0.1) { reject(PromiseError.default) }
+            waitTime(0.2) { reject(PromiseError.default) }
         }
         Promises.zip(p1, p2).then { _, _ in
             XCTFail("testZipAsynchronousPromisesFails failed")
         }.onError { _ in
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     // 3 promises
@@ -76,16 +76,16 @@ class ZipTests: XCTestCase {
             
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testZip3AsynchronousPromises() {
         let block = expectation(description: "Block called")
         let p1 = Promise { resolve, _ in
-            waitTime(0.5) { resolve("Cool") }
+            waitTime(0.1) { resolve("Cool") }
         }
         let p2 = Promise { resolve, _ in
-            waitTime(0.1) { resolve(23) }
+            waitTime(0.2) { resolve(23) }
         }
         let p3 = Promise { resolve, _ in
             waitTime(0.1) { resolve(0.45) }
@@ -96,7 +96,7 @@ class ZipTests: XCTestCase {
             XCTAssertEqual(double, 0.45)
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testZip3SynchronousPromisesFails() {
@@ -106,13 +106,13 @@ class ZipTests: XCTestCase {
         }.onError { _ in
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testZip3AsynchronousPromisesFails() {
         let block = expectation(description: "Block called")
         let p1 = Promise { resolve, _ in
-            waitTime(0.5) { resolve("Cool") }
+            waitTime(0.2) { resolve("Cool") }
         }
         let p2 = Promise<Int> { _, reject in
             waitTime(0.1) { reject(PromiseError.default) }
@@ -125,6 +125,6 @@ class ZipTests: XCTestCase {
         }.onError { _ in
             block.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

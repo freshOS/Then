@@ -25,7 +25,7 @@ class BridgeErrorTests: XCTestCase {
                 }
                 exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testBridgeAllErrorsNoError() {
@@ -38,7 +38,7 @@ class BridgeErrorTests: XCTestCase {
                 XCTFail("onError shouldn't be called")
 
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testBridgeASpecificErrorToMine() {
@@ -55,7 +55,7 @@ class BridgeErrorTests: XCTestCase {
                 }
                 exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testBridgeASpecificErrorToMineNotMatchingError() {
@@ -72,7 +72,7 @@ class BridgeErrorTests: XCTestCase {
                 }
                 exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testBridgeErrorCanUseBlockAndThrow() {
@@ -91,6 +91,6 @@ class BridgeErrorTests: XCTestCase {
                 }
                 exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

@@ -14,54 +14,54 @@ class DelayTests: XCTestCase {
     func testStaticDelay() {
         let e = expectation(description: "")
         var run = false
-        Promises.delay(0.5).then {
+        Promises.delay(0.2).then {
             run = true
             e.fulfill()
         }
-        waitTime(0.4) {
+        waitTime(0.1) {
             XCTAssertFalse(run)
         }
-        waitTime(0.6) {
+        waitTime(0.3) {
             XCTAssertTrue(run)
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testDelay() {
         let e = expectation(description: "")
         var result: Int? = nil
         Promise { resolve, _ in
-            waitTime(0.2) {
+            waitTime(0.1) {
                 resolve(123)
             }
-        }.delay(0.8).then { int in
+        }.delay(0.1).then { int in
             result = int
             e.fulfill()
         }
         
-        waitTime(0.9) {
+        waitTime(0.1) {
             XCTAssertNil(result)
         }
-        waitTime(1.1) {
+        waitTime(0.3) {
             XCTAssertEqual(result, 123)
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testChainDelays() {
         let e = expectation(description: "")
         var run = false
-        Promises.delay(0.5).delay(0.1).delay(0.4).then {
+        Promises.delay(0.1).delay(0.1).delay(0.1).then {
             run = true
             e.fulfill()
         }
-        waitTime(0.8) {
+        waitTime(0.2) {
             XCTAssertFalse(run)
         }
-        waitTime(1.1) {
+        waitTime(0.4) {
             XCTAssertTrue(run)
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testDelayOnlyAppliesOnSuccessfulPromises() {
@@ -81,6 +81,6 @@ class DelayTests: XCTestCase {
         waitTime(0.3) {
             XCTAssertTrue(done)
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

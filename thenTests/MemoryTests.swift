@@ -69,7 +69,7 @@ class MemoryTests: XCTestCase {
     func testRaceConditionWriteWriteBlocks() {
         let p = Promise<String>()
         func loop() {
-            for _ in 0...10000 {
+            for _ in 0...1000 {
                 p.blocks.success.append({ _ in })
                 p.blocks.fail.append({ _ in })
                 p.blocks.progress.append({ _ in })

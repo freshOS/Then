@@ -9,21 +9,16 @@
 import Foundation
 
 extension Promises {
+    
+    /// `Promise.race(p1, p2, p3, p4...)`Takes the state of the fastest returning promise.
+    /// If the first fails, it fails. If the first resolves, it resolves.
     public static func race<T>(_ promises: Promise<T>...) -> Promise<T> {
         return Promise { resolve, reject in
-            var done = false
-            var errorCount = 0
             for p in promises {
                 p.then { t in
-                    if !done {
-                        resolve(t)
-                        done = true
-                    }
+                    resolve(t)
                 }.onError { e in
-                    errorCount += 1
-                    if errorCount == promises.count {
-                        reject(PromiseError.raceAllFailed(lastError: e))
-                    }
+                    reject(e)
                 }
             }
         }

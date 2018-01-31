@@ -42,6 +42,10 @@ extension Promises {
                     block()
                 }
             }
+        } else {
+            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + time) {
+                block()
+            }
         }
     }
 }

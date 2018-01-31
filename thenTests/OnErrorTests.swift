@@ -26,7 +26,7 @@ class OnErrorTests: XCTestCase {
                 finallyExpectation.fulfill()
         }
         
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testOnErrorCalledWhenSynchronousRejects() {
@@ -37,7 +37,7 @@ class OnErrorTests: XCTestCase {
             .onError { _ in
                 errorblock.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 
     func testThenAfterOnErrorWhenSynchronousResolves() {
@@ -49,7 +49,7 @@ class OnErrorTests: XCTestCase {
             }.then { _ in
                  thenblock.fulfill()
             }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 
     func testMultipleErrorBlockCanBeRegisteredOnSamePromise() {
@@ -70,7 +70,7 @@ class OnErrorTests: XCTestCase {
         p.onError { _ in
             error4.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnFail() {
@@ -83,7 +83,7 @@ class OnErrorTests: XCTestCase {
             }.onError { _ in
                 XCTFail("Second on Error shouldn't be called")
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testTwoConsecutivErrorBlocks2ndShouldNeverBeCalledOnSuccess() {
@@ -108,7 +108,7 @@ class OnErrorTests: XCTestCase {
             }.onError { _ in
                 XCTFail("on Error shouldn't be called")
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRegisterOnErrorDoesntStartThePromise() {
@@ -116,10 +116,10 @@ class OnErrorTests: XCTestCase {
         syncRejectionPromise().registerOnError { _ in
             XCTFail("testRegisterOnErrorDoesntStartThePromise failed")
         }
-        waitTime(1) {
+        waitTime(0.1) {
             exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.2, handler: nil)
     }
     
     func testRegisterOnError() {
@@ -129,6 +129,6 @@ class OnErrorTests: XCTestCase {
             exp.fulfill()
         }
         p.start()
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

@@ -17,7 +17,7 @@ class ChainTests: XCTestCase {
             XCTAssertEqual(s, "Cool")
             exp.fulfill()
         }.then { _ in }
-        waitForExpectations(timeout: 0.1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testChainASyncPromise() {
@@ -36,7 +36,7 @@ class ChainTests: XCTestCase {
         }.onError { _ in
             exp.fulfill()
         }
-        waitForExpectations(timeout: 0.1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testChainNotCalledWhenAsyncPromiseFails() {
@@ -46,7 +46,7 @@ class ChainTests: XCTestCase {
         }.onError { _ in
             exp.fulfill()
         }
-        waitForExpectations(timeout: 0.1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testChainKeepsProgress() {
@@ -63,6 +63,6 @@ class ChainTests: XCTestCase {
         }.onError { _ in
              print("ERROR")
         }
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

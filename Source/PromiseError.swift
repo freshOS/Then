@@ -12,7 +12,6 @@ public enum PromiseError: Error {
     case `default`
     case validationFailed
     case retryInvalidInput
-    case raceAllFailed(lastError: Error)
     case unwrappingFailed
     case timeout
 }
@@ -26,8 +25,6 @@ public func == (lhs: PromiseError, rhs: PromiseError) -> Bool {
     case (.validationFailed, .validationFailed):
         return true
     case (.retryInvalidInput, .retryInvalidInput):
-        return true
-    case (.raceAllFailed, .raceAllFailed):
         return true
     case (.unwrappingFailed, .unwrappingFailed):
         return true

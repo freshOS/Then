@@ -34,7 +34,7 @@ class RetryTests: XCTestCase {
             }.onError { _ in
                 XCTFail("testRetrySucceedsAfter3times failed")
             }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRetryFailsIfNumberOfRetriesposisitethan1() {
@@ -43,7 +43,7 @@ class RetryTests: XCTestCase {
             .retry(0).onError { _ in
             e.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testPromise() -> Promise<Void> {

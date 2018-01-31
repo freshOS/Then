@@ -14,25 +14,25 @@ class TimeoutTests: XCTestCase {
     func testTimeOutTriggers() {
         let e = expectation(description: "")
         Promise<String> { resolve, _ in
-            waitTime(1) {
+            waitTime(0.1) {
                 resolve("Hello")
             }
-        }.timeout(2).then { string in
+        }.timeout(0.2).then { string in
             XCTAssertEqual(string, "Hello")
             e.fulfill()
         }.onError { _ in
             XCTFail("testTimeOutTriggers failed")
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testTimeOutFails() {
         let e = expectation(description: "")
         Promise<String> { resolve, _ in
-            waitTime(1) {
+            waitTime(0.3) {
                 resolve("Hello")
             }
-        }.timeout(0.5).then { _ in
+        }.timeout(0.1).then { _ in
             XCTFail("testTimeOutFails failed")
         }.onError { error in
             if case PromiseError.timeout = error {
@@ -43,6 +43,6 @@ class TimeoutTests: XCTestCase {
             e.fulfill()
         }
         
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

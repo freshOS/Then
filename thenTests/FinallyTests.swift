@@ -16,7 +16,7 @@ class FinallyTests: XCTestCase {
         Promise.resolve("Done").finally {
             finallyblock.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testFinallyCalledWhenSynchronousFail() {
@@ -24,31 +24,31 @@ class FinallyTests: XCTestCase {
         Promise<String>.reject().finally {
             finallyblock.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testFinallyCalledWhenAsynchronousSuccess() {
         let finallyblock = expectation(description: "finally block block called")
         Promise<String> { resolve, _ in
-            waitTime(1) {
+            waitTime(0.1) {
                 resolve("Hello")
             }
         }.finally {
             finallyblock.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testFinallyCalledWhenAsynchronousFail() {
         let finallyblock = expectation(description: "finally block block called")
         Promise<String> { _, reject in
-            waitTime(1) {
+            waitTime(0.1) {
                 reject(PromiseError.default)
             }
         }.finally {
             finallyblock.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testMultipleFinallyBlockCanBeRegisteredOnSamePromise() {
@@ -69,7 +69,7 @@ class FinallyTests: XCTestCase {
         p.finally {
             finally4.fulfill()
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
     func testRegisterFinallyDoesntStartThePromise() {
@@ -77,10 +77,10 @@ class FinallyTests: XCTestCase {
         syncRejectionPromise().registerFinally {
              XCTFail("testRegisterFinallyDoesntStartThePromise failed")
         }
-        waitTime(1) {
+        waitTime(0.1) {
             exp.fulfill()
         }
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.2, handler: nil)
     }
     
     func testRegisterFinally() {
@@ -90,6 +90,6 @@ class FinallyTests: XCTestCase {
             exp.fulfill()
         }
         p.start()
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }
