@@ -80,6 +80,26 @@ extension Promise {
         }, progress: p.setProgress)
         return p
     }
+
+    public func recover(_ block:@escaping (Error) throws -> Promise<T>) -> Promise<T> {
+        let p = newLinkedPromise()
+        syncStateWithCallBacks(
+            success: p.fulfill,
+            failure: { e in
+                do {
+                    let promise = try block(e)
+                    promise.then { t in
+                        p.fulfill(t)
+                    }.onError { error in
+                        p.reject(error)
+                    }
+                } catch {
+                    p.reject(error)
+                }
+        }, progress: p.setProgress)
+        return p
+    }
+
 }
 
 // Credits to Quick/Nimble for how to compare Errors
