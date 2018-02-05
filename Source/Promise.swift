@@ -111,13 +111,13 @@ public class Promise<T> {
         }
     }
     
-    internal func fulfill(_ value: T) {
+    public func fulfill(_ value: T) {
         updateState(PromiseState<T>.fulfilled(value: value))
         blocks = PromiseBlocks<T>()
         promiseProgressCallBack = nil
     }
     
-    internal func reject(_ anError: Error) {
+    public func reject(_ anError: Error) {
         updateState(PromiseState<T>.rejected(error: anError))
         // Only release callbacks if no retries a registered.
         if numberOfRetries == 0 {

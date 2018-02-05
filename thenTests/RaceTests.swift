@@ -52,7 +52,7 @@ class RaceTests: XCTestCase {
             }
         }
         Promises.race(p1, p2).onError { error in
-            guard let _ = error as? TestRaceError else {
+            guard error as? TestRaceError != nil else {
                 XCTFail("testRecoverCanThrowANewError failed")
                 return
             }

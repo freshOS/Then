@@ -73,7 +73,7 @@ class RecoverTests: XCTestCase {
     func testRecoverCanThrowANewError() {
         let exp = expectation(description: "")
         Promise<Int>.reject()
-            .recover { e in
+            .recover { e -> Int in
                 if let e = e as? PromiseError, e == .default {
                     throw MyError.defaultError
                 }
@@ -122,6 +122,40 @@ class RecoverTests: XCTestCase {
             .then { _ in
                 exp.fulfill()
             }
+        waitForExpectations(timeout: 0.3, handler: nil)
+    }
+    
+    func testRecoverPromiseBlockCanUseABlock() {
+        let e = expectation(description: "")
+        Promise<Int>.reject()
+            .recover { _ in
+                return Promise(32)
+            }
+            .then { s in
+                XCTAssertEqual(s, 32)
+                e.fulfill()
+        }
+        waitForExpectations(timeout: 0.3, handler: nil)
+    }
+    
+    func testRecoverPromiseBlockCanThrowANewError() {
+        let exp = expectation(description: "")
+        Promise<Int>.reject()
+            .recover { e -> Promise<Int> in
+                if let e = e as? PromiseError, e == .default {
+                    throw MyError.defaultError
+                }
+                return Promise(32)
+            } .then { _ in
+                XCTFail("then shouldn't be called")
+            }.onError { e in
+                if let e = e as? MyError {
+                    XCTAssertTrue(e == .defaultError)
+                } else {
+                    XCTFail("testRecoverCanThrowANewError failed")
+                }
+                exp.fulfill()
+        }
         waitForExpectations(timeout: 0.3, handler: nil)
     }
 }

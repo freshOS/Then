@@ -12,41 +12,64 @@ import Dispatch
 extension Promises {
     
     public static func zip<T, U>(_ p1: Promise<T>, _ p2: Promise<U>) -> Promise<(T, U)> {
+        
         let p = Promise<(T, U)>()
         var t: T!
         var u: U!
         var error: Error?
         let group = DispatchGroup()
         
-        // pass the current quuere?
-        let concurentQueue = DispatchQueue(label: "concurrent", attributes: .concurrent)
+        // We run the promises concurrently on a concurent queue and go back
+        // to a local queue to read/modify global variables.
+        // .barrier blocks concurrency so that we can write values
+        // without then beeing read at the same time.
+        // It pauses reads until write are done
+        let concurentQueue = DispatchQueue(label: "then.zip.concurrent", attributes: .concurrent)
+        let localQueue = DispatchQueue(label: "then.zip.local", attributes: .concurrent)
         
         group.enter()
         concurentQueue.async {
-            //p1
-            
-            p1.then { t = $0 }
-                .onError { error = $0 }
-                .finally { group.leave() }
-            
+            p1.then { aT in
+                localQueue.async(flags: .barrier) {
+                    t = aT
+                }
+                }.onError { e in
+                    localQueue.async(flags: .barrier) {
+                        error = e
+                    }
+                }.finally {
+                    localQueue.async { // barrier needed?
+                        group.leave()
+                    }
+            }
         }
         
         group.enter()
         concurentQueue.async {
-            //p2
-            p2.then { u = $0 }
-                .onError { error = $0 }
-                .finally { group.leave() }
-            
+            p2.then { aU in
+                localQueue.async(flags: .barrier) {
+                    u = aU
+                }
+                }.onError { e in
+                    localQueue.async(flags: .barrier) {
+                        error = e
+                    }
+                }.finally {
+                    localQueue.async {
+                        group.leave()
+                    }
+            }
         }
         
         let callingQueue = OperationQueue.current?.underlyingQueue
         let queue = callingQueue ?? DispatchQueue.main
         group.notify(queue: queue) {
-            if let e = error {
-                p.reject(e)
-            } else {
-                p.fulfill((t, u))
+            localQueue.async {
+                if let e = error {
+                    p.reject(e)
+                } else {
+                    p.fulfill((t, u))
+                }
             }
         }
         return p
