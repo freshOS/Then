@@ -217,6 +217,13 @@ You can :
   if e == y { return 143 }
   throw MyError.defaultError
 }
+.recover { e -> Promise<Int> in
+  // Deal with the error then
+  return Promise<Int>.resolve(56)
+  // Or
+  return Promise<Int>.reject(e)
+  }
+}
 .recover(with: Promise<Int>.resolve(56))
 ```
 Note that in the block version you can also throw your own error \o/
