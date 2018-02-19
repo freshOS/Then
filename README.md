@@ -8,7 +8,7 @@
 [![codebeat badge](https://codebeat.co/badges/768d3017-1e65-47e0-b287-afcb8954a1da)](https://codebeat.co/projects/github-com-s4cha-then)
 [![Join the chat at https://gitter.im/s4cha/then](https://badges.gitter.im/s4cha/then.svg)](https://gitter.im/s4cha/then?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/then/blob/master/LICENSE)
- tag](https://img.shields.io/github/release/freshos/then.svg)]()
+ ![Release version](https://img.shields.io/github/release/freshos/then.svg)
 
 [Reason](#why) - [Example](#example) -  [Documentation](#documentation) - [Installation](#installation)
 
