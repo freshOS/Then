@@ -396,13 +396,10 @@ Grab this repository and build the Framework target on the example project. Then
 [piterlouis](https://github.com/piterlouis)
 
 ## Swift Version
-Swift 2 -> version **1.4.2**  
-Swift 3 -> version **2.2.5**  
-Swift 4 -> version **3.1.0**
 
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-
+- Swift 2 -> version [**1.4.2**](https://github.com/freshOS/then/releases/tag/1.4.2)
+- Swift 3 -> version [**2.2.5**](https://github.com/freshOS/then/releases/tag/2.2.5)
+- Swift 4 -> version [**3.1.0**](https://github.com/freshOS/then/releases/tag/3.1.0)
 
 ### Backers
 Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :)
