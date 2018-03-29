@@ -10,7 +10,7 @@ import Foundation
 
 extension Promise where T == Void {
     
-    public convenience init(callback: @escaping (
+    public convenience init(void callback: @escaping (
         _ resolve: @escaping (() -> Void),
         _ reject: @escaping ((Error) -> Void)) -> Void) {
         self.init()
@@ -23,7 +23,7 @@ extension Promise where T == Void {
         }
     }
     
-    public convenience init(callback2: @escaping (
+    public convenience init(void callback2: @escaping (
         _ resolve: @escaping (() -> Void),
         _ reject: @escaping ((Error) -> Void),
         _ progress: @escaping ((Float) -> Void)) -> Void) {

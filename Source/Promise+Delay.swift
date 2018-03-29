@@ -27,9 +27,9 @@ extension Promise {
 
 extension Promises {
     public static func delay(_ time: TimeInterval) -> Promise<Void> {
-        return Promise { resolve, _ in
+        return Promise(void: { resolve, _ in
             callBackOnCallingQueueIn(time: time, block: resolve)
-        }
+        })
     }
 }
 
