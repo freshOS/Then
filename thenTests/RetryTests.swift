@@ -47,7 +47,7 @@ class RetryTests: XCTestCase {
     }
     
     func testPromise() -> Promise<Void> {
-        return Promise { _, reject in
+        return Promise { (_: @escaping (() -> Void), reject: @escaping ((Error) -> Void)) in
             self.tryCount += 1
             waitTime(0.1) {
                 reject(ARandomError())
@@ -56,7 +56,7 @@ class RetryTests: XCTestCase {
     }
     
     func succeedsAfter3Times() -> Promise<Void> {
-        return Promise { resolve, reject in
+        return Promise { (resolve: @escaping (() -> Void), reject: @escaping ((Error) -> Void)) in
             self.tryCount += 1
             if self.tryCount == 3 {
                 resolve()
