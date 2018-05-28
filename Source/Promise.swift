@@ -13,7 +13,12 @@ public class Promise<T> {
     
     internal var numberOfRetries: UInt = 0
 
-    private let lockQueue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
+    private let lockQueueSpecificKey = DispatchSpecificKey<Void>()
+    private lazy var lockQueue: DispatchQueue = {
+        let queue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
+        queue.setSpecific(key: self.lockQueueSpecificKey, value: ())
+        return queue
+    }()
     
     private var threadUnsafeState: PromiseState<T>
     
@@ -130,8 +135,22 @@ public class Promise<T> {
     
     internal func synchronize<U>(
         _ action: (_ currentState: PromiseState<T>, _ blocks: inout PromiseBlocks<T>) -> U) -> U {
-        return lockQueue.sync {
-            return action(threadUnsafeState, &threadUnsafeBlocks)
+        if lockQueue.getSpecific(key: lockQueueSpecificKey) != nil {
+            let state = threadUnsafeState
+            var blocks = threadUnsafeBlocks
+            
+            let result = action(state, &blocks)
+            threadUnsafeBlocks = blocks
+            return result
+        } else {
+            return lockQueue.sync {
+                let state = threadUnsafeState
+                var blocks = threadUnsafeBlocks
+                
+                let result = action(state, &blocks)
+                threadUnsafeBlocks = blocks
+                return result
+            }
         }
     }
     
