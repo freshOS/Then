@@ -87,23 +87,27 @@ public class Promise<T> {
     }
     
     internal func passAlongFirstPromiseStartFunctionAndStateTo<X>(_ promise: Promise<X>) {
-        // Pass along First promise start block
-        if let startBlock = self.initialPromiseStart {
-            promise.initialPromiseStart = startBlock
-        } else {
-            promise.initialPromiseStart = self.start
+        _synchronize {
+            // Pass along First promise start block
+            if let startBlock = self.initialPromiseStart {
+                promise.initialPromiseStart = startBlock
+            } else {
+                promise.initialPromiseStart = self.start
+            }
+            // Pass along initil promise start state.
+            promise.initialPromiseStarted = self.initialPromiseStarted
         }
-        // Pass along initil promise start state.
-        promise.initialPromiseStarted = self.initialPromiseStarted
     }
 
     internal func tryStartInitialPromiseAndStartIfneeded() {
-        if !initialPromiseStarted {
-            initialPromiseStart?()
-            initialPromiseStarted = true
-        }
-        if !isStarted {
-            start()
+        _synchronize {
+            if !initialPromiseStarted {
+                initialPromiseStart?()
+                initialPromiseStarted = true
+            }
+            if !isStarted {
+                start()
+            }
         }
     }
     
@@ -135,27 +139,26 @@ public class Promise<T> {
     
     internal func synchronize<U>(
         _ action: (_ currentState: PromiseState<T>, _ blocks: inout PromiseBlocks<T>) -> U) -> U {
-        if lockQueue.getSpecific(key: lockQueueSpecificKey) != nil {
+        return _synchronize {
             let state = threadUnsafeState
             var blocks = threadUnsafeBlocks
             
             let result = action(state, &blocks)
             threadUnsafeBlocks = blocks
             return result
+        }
+    }
+    
+    private func _synchronize<U>(_ action: () -> U) -> U {
+        if lockQueue.getSpecific(key: lockQueueSpecificKey) != nil {
+            return action()
         } else {
-            return lockQueue.sync {
-                let state = threadUnsafeState
-                var blocks = threadUnsafeBlocks
-                
-                let result = action(state, &blocks)
-                threadUnsafeBlocks = blocks
-                return result
-            }
+            return lockQueue.sync(execute: action)
         }
     }
     
     internal func updateState(_ newState: PromiseState<T>) {
-        synchronize { _, _ in
+        _synchronize {
             _updateState(newState)
         }
     }
