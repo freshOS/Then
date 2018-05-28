@@ -69,8 +69,8 @@ public class Promise<T> {
     }
     
     internal func resetState() {
-        synchronize { (_, _) in
-            _updateState(.dormant)
+        _synchronize {
+            threadUnsafeState = .dormant
         }
     }
     
