@@ -75,8 +75,8 @@ public class Promise<T> {
     }
     
     public func start() {
-        synchronize { (state, _) in
-            if state.isDormant {
+        _synchronize {
+            if threadUnsafeState.isDormant {
                 _updateState(.pending(progress: 0))
                 if let p = promiseProgressCallBack {
                     p(fulfill, reject, setProgress)
@@ -112,19 +112,19 @@ public class Promise<T> {
     }
     
     public func fulfill(_ value: T) {
-        synchronize { (_, blocks) in
+        _synchronize {
             _updateState(.fulfilled(value: value))
-            blocks = .init()
+            threadUnsafeBlocks = .init()
             promiseProgressCallBack = nil
         }
     }
     
     public func reject(_ anError: Error) {
-        synchronize { (_, blocks) in
+        _synchronize {
             _updateState(.rejected(error: anError))
             // Only release callbacks if no retries a registered.
             if numberOfRetries == 0 {
-                blocks = .init()
+                threadUnsafeBlocks = .init()
                 promiseProgressCallBack = nil
             }
         }
@@ -150,7 +150,7 @@ public class Promise<T> {
     }
     
     private func _synchronize<U>(_ action: () -> U) -> U {
-        if lockQueue.getSpecific(key: lockQueueSpecificKey) != nil {
+        if DispatchQueue.getSpecific(key: lockQueueSpecificKey) != nil {
             return action()
         } else {
             return lockQueue.sync(execute: action)
@@ -207,16 +207,16 @@ public class Promise<T> {
     internal func syncStateWithCallBacks(success: @escaping ((T) -> Void),
                                          failure: @escaping ((Error) -> Void),
                                          progress: @escaping ((Float) -> Void)) {
-        synchronize { (state, blocks) in
-            switch state {
+        _synchronize {
+            switch threadUnsafeState {
             case let .fulfilled(value):
                 success(value)
             case let .rejected(error):
                 failure(error)
             case .dormant, .pending:
-                blocks.success.append(success)
-                blocks.fail.append(failure)
-                blocks.progress.append(progress)
+                threadUnsafeBlocks.success.append(success)
+                threadUnsafeBlocks.fail.append(failure)
+                threadUnsafeBlocks.progress.append(progress)
             }
         }
     }
