@@ -18,9 +18,12 @@ extension Promises {
         var ts = [T]()
         var error: Error?
         let group = DispatchGroup()
+        let tsLockQueue = DispatchQueue(label: "com.freshOS.then.whenAll.lockQueue", qos: .userInitiated)
         for p in promises {
             group.enter()
-            p.then { ts.append($0) }
+            p.then { result in
+                tsLockQueue.sync { ts.append(result) }
+                }
                 .onError { error = $0 }
                 .finally { group.leave() }
         }
@@ -47,9 +50,12 @@ extension Promises {
         var ts = [T]()
         var error: Error?
         let group = DispatchGroup()
+        let tsLockQueue = DispatchQueue(label: "com.freshOS.then.whenAll.lockQueue", qos: .userInitiated)
         for p in promises {
             group.enter()
-            p.then { ts.append(contentsOf: $0) }
+            p.then { result in
+                tsLockQueue.sync { ts.append(contentsOf: result) }
+                }
                 .onError { error = $0 }
                 .finally { group.leave() }
         }
