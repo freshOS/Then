@@ -12,7 +12,7 @@ import then
 class ProgressTests: XCTestCase {
 
     func testProgress() {
-        let progressExpectation = expectation(description: "thenExpectation")
+        let progressExpectation = expectation(description: "progressExpectation")
         let thenExpectation = expectation(description: "thenExpectation")
         upload().progress { p in
             print("PROGRESS \(p)")
