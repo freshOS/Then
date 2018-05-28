@@ -51,6 +51,27 @@ class WhenAllTests: XCTestCase {
         }
         waitForExpectations(timeout: 0.3, handler: nil)
     }
+  
+    private let concurrentQueue = DispatchQueue(
+        label: "then.whenAll.test.concurrent",
+        qos: .userInitiated,
+        attributes: .concurrent)
+    func testWhenAllAllAsynchronous() {
+        let values = (1...10).map { $0 }
+        let promises: [Promise<Int>] = values.map { value in
+            return Promise { fulfill, _ in
+                self.concurrentQueue.async {
+                    fulfill(value)
+                }
+            }
+        }
+        let block = expectation(description: "Block called")
+        Promises.whenAll(promises).then { array in
+            XCTAssertEqual(Set(array), Set(values))
+            block.fulfill()
+        }
+        waitForExpectations(timeout: 3, handler: nil)
+    }
     
     func testWhenAllCallsOnErrorWhenOneFailsSynchronous() {
         let block = expectation(description: "Block called")
