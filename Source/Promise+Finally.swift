@@ -16,11 +16,13 @@ public extension Promise {
     }
     
     public func registerFinally(_ block: @escaping () -> Void) {
-        switch state {
-        case .rejected, .fulfilled:
-            block()
-        case .dormant, .pending:
-            blocks.finally.append(block)
+        synchronize { state, blocks in
+            switch state {
+            case .rejected, .fulfilled:
+                block()
+            case .dormant, .pending:
+                blocks.finally.append(block)
+            }
         }
     }
 }

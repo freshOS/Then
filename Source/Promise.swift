@@ -16,30 +16,17 @@ public class Promise<T> {
     private let lockQueue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
     
     private var threadUnsafeState: PromiseState<T>
-    internal var state: PromiseState<T> {
-        get {
-            return lockQueue.sync { return threadUnsafeState }
-        }
-        set {
-            lockQueue.sync { threadUnsafeState = newValue }
-        }
-    }
     
     private var threadUnsafeBlocks: PromiseBlocks<T> = PromiseBlocks<T>()
-    internal var blocks: PromiseBlocks<T> {
-        get {
-            return lockQueue.sync { return threadUnsafeBlocks }
-        }
-        set {
-            lockQueue.sync { threadUnsafeBlocks = newValue }
-        }
-    }
 
     private var initialPromiseStart:(() -> Void)?
     private var initialPromiseStarted = false
-    internal var promiseProgressCallBack: ((_ resolve: @escaping ((T) -> Void),
-    _ reject: @escaping ((Error) -> Void),
-    _ progress: @escaping ((Float) -> Void)) -> Void)?
+    
+    internal typealias ProgressCallBack = (_ resolve: @escaping ((T) -> Void),
+        _ reject: @escaping ((Error) -> Void),
+        _ progress: @escaping ((Float) -> Void)) -> Void
+    
+    private var promiseProgressCallBack: ProgressCallBack?
     
     public init() {
         threadUnsafeState = .dormant
@@ -77,16 +64,20 @@ public class Promise<T> {
     }
     
     internal func resetState() {
-        state = .dormant
+        synchronize { (_, _) in
+            _updateState(.dormant)
+        }
     }
     
     public func start() {
-        if state.isDormant {
-            updateState(PromiseState<T>.pending(progress: 0))
-            if let p = promiseProgressCallBack {
-                p(fulfill, reject, setProgress)
+        synchronize { (state, _) in
+            if state.isDormant {
+                _updateState(.pending(progress: 0))
+                if let p = promiseProgressCallBack {
+                    p(fulfill, reject, setProgress)
+                }
+                //            promiseProgressCallBack = nil //Remove callba
             }
-//            promiseProgressCallBack = nil //Remove callba
         }
     }
     
@@ -112,50 +103,73 @@ public class Promise<T> {
     }
     
     public func fulfill(_ value: T) {
-        updateState(PromiseState<T>.fulfilled(value: value))
-        blocks = PromiseBlocks<T>()
-        promiseProgressCallBack = nil
-    }
-    
-    public func reject(_ anError: Error) {
-        updateState(PromiseState<T>.rejected(error: anError))
-        // Only release callbacks if no retries a registered.
-        if numberOfRetries == 0 {
-            blocks = PromiseBlocks<T>()
+        synchronize { (_, blocks) in
+            _updateState(.fulfilled(value: value))
+            blocks = .init()
             promiseProgressCallBack = nil
         }
     }
     
-    internal func updateState(_ newState: PromiseState<T>) {
-        if state.isPendingOrDormant {
-            state = newState
+    public func reject(_ anError: Error) {
+        synchronize { (_, blocks) in
+            _updateState(.rejected(error: anError))
+            // Only release callbacks if no retries a registered.
+            if numberOfRetries == 0 {
+                blocks = .init()
+                promiseProgressCallBack = nil
+            }
+        }
+    }
+    
+    private func _updateState(_ newState: PromiseState<T>) {
+        if threadUnsafeState.isPendingOrDormant {
+            threadUnsafeState = newState
         }
         launchCallbacksIfNeeded()
     }
     
+    internal func synchronize<U>(
+        _ action: (_ currentState: PromiseState<T>, _ blocks: inout PromiseBlocks<T>) -> U) -> U {
+        return lockQueue.sync {
+            return action(threadUnsafeState, &threadUnsafeBlocks)
+        }
+    }
+    
+    internal func updateState(_ newState: PromiseState<T>) {
+        synchronize { _, _ in
+            _updateState(newState)
+        }
+    }
+    
+    internal func setProgressCallBack(_ promiseProcessCallBack: ProgressCallBack) {
+        lockQueue.sync {
+            self.promiseProgressCallBack = promiseProgressCallBack
+        }
+    }
+    
     private func launchCallbacksIfNeeded() {
-        switch state {
+        switch threadUnsafeState {
         case .dormant:
             break
         case .pending(let progress):
             if progress != 0 {
-                for pb in blocks.progress {
+                for pb in threadUnsafeBlocks.progress {
                     pb(progress)
                 }
             }
         case .fulfilled(let value):
-            for sb in blocks.success {
+            for sb in threadUnsafeBlocks.success {
                 sb(value)
             }
-            for fb in blocks.finally {
+            for fb in threadUnsafeBlocks.finally {
                 fb()
             }
             initialPromiseStart = nil
         case .rejected(let anError):
-            for fb in blocks.fail {
+            for fb in threadUnsafeBlocks.fail {
                 fb(anError)
             }
-            for fb in blocks.finally {
+            for fb in threadUnsafeBlocks.finally {
                 fb()
             }
             initialPromiseStart = nil
@@ -171,15 +185,17 @@ public class Promise<T> {
     internal func syncStateWithCallBacks(success: @escaping ((T) -> Void),
                                          failure: @escaping ((Error) -> Void),
                                          progress: @escaping ((Float) -> Void)) {
-        switch state {
-        case let .fulfilled(value):
-            success(value)
-        case let .rejected(error):
-            failure(error)
-        case .dormant, .pending:
-            blocks.success.append(success)
-            blocks.fail.append(failure)
-            blocks.progress.append(progress)
+        synchronize { (state, blocks) in
+            switch state {
+            case let .fulfilled(value):
+                success(value)
+            case let .rejected(error):
+                failure(error)
+            case .dormant, .pending:
+                blocks.success.append(success)
+                blocks.fail.append(failure)
+                blocks.progress.append(progress)
+            }
         }
     }
 }
@@ -188,11 +204,13 @@ public class Promise<T> {
 extension Promise {
     
     var isStarted: Bool {
-        switch state {
-        case .dormant:
-            return false
-        default:
-            return true
+        return synchronize { state, _ in
+            switch state {
+            case .dormant:
+                return false
+            default:
+                return true
+            }
         }
     }
 }
