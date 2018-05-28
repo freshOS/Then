@@ -160,7 +160,7 @@ public class Promise<T> {
         }
     }
     
-    internal func setProgressCallBack(_ promiseProcessCallBack: ProgressCallBack) {
+    internal func setProgressCallBack(_ promiseProgressCallBack: @escaping ProgressCallBack) {
         lockQueue.sync {
             self.promiseProgressCallBack = promiseProgressCallBack
         }
