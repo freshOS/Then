@@ -68,11 +68,7 @@ public class Promise<T> {
                             _ reject: @escaping ((Error) -> Void)) -> Void) {
         self.init()
         promiseProgressCallBack = { resolve, reject, progress in
-            callback({ [weak self] t in
-                self?.fulfill(t)
-            }, { [weak self ] e in
-                self?.reject(e)
-            })
+            callback(resolve, reject)
         }
     }
     
@@ -82,7 +78,7 @@ public class Promise<T> {
                             _ progress: @escaping ((Float) -> Void)) -> Void) {
         self.init()
         promiseProgressCallBack = { resolve, reject, progress in
-            callback(self.fulfill, self.reject, self.setProgress)
+            callback(resolve, reject, progress)
         }
     }
     
