@@ -11,15 +11,10 @@ import Dispatch
 
 public class Promise<T> {
     
+    // MARK: - Protected properties
+    
     internal var numberOfRetries: UInt = 0
 
-    private let lockQueueSpecificKey = DispatchSpecificKey<Void>()
-    private lazy var lockQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
-        queue.setSpecific(key: self.lockQueueSpecificKey, value: ())
-        return queue
-    }()
-    
     private var threadUnsafeState: PromiseState<T>
     
     private var threadUnsafeBlocks: PromiseBlocks<T> = PromiseBlocks<T>()
@@ -32,6 +27,29 @@ public class Promise<T> {
         _ progress: @escaping ((Float) -> Void)) -> Void
     
     private var promiseProgressCallBack: ProgressCallBack?
+    
+    // MARK: - Lock
+    
+    private let lockQueueSpecificKey = DispatchSpecificKey<Void>()
+    private lazy var lockQueue: DispatchQueue = {
+        let queue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
+        queue.setSpecific(key: self.lockQueueSpecificKey, value: ())
+        return queue
+    }()
+    
+    private func _synchronize<U>(_ action: () -> U) -> U {
+        if DispatchQueue.getSpecific(key: lockQueueSpecificKey) != nil {
+            return action()
+        } else {
+            return lockQueue.sync(execute: action)
+        }
+    }
+    
+    private func _asynchronize(_ action: @escaping () -> Void) {
+        lockQueue.async(execute: action)
+    }
+    
+    // MARK: - Intializers
     
     public init() {
         threadUnsafeState = .dormant
@@ -68,74 +86,43 @@ public class Promise<T> {
         }
     }
     
-    internal func resetState() {
+    // MARK: - Private atomic operations
+    
+    private func _updateFirstPromiseStartFunctionAndState(from startBody: @escaping () -> Void, isStarted: Bool) {
         _synchronize {
-            threadUnsafeState = .dormant
+            initialPromiseStart = startBody
+            initialPromiseStarted = isStarted
         }
     }
+    
+    // MARK: - Public interfaces
     
     public func start() {
-        _synchronize {
-            if threadUnsafeState.isDormant {
-                _updateState(.pending(progress: 0))
-                if let p = promiseProgressCallBack {
-                    p(fulfill, reject, setProgress)
-                }
-                //            promiseProgressCallBack = nil //Remove callba
-            }
-        }
-    }
-    
-    internal func passAlongFirstPromiseStartFunctionAndStateTo<X>(_ promise: Promise<X>) {
-        _synchronize {
-            // Pass along First promise start block
-            if let startBlock = self.initialPromiseStart {
-                promise.initialPromiseStart = startBlock
-            } else {
-                promise.initialPromiseStart = self.start
-            }
-            // Pass along initil promise start state.
-            promise.initialPromiseStarted = self.initialPromiseStarted
-        }
+        _synchronize({ return _start() })?()
     }
 
-    internal func tryStartInitialPromiseAndStartIfneeded() {
-        _synchronize {
-            if !initialPromiseStarted {
-                initialPromiseStart?()
-                initialPromiseStarted = true
-            }
-            if !isStarted {
-                start()
-            }
-        }
-    }
-    
     public func fulfill(_ value: T) {
-        _synchronize {
-            _updateState(.fulfilled(value: value))
+        _synchronize({ () -> (() -> Void)? in 
+            let action = _updateState(.fulfilled(value: value))
             threadUnsafeBlocks = .init()
             promiseProgressCallBack = nil
-        }
+            return action
+        })?()
     }
     
     public func reject(_ anError: Error) {
-        _synchronize {
-            _updateState(.rejected(error: anError))
+        _synchronize({ () -> (() -> Void)? in
+            let action = _updateState(.rejected(error: anError))
             // Only release callbacks if no retries a registered.
             if numberOfRetries == 0 {
                 threadUnsafeBlocks = .init()
                 promiseProgressCallBack = nil
             }
-        }
+            return action
+        })?()
     }
     
-    private func _updateState(_ newState: PromiseState<T>) {
-        if threadUnsafeState.isPendingOrDormant {
-            threadUnsafeState = newState
-        }
-        launchCallbacksIfNeeded()
-    }
+    // MARK: - Internal interfaces
     
     internal func synchronize<U>(
         _ action: (_ currentState: PromiseState<T>, _ blocks: inout PromiseBlocks<T>) -> U) -> U {
@@ -149,52 +136,37 @@ public class Promise<T> {
         }
     }
     
-    private func _synchronize<U>(_ action: () -> U) -> U {
-        if DispatchQueue.getSpecific(key: lockQueueSpecificKey) != nil {
-            return action()
-        } else {
-            return lockQueue.sync(execute: action)
+    internal func resetState() {
+        _synchronize {
+            threadUnsafeState = .dormant
         }
+    }
+    
+    internal func passAlongFirstPromiseStartFunctionAndStateTo<X>(_ promise: Promise<X>) {
+        let (startBlock, isStarted) = _synchronize {
+            return (self.initialPromiseStart ?? self.start, self.initialPromiseStarted)
+        }
+        promise._updateFirstPromiseStartFunctionAndState(from: startBlock, isStarted: isStarted)
+    }
+    
+    internal func tryStartInitialPromiseAndStartIfneeded() {
+        var actions: [(() -> Void)?] = []
+        _synchronize {
+            actions = [
+                _startInitialPromiseIfNeeded(),
+                _start()
+            ]
+        }
+        actions.forEach { $0?() }
     }
     
     internal func updateState(_ newState: PromiseState<T>) {
-        _synchronize {
-            _updateState(newState)
-        }
+        _synchronize({ return _updateState(newState) })?()
     }
     
     internal func setProgressCallBack(_ promiseProgressCallBack: @escaping ProgressCallBack) {
-        lockQueue.sync {
+        _synchronize {
             self.promiseProgressCallBack = promiseProgressCallBack
-        }
-    }
-    
-    private func launchCallbacksIfNeeded() {
-        switch threadUnsafeState {
-        case .dormant:
-            break
-        case .pending(let progress):
-            if progress != 0 {
-                for pb in threadUnsafeBlocks.progress {
-                    pb(progress)
-                }
-            }
-        case .fulfilled(let value):
-            for sb in threadUnsafeBlocks.success {
-                sb(value)
-            }
-            for fb in threadUnsafeBlocks.finally {
-                fb()
-            }
-            initialPromiseStart = nil
-        case .rejected(let anError):
-            for fb in threadUnsafeBlocks.fail {
-                fb(anError)
-            }
-            for fb in threadUnsafeBlocks.finally {
-                fb()
-            }
-            initialPromiseStart = nil
         }
     }
     
@@ -220,9 +192,56 @@ public class Promise<T> {
             }
         }
     }
+    
+    // MARK: - Private non-atomic operations
+    
+    private func _startInitialPromiseIfNeeded() -> (() -> Void)? {
+        guard !initialPromiseStarted else { return nil }
+        initialPromiseStarted = true
+        let body = self.initialPromiseStart
+        return body
+    }
+    
+    private func _start() -> (() -> Void)? {
+        guard threadUnsafeState.isDormant else { return nil }
+        
+        let updateAction = _updateState(.pending(progress: 0))
+        guard let p = promiseProgressCallBack else { return updateAction }
+        return {
+            updateAction?()
+            p(self.fulfill, self.reject, self.setProgress)
+        }
+//            promiseProgressCallBack = nil //Remove callba
+    }
+    
+    private func _updateState(_ newState: PromiseState<T>) -> (() -> Void)? {
+        if threadUnsafeState.isPendingOrDormant {
+            threadUnsafeState = newState
+        }
+        return launchCallbacksIfNeeded()
+    }
+    
+    private func launchCallbacksIfNeeded() -> (() -> Void)? {
+        switch threadUnsafeState {
+        case .dormant:
+            return nil
+        case .pending(let progress):
+            if progress != 0 {
+                return threadUnsafeBlocks.updateProgress(progress)
+            } else {
+                return nil
+            }
+        case .fulfilled(let value):
+            initialPromiseStart = nil
+            return threadUnsafeBlocks.fulfill(value: value)
+        case .rejected(let anError):
+            initialPromiseStart = nil
+            return threadUnsafeBlocks.reject(error: anError)
+        }
+    }
 }
 
-// Helpers
+// MARK: - Helpers
 extension Promise {
     
     var isStarted: Bool {
