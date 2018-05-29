@@ -127,12 +127,7 @@ public class Promise<T> {
     internal func synchronize<U>(
         _ action: (_ currentState: PromiseState<T>, _ blocks: inout PromiseBlocks<T>) -> U) -> U {
         return _synchronize {
-            let state = threadUnsafeState
-            var blocks = threadUnsafeBlocks
-            
-            let result = action(state, &blocks)
-            threadUnsafeBlocks = blocks
-            return result
+            return action(threadUnsafeState, &threadUnsafeBlocks)
         }
     }
     
