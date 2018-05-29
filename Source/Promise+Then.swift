@@ -37,9 +37,8 @@ public extension Promise {
                     p.setProgress(f)
                 })
             }
-            passAlongFirstPromiseStartFunctionAndStateTo(p)
         }
-        
+        passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }
     
@@ -67,11 +66,9 @@ public extension Promise {
                     blocks.fail.append(p.reject)
                     blocks.progress.append(p.setProgress)
                 }
-                
-                p.start()
-                passAlongFirstPromiseStartFunctionAndStateTo(p)
             }
-            
+            p.start()
+            passAlongFirstPromiseStartFunctionAndStateTo(p)
             return p
     }
     
