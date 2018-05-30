@@ -371,6 +371,17 @@ async {
 }
 ```
 
+#### Await operators
+Await comes with `..` shorthand operator. The `..?` will fallback to a nil value instead of throwing.
+```swift
+let userId = try await(fetchUserId())
+```
+Can be written like this:
+```swift
+let userId = try ..fetchUserId()
+```
+
+
 ## Installation
 
 ### Cocoapods
