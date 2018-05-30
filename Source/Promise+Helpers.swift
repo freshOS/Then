@@ -29,10 +29,14 @@ extension Promise where T == Void {
 public extension Promise {
     
     public var value: T? {
-        return state.value
+        return synchronize { state, _ in
+            return state.value
+        }
     }
     
     public var error: Error? {
-        return state.error
+        return synchronize { state, _ in
+            return state.error
+        }
     }
 }

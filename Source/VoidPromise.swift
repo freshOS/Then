@@ -14,12 +14,8 @@ extension Promise where T == Void {
         _ resolve: @escaping (() -> Void),
         _ reject: @escaping ((Error) -> Void)) -> Void) {
         self.init()
-        promiseProgressCallBack = { resolve, reject, progress in
-            callback({ [weak self] in
-                self?.fulfill(())
-                }, { [weak self ] e in
-                    self?.reject(e)
-            })
+        setProgressCallBack { resolve, reject, _ in
+            callback(resolve, reject)
         }
     }
     
@@ -28,8 +24,8 @@ extension Promise where T == Void {
         _ reject: @escaping ((Error) -> Void),
         _ progress: @escaping ((Float) -> Void)) -> Void) {
         self.init()
-        promiseProgressCallBack = { resolve, reject, progress in
-            callback2(self.fulfill, self.reject, self.setProgress)
+        setProgressCallBack { resolve, reject, progress in
+            callback2(resolve, reject, progress)
         }
     }
 }

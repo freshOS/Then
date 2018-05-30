@@ -18,22 +18,25 @@ public extension Promise {
     
     @discardableResult public func registerThen<X>(_ block: @escaping (T) -> X) -> Promise<X> {
         let p = Promise<X>()
-        switch state {
-        case let .fulfilled(value):
-            let x: X = block(value)
-            p.fulfill(x)
-        case let .rejected(error):
-            p.reject(error)
-        case .dormant, .pending:
-            blocks.success.append({ t in
-                p.fulfill(block(t))
-            })
-            blocks.fail.append({ e in
-                p.reject(e)
-            })
-            blocks.progress.append({ f in
-                p.setProgress(f)
-            })
+        
+        synchronize { state, blocks in
+            switch state {
+            case let .fulfilled(value):
+                let x: X = block(value)
+                p.fulfill(x)
+            case let .rejected(error):
+                p.reject(error)
+            case .dormant, .pending:
+                blocks.success.append({ t in
+                    p.fulfill(block(t))
+                })
+                blocks.fail.append({ e in
+                    p.reject(e)
+                })
+                blocks.progress.append({ f in
+                    p.setProgress(f)
+                })
+            }
         }
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
@@ -47,19 +50,22 @@ public extension Promise {
     @discardableResult  public func registerThen<X>(_ block: @escaping (T) -> Promise<X>)
         -> Promise<X> {
             let p = Promise<X>()
-            switch state {
-            case let .fulfilled(value):
-                registerNextPromise(block, result: value,
-                                    resolve: p.fulfill, reject: p.reject)
-            case let .rejected(error):
-                p.reject(error)
-            case .dormant, .pending:
-                blocks.success.append({ [weak self] t in
-                    self?.registerNextPromise(block, result: t, resolve: p.fulfill,
-                                             reject: p.reject)
-                })
-                blocks.fail.append(p.reject)
-                blocks.progress.append(p.setProgress)
+            
+            synchronize { state, blocks in
+                switch state {
+                case let .fulfilled(value):
+                    registerNextPromise(block, result: value,
+                                        resolve: p.fulfill, reject: p.reject)
+                case let .rejected(error):
+                    p.reject(error)
+                case .dormant, .pending:
+                    blocks.success.append({ [weak self] t in
+                        self?.registerNextPromise(block, result: t, resolve: p.fulfill,
+                                                  reject: p.reject)
+                    })
+                    blocks.fail.append(p.reject)
+                    blocks.progress.append(p.setProgress)
+                }
             }
             p.start()
             passAlongFirstPromiseStartFunctionAndStateTo(p)

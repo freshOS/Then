@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import then
+@testable import then
 import Dispatch
 
 var globalCount = 0
@@ -138,4 +138,20 @@ func failingUpload() -> Promise<Void> {
 
 enum MyError: Error {
     case defaultError
+}
+
+extension Promise {
+    var blocks: PromiseBlocks<T> {
+        get {
+            return synchronize { _, blocks in
+                let temp = blocks
+                return temp
+            }
+        }
+        set {
+            synchronize { _, blocks in
+                blocks = newValue
+            }
+        }
+    }
 }

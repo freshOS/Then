@@ -66,6 +66,32 @@ class MemoryTests: XCTestCase {
         loopState()
     }
     
+    func testRaceConditionResigterBlocks() {
+        let p = Promise<String>()
+        func loop() {
+            for _ in 0...1000 {
+                p.registerThen { _ in }
+                p.registerOnError { _ in }
+                p.registerFinally { }
+                p.progress { _ in }
+            }
+        }
+        
+        if #available(iOS 10.0, *) {
+            let t1 = Thread { loop() }
+            let t2 = Thread { loop() }
+            let t3 = Thread { loop() }
+            let t4 = Thread { loop() }
+            t1.start()
+            t2.start()
+            t3.start()
+            t4.start()
+        } else {
+            // Fallback on earlier versions
+        }
+        loop()
+    }
+    
     func testRaceConditionWriteWriteBlocks() {
         let p = Promise<String>()
         func loop() {
