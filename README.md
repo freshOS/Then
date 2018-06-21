@@ -386,6 +386,7 @@ let userId = try ..fetchUserId()
 
 ### Cocoapods
 ```swift
+target 'MyApp'
 pod 'thenPromise'
 use_frameworks!
 ```
