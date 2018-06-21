@@ -9,7 +9,7 @@
 import Foundation
 import Dispatch
 
-public func await<T>(_ promise: Promise<T>) throws -> T {
+@discardableResult public func await<T>(_ promise: Promise<T>) throws -> T {
     var result: T!
     var error: Error?
     let group = DispatchGroup()
