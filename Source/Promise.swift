@@ -9,6 +9,20 @@
 import Foundation
 import Dispatch
 
+private class Locker {
+    let lockQueueSpecificKey: DispatchSpecificKey<Void>
+    let lockQueue: DispatchQueue
+    init() {
+        lockQueueSpecificKey = DispatchSpecificKey<Void>()
+        lockQueue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
+        lockQueue.setSpecific(key: lockQueueSpecificKey, value: ())
+    }
+  
+    var isOnLockQueue: Bool {
+        return DispatchQueue.getSpecific(key: lockQueueSpecificKey) != nil
+    }
+}
+
 public class Promise<T> {
     
     // MARK: - Protected properties
@@ -29,16 +43,13 @@ public class Promise<T> {
     private var promiseProgressCallBack: ProgressCallBack?
     
     // MARK: - Lock
-    
-    private let lockQueueSpecificKey = DispatchSpecificKey<Void>()
-    private lazy var lockQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
-        queue.setSpecific(key: self.lockQueueSpecificKey, value: ())
-        return queue
-    }()
-    
+  
+    private let locker = Locker()
+    private var lockQueue: DispatchQueue {
+        return locker.lockQueue
+    }
     private func _synchronize<U>(_ action: () -> U) -> U {
-        if DispatchQueue.getSpecific(key: lockQueueSpecificKey) != nil {
+        if locker.isOnLockQueue {
             return action()
         } else {
             return lockQueue.sync(execute: action)
