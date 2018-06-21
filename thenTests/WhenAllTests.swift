@@ -51,6 +51,23 @@ class WhenAllTests: XCTestCase {
         }
         waitForExpectations(timeout: 0.3, handler: nil)
     }
+    
+    func testLazyWhenAllLazyTrigger() {
+        var array: [Int] = []
+        let block = expectation(description: "Block called")
+        let promise = Promises.lazyWhenAll(promise1(), promise2()).registerThen {
+            array = $0
+            XCTAssertEqual(array, [1, 2])
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            XCTAssertEqual(array, [])
+            promise.then {
+                block.fulfill()
+            }
+        }
+        
+        waitForExpectations(timeout: 0.6, handler: nil)
+    }
   
     private let concurrentQueue = DispatchQueue(
         label: "then.whenAll.test.concurrent",
@@ -67,6 +84,23 @@ class WhenAllTests: XCTestCase {
         }
         let block = expectation(description: "Block called")
         Promises.whenAll(promises).then { array in
+            XCTAssertEqual(Set(array), Set(values))
+            block.fulfill()
+        }
+        waitForExpectations(timeout: 3, handler: nil)
+    }
+    
+    func testLazyWhenAllAllAsynchronous() {
+        let values = (1...10).map { $0 }
+        let promises: [Promise<Int>] = values.map { value in
+            return Promise { fulfill, _ in
+                self.concurrentQueue.async {
+                    fulfill(value)
+                }
+            }
+        }
+        let block = expectation(description: "Block called")
+        Promises.lazyWhenAll(promises).then { array in
             XCTAssertEqual(Set(array), Set(values))
             block.fulfill()
         }

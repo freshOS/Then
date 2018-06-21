@@ -23,16 +23,54 @@ extension Promises {
         return whenAll(promises, callbackQueue: callbackQueue)
     }
     
+    public static func lazyWhenAll<T>(_ promises: [Promise<T>], callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
+        return lazyReduceWhenAll(promises, callbackQueue: callbackQueue) { (result, element) in
+            result.append(element)
+        }
+    }
+    
+    public static func lazyWhenAll<T>(_ promises: Promise<T>..., callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
+        return lazyWhenAll(promises, callbackQueue: callbackQueue)
+    }
+    
     // Array version
     
     public static func whenAll<T>(_ promises: [Promise<[T]>], callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
-        return reduceWhenAll(promises, callbackQueue: callbackQueue, updatePartialResult: { (result, element) in
+        return reduceWhenAll(promises, callbackQueue: callbackQueue) { (result, element) in
             result.append(contentsOf: element)
-        })
+        }
     }
     
     public static func whenAll<T>(_ promises: Promise<[T]>..., callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
         return whenAll(promises, callbackQueue: callbackQueue)
+    }
+    
+    public static func lazyWhenAll<T>(_ promises: [Promise<[T]>], callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
+        return lazyReduceWhenAll(promises, callbackQueue: callbackQueue) { (result, element) in
+            result.append(contentsOf: element)
+        }
+    }
+    
+    public static func lazyWhenAll<T>(
+        _ promises: Promise<[T]>...,
+        callbackQueue: DispatchQueue? = nil) -> Promise<[T]> {
+        return lazyWhenAll(promises, callbackQueue: callbackQueue)
+    }
+    
+    // Private implementations
+    
+    private static func lazyReduceWhenAll<Result, Source>(
+        _ promises: [Promise<Source>],
+        callbackQueue: DispatchQueue?,
+        updatePartialResult: @escaping (_ result: inout [Result], _ element: Source) -> Void) -> Promise<[Result]> {
+        return Promise { fulfill, reject in
+            reducePromises(
+                promises,
+                callbackQueue: callbackQueue,
+                fulfill: fulfill,
+                reject: reject,
+                updatePartialResult: updatePartialResult)
+        }
     }
     
     private static func reduceWhenAll<Result, Source>(
@@ -41,6 +79,22 @@ extension Promises {
         updatePartialResult: @escaping (_ result: inout [Result], _ element: Source) -> Void) -> Promise<[Result]> {
         
         let p = Promise<[Result]>()
+        reducePromises(
+            promises,
+            callbackQueue: callbackQueue,
+            fulfill: p.fulfill,
+            reject: p.reject,
+            updatePartialResult: updatePartialResult)
+        return p
+    }
+    
+    private static func reducePromises<Result, Source>(
+        _ promises: [Promise<Source>],
+        callbackQueue: DispatchQueue?,
+        fulfill: @escaping ([Result]) -> Void,
+        reject: @escaping (Error) -> Void,
+        updatePartialResult: @escaping (_ result: inout [Result], _ element: Source) -> Void) {
+        
         let ts = ArrayContainer<Result>()
         var error: Error?
         let group = DispatchGroup()
@@ -56,12 +110,11 @@ extension Promises {
         let queue = callbackQueue ?? callingQueue ??  DispatchQueue.main
         group.notify(queue: queue) {
             if let e = error {
-                p.reject(e)
+                reject(e)
             } else {
-                p.fulfill(ts.array)
+                fulfill(ts.array)
             }
         }
-        return p
     }
     
     private class ArrayContainer<T> {
