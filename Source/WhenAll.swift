@@ -101,7 +101,7 @@ extension Promises {
         for p in promises {
             group.enter()
             p.then { element in
-                updatePartialResult(&ts.array, element)
+                ts.updateArray({ updatePartialResult(&$0, element) })
                 }
                 .onError { error = $0 }
                 .finally { group.leave() }
@@ -121,16 +121,15 @@ extension Promises {
         private var _array: [T] = []
         private let lockQueue = DispatchQueue(label: "com.freshOS.then.whenAll.lockQueue", qos: .userInitiated)
         
-        var array: [T] {
-            get {
-                return lockQueue.sync {
-                    _array
-                }
+        func updateArray(_ updates: @escaping (_ result: inout [T]) -> Void) {
+            lockQueue.async {
+                updates(&self._array)
             }
-            set {
-                lockQueue.sync {
-                    _array = newValue
-                }
+        }
+      
+        var array: [T] {
+            return lockQueue.sync {
+                _array
             }
         }
     }
