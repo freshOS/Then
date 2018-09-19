@@ -99,7 +99,7 @@ func failingFetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
 }
 
 func waitTime(_ callback:@escaping () -> Void) {
-    let delay = 0.05 * Double(NSEC_PER_SEC)
+    let delay = 0.01 * Double(NSEC_PER_SEC)
     let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
     DispatchQueue.global(qos: DispatchQoS.QoSClass.background).asyncAfter(deadline: time) {
         callback()

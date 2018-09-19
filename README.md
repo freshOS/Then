@@ -412,7 +412,9 @@ Grab this repository and build the Framework target on the example project. Then
 - Swift 2 -> version [**1.4.2**](https://github.com/freshOS/then/releases/tag/1.4.2)
 - Swift 3 -> version [**2.2.5**](https://github.com/freshOS/then/releases/tag/2.2.5)
 - Swift 4 -> version [**3.1.0**](https://github.com/freshOS/then/releases/tag/3.1.0)
-- Swift 4.1 -> version [**4.0.0**](https://github.com/freshOS/then/releases/tag/4.0.0)
+- Swift 4.1 -> version [**4.1.1**](https://github.com/freshOS/then/releases/tag/4.1.1)
+- Swift 4.2 -> version [**4.2.0**](https://github.com/freshOS/then/releases/tag/4.2.0)
+
 
 ### Backers
 Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :)
