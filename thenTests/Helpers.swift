@@ -115,25 +115,35 @@ func waitTime(_ time: Double, callback: @escaping () -> Void) {
 }
 
 func upload() -> Promise<Void> {
-    return Promise { (resolve: @escaping (() -> Void), _: @escaping ((Error) -> Void), progress) in
+
+    let callback: ((_ resolve: @escaping ((()) -> Void), _ reject: @escaping ((Error) -> Void), _ progress: @escaping ((Float) -> Void)) -> Void)
+        = { (resolve: @escaping ((()) -> Void), _: @escaping ((Error) -> Void), progress: @escaping ((Float) -> Void)) in
         waitTime {
             progress(0.8)
             waitTime {
-                resolve()
+                resolve(())
             }
         }
+            
     }
+
+    return Promise<Void>(callback2: callback)
 }
 
 func failingUpload() -> Promise<Void> {
-    return Promise { (_: @escaping (() -> Void), reject: @escaping ((Error) -> Void), progress) in
-        waitTime {
-            progress(0.8)
+    
+    let callback: ((_ resolve: @escaping ((()) -> Void), _ reject: @escaping ((Error) -> Void), _ progress: @escaping ((Float) -> Void)) -> Void)
+        = { (_: @escaping ((()) -> Void), reject: @escaping ((Error) -> Void), progress: @escaping ((Float) -> Void)) in
             waitTime {
-                reject(NSError(domain: "", code: 1223, userInfo: nil))
+                progress(0.8)
+                waitTime {
+                    reject(NSError(domain: "", code: 1223, userInfo: nil))
+                }
             }
-        }
     }
+
+    
+    return Promise<Void>(callback2: callback)
 }
 
 enum MyError: Error {

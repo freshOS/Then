@@ -10,7 +10,7 @@ import Foundation
 
 public extension Promise {
     
-    public func bridgeError(to myError: Error) -> Promise<T> {
+    func bridgeError(to myError: Error) -> Promise<T> {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
@@ -21,7 +21,7 @@ public extension Promise {
         return p
     }
     
-    public func bridgeError(_ errorType: Error, to myError: Error) -> Promise<T> {
+    func bridgeError(_ errorType: Error, to myError: Error) -> Promise<T> {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
@@ -36,7 +36,7 @@ public extension Promise {
         return p
     }
     
-    public func bridgeError(_ block:@escaping (Error) throws -> Void) -> Promise<T> {
+    func bridgeError(_ block:@escaping (Error) throws -> Void) -> Promise<T> {
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,
