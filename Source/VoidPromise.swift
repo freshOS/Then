@@ -15,7 +15,8 @@ extension Promise where T == Void {
         _ reject: @escaping ((Error) -> Void)) -> Void) {
         self.init()
         setProgressCallBack { resolve, reject, _ in
-            callback(resolve, reject)
+            let wrapped = { resolve(()) }
+            callback(wrapped, reject)
         }
     }
     
@@ -25,7 +26,8 @@ extension Promise where T == Void {
         _ progress: @escaping ((Float) -> Void)) -> Void) {
         self.init()
         setProgressCallBack { resolve, reject, progress in
-            callback2(resolve, reject, progress)
+            let wrapped = { resolve(()) }
+            callback2(wrapped, reject, progress)
         }
     }
 }

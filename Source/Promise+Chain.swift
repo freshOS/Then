@@ -10,7 +10,7 @@ import Foundation
 
 public extension Promise {
     
-    public func chain(_ block:@escaping (T) -> Void) -> Promise<T> {
+    func chain(_ block:@escaping (T) -> Void) -> Promise<T> {
         let p = newLinkedPromise()
         syncStateWithCallBacks(success: { t in
             block(t)

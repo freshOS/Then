@@ -10,12 +10,12 @@ import Foundation
 
 public extension Promise {
     
-    public func finally(_ block: @escaping () -> Void) {
+    func finally(_ block: @escaping () -> Void) {
         tryStartInitialPromiseAndStartIfneeded()
         registerFinally(block)
     }
     
-    public func registerFinally(_ block: @escaping () -> Void) {
+    func registerFinally(_ block: @escaping () -> Void) {
         synchronize { state, blocks in
             switch state {
             case .rejected, .fulfilled:
