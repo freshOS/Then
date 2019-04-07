@@ -67,11 +67,11 @@ public class Promise<T> {
     }
     
     public init(_ value: T) {
-        threadUnsafeState = .fulfilled(value: value)
+        threadUnsafeState = .completed(result:.success(value))
     }
     
     public init(error: Error) {
-        threadUnsafeState = PromiseState.rejected(error: error)
+        threadUnsafeState = .completed(result:.failure(error))
     }
 
     public convenience init(callback: @escaping (
@@ -110,7 +110,7 @@ public class Promise<T> {
 
     public func fulfill(_ value: T) {
         _synchronize({ () -> (() -> Void)? in 
-            let action = _updateState(.fulfilled(value: value))
+            let action = _updateState(.completed(result: .success(value)))
             threadUnsafeBlocks = .init()
             promiseProgressCallBack = nil
             return action
@@ -119,7 +119,7 @@ public class Promise<T> {
     
     public func reject(_ anError: Error) {
         _synchronize({ () -> (() -> Void)? in
-            let action = _updateState(.rejected(error: anError))
+            let action = _updateState(.completed(result: .failure(anError)))
             // Only release callbacks if no retries a registered.
             if numberOfRetries == 0 {
                 threadUnsafeBlocks = .init()
@@ -183,10 +183,11 @@ public class Promise<T> {
                                          progress: @escaping ((Float) -> Void)) {
         _synchronize {
             switch threadUnsafeState {
-            case let .fulfilled(value):
-                success(value)
-            case let .rejected(error):
-                failure(error)
+            case .completed(let result):
+                switch result {
+                case .success(let value): success(value)
+                case .failure(let error): failure(error)
+                }
             case .dormant, .pending:
                 threadUnsafeBlocks.success.append(success)
                 threadUnsafeBlocks.fail.append(failure)
@@ -233,12 +234,15 @@ public class Promise<T> {
             } else {
                 return nil
             }
-        case .fulfilled(let value):
-            initialPromiseStart = nil
-            return threadUnsafeBlocks.fulfill(value: value)
-        case .rejected(let anError):
-            initialPromiseStart = nil
-            return threadUnsafeBlocks.reject(error: anError)
+        case .completed(let result):
+            switch result {
+            case .success(let value):
+                initialPromiseStart = nil
+                return threadUnsafeBlocks.fulfill(value: value)
+            case .failure(let error):
+                initialPromiseStart = nil
+                return threadUnsafeBlocks.reject(error: error)
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ public extension Promise {
     func registerFinally(_ block: @escaping () -> Void) {
         synchronize { state, blocks in
             switch state {
-            case .rejected, .fulfilled:
+            case .completed:
                 block()
             case .dormant, .pending:
                 blocks.finally.append(block)

@@ -16,9 +16,9 @@ class MemoryTests: XCTestCase {
         
         func loopState() {
             for i in 0...10000 {
-                p.updateState(PromiseState<String>.fulfilled(value: "Test1-\(i)"))
-                p.updateState(PromiseState<String>.fulfilled(value: "Test2-\(i)"))
-                p.updateState(PromiseState<String>.fulfilled(value: "Test3-\(i)"))
+                p.updateState(.completed(result: .success("Test1-\(i)")))
+                p.updateState(.completed(result: .success("Test2-\(i)")))
+                p.updateState(.completed(result: .success("Test3-\(i)")))
             }
         }
         
@@ -42,9 +42,9 @@ class MemoryTests: XCTestCase {
         
         func loopState() {
             for i in 0...10000 {
-                p.updateState(PromiseState<String>.fulfilled(value: "Test1-\(i)"))
-                p.updateState(PromiseState<String>.fulfilled(value: "Test2-\(i)"))
-                p.updateState(PromiseState<String>.fulfilled(value: "Test3-\(i)"))
+                p.updateState(.completed(result: .success("Test1-\(i)")))
+                p.updateState(.completed(result: .success( "Test2-\(i)")))
+                p.updateState(.completed(result: .success( "Test3-\(i)")))
                 //Access Value
                 let value = p.value
                 print(value ?? "")

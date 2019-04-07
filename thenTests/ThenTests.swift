@@ -14,6 +14,11 @@ class ThenTests: XCTestCase {
     override func setUp() { super.setUp() }
     override func tearDown() { super.tearDown() }
     
+    func testResult() {
+        let result = Result<String, Error>.success("cool")
+        let promise = Promise.resolve(result)
+    }
+    
     func testThen() {
         let thenExpectation = expectation(description: "then called")
         let finallyExpectation = expectation(description: "Finally called")
@@ -28,7 +33,7 @@ class ThenTests: XCTestCase {
         }.finally {
             finallyExpectation.fulfill()
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testChainedPromises() {

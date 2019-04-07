@@ -11,21 +11,20 @@ import Foundation
 public enum PromiseState<T> {
     case dormant
     case pending(progress: Float)
-    case fulfilled(value: T)
-    case rejected(error: Error)
+    case completed(result: Result<T, Error>)
 }
 
 extension PromiseState {
-    
+
     var value: T? {
-        if case let .fulfilled(value) = self {
+        if case .completed(let result) = self, case .success(let value) = result {
             return value
         }
         return nil
     }
-    
+
     var error: Error? {
-        if case let .rejected(error) = self {
+        if case .completed(let result) = self, case .failure(let error) = result {
             return error
         }
         return nil
@@ -43,14 +42,14 @@ extension PromiseState {
     }
     
     var isFulfilled: Bool {
-        if case .fulfilled = self {
+        if case.completed(let result) = self, case .success = result {
             return true
         }
         return false
     }
     
     var isRejected: Bool {
-        if case .rejected = self {
+        if case .completed(let result) = self, case .failure = result {
             return true
         }
         return false

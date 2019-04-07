@@ -23,11 +23,14 @@ public extension Promise {
         
         synchronize { state, blocks in
             switch state {
-            case let .fulfilled(value):
-                let x: X = block(value)
-                p.fulfill(x)
-            case let .rejected(error):
-                p.reject(error)
+            case .completed(let result):
+                switch result {
+                case .success(let value):
+                    let x: X = block(value)
+                    p.fulfill(x)
+                case .failure(let error):
+                    p.reject(error)
+                }
             case .dormant, .pending:
                 blocks.success.append({ t in
                     p.fulfill(block(t))
@@ -57,11 +60,14 @@ public extension Promise {
             
             synchronize { state, blocks in
                 switch state {
-                case let .fulfilled(value):
-                    registerNextPromise(block, result: value,
-                                        resolve: p.fulfill, reject: p.reject)
-                case let .rejected(error):
-                    p.reject(error)
+                case .completed(let result):
+                    switch result {
+                    case .success(let value):
+                        registerNextPromise(block, result: value,
+                                            resolve: p.fulfill, reject: p.reject)
+                    case .failure(let error):
+                        p.reject(error)
+                    }
                 case .dormant, .pending:
                     blocks.success.append({ [weak self] t in
                         self?.registerNextPromise(block, result: t, resolve: p.fulfill,
