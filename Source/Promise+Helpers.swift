@@ -22,12 +22,7 @@ public extension Promise {
 
 extension Promise where T == Void {
     public class func resolve() -> Promise<Void> {
-
-        let callback: ((_ resolve: @escaping ((()) -> Void), _ reject: @escaping ((Error) -> Void)) -> Void)
-                = { resolve, reject in resolve(()) }
-
-        return Promise.init(callback: callback)
-
+        return Promise { resolve, _ in resolve() }
     }
 }
 
