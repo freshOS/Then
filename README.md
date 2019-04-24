@@ -1,7 +1,7 @@
 ![Then](https://raw.githubusercontent.com/freshOS/then/master/banner.png)
 
 # then
-[![Language: Swift 2 and 3|4](https://img.shields.io/badge/language-swift2|3|4-f48041.svg?style=flat)](https://developer.apple.com/swift)
+[![Language: Swift 5](https://img.shields.io/badge/language-swift5-f48041.svg?style=flat)](https://developer.apple.com/swift)
 ![Platform: iOS 8+/macOS10.11](https://img.shields.io/badge/platform-iOS%208%2B|OSX|tvOS-blue.svg?style=flat) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Cocoapods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org)
 [![Build Status](https://app.bitrise.io/app/2c01c6f861c526d9/status.svg?token=H26l2Nish0WWF6yfDTL1kA&branch=master)](https://app.bitrise.io/app/2c01c6f861c526d9)
@@ -414,7 +414,8 @@ Grab this repository and build the Framework target on the example project. Then
 - Swift 4 -> version [**3.1.0**](https://github.com/freshOS/then/releases/tag/3.1.0)
 - Swift 4.1 -> version [**4.1.1**](https://github.com/freshOS/then/releases/tag/4.1.1)
 - Swift 4.2 -> version [**4.2.0**](https://github.com/freshOS/then/releases/tag/4.2.0)
-- Swift 4.2.1 -> version [**4.2.0**](https://github.com/freshOS/then/releases/tag/4.2.1)
+- Swift 4.2.1 -> version [**4.2.0**](https://github.com/freshOS/then/releases/tag/4.2.1)  
+- Swift 5.0 -> version [**5.0.0**](https://github.com/freshOS/then/releases/tag/5.0.0)
 
 
 ### Backers

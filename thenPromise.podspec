@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'thenPromise'
-  s.version          = "4.2.1"
+  s.version          = "5.0.0"
   s.summary          = "Elegant Promises for Swift"
   s.homepage         = "https://github.com/freshOS/then"
   s.license          = { :type => "MIT", :file => "LICENSE" }
@@ -15,4 +15,5 @@ Pod::Spec.new do |s|
   s.requires_arc     = true
   s.description  = "Elegant Async code for Swift 🎬- Async code finally readable by a human being"
   s.module_name = 'then'
+  s.swift_versions = ['2', '3', '4', '4.1', '4.2', '5.0']
 end
