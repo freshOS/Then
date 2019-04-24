@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import then
+@testable import then
 
 class BridgeErrorTests: XCTestCase {
     

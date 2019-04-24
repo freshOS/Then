@@ -97,7 +97,7 @@ extension Promises {
         return zip(zip(p1, p2, p3, p4), p5).then { ($0.0, $0.1, $0.2, $0.3, $1) }
     }
     
-    // zip 6
+    // zip 6 swiftlint:disable function_parameter_count
     public static func zip<A, B, C, D, E, F>(_ p1: Promise<A>,
                                              _ p2: Promise<B>,
                                              _ p3: Promise<C>,
@@ -129,4 +129,5 @@ extension Promises {
                                                    _ p8: Promise<H>) -> Promise<(A, B, C, D, E, F, G, H)> {
         return zip(zip(p1, p2, p3, p4, p5, p6, p7), p8).then { ($0.0, $0.1, $0.2, $0.3, $0.4, $0.5, $0.6, $1) }
     }
+    // swiftlint:enable function_parameter_count
 }

@@ -47,23 +47,31 @@ class RetryTests: XCTestCase {
     }
     
     func testPromise() -> Promise<Void> {
-        return Promise { (_: @escaping (() -> Void), reject: @escaping ((Error) -> Void)) in
+        
+        let callback: ((_ resolve: @escaping ((()) -> Void), _ reject: @escaping ((Error) -> Void)) -> Void)
+            = { (resolve: @escaping ((()) -> Void), reject: @escaping ((Error) -> Void)) in
             self.tryCount += 1
             waitTime(0.1) {
                 reject(ARandomError())
             }
         }
+        
+        return Promise<Void>(callback: callback)
     }
     
     func succeedsAfter3Times() -> Promise<Void> {
-        return Promise { (resolve: @escaping (() -> Void), reject: @escaping ((Error) -> Void)) in
-            self.tryCount += 1
-            if self.tryCount == 3 {
-                resolve()
-            } else {
-                reject(ARandomError())
-            }
+        
+        let callback: ((_ resolve: @escaping ((()) -> Void), _ reject: @escaping ((Error) -> Void)) -> Void)
+            = { (resolve: @escaping ((()) -> Void), reject: @escaping ((Error) -> Void)) in
+                self.tryCount += 1
+                if self.tryCount == 3 {
+                    resolve(())
+                } else {
+                    reject(ARandomError())
+                }
         }
+        
+        return Promise<Void>(callback: callback)
     }
 }
 

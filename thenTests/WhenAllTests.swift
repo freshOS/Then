@@ -114,9 +114,12 @@ class WhenAllTests: XCTestCase {
             reject(MyError.defaultError)
         }
         
-        let promise2 = Promise<Void> { resolve, _ in
-            resolve()
+        let callback: ((_ resolve: @escaping ((()) -> Void), _ reject: @escaping ((Error) -> Void)) -> Void)
+            = { resolve, _ in
+                resolve(())
         }
+        
+        let promise2 = Promise<Void>.init(callback: callback)
         
         Promises.whenAll(promise1, promise2)
             .then { _ in
@@ -137,11 +140,16 @@ class WhenAllTests: XCTestCase {
                 reject(MyError.defaultError)
             }
         }
-        let promise2 = Promise<Void> { resolve, _ in
+        
+        let callback: ((_ resolve: @escaping ((()) -> Void), _ reject: @escaping ((Error) -> Void)) -> Void)
+            = { resolve, _ in
             waitTime(0.1) {
-                resolve()
+                _ = resolve(())
             }
         }
+        
+        let promise2 = Promise<Void>.init(callback: callback)
+        
         Promises.whenAll(promise1, promise2)
             .then { _ in
                 XCTFail("testWhenAllCallsOnErrorWhenOneFailsAsynchronous failed")

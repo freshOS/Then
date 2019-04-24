@@ -27,8 +27,9 @@ extension Promise {
 
 extension Promises {
     public static func delay(_ time: TimeInterval) -> Promise<Void> {
-        return Promise { (resolve: @escaping (() -> Void), _: @escaping ((Error) -> Void)) in
-            callBackOnCallingQueueIn(time: time, block: resolve)
+        return Promise { (resolve: @escaping ((()) -> Void), _: @escaping ((Error) -> Void)) in
+            let erasedResolve = { resolve(()) }
+            callBackOnCallingQueueIn(time: time, block: erasedResolve)
         }
     }
 }
