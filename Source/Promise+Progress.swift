@@ -11,7 +11,6 @@ import Foundation
 public extension Promise {
     
     @discardableResult public func progress(_ block: @escaping (Float) -> Void) -> Promise<T> {
-        tryStartInitialPromiseAndStartIfneeded()
         let p = newLinkedPromise()
         syncStateWithCallBacks(
             success: p.fulfill,

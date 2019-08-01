@@ -116,9 +116,11 @@ func waitTime(_ time: Double, callback: @escaping () -> Void) {
 
 func upload() -> Promise<Void> {
     return Promise { (resolve: @escaping (() -> Void), _: @escaping ((Error) -> Void), progress) in
+        progress(0.8)
         waitTime {
             progress(0.8)
             waitTime {
+                progress(0.8)
                 resolve()
             }
         }
@@ -127,9 +129,11 @@ func upload() -> Promise<Void> {
 
 func failingUpload() -> Promise<Void> {
     return Promise { (_: @escaping (() -> Void), reject: @escaping ((Error) -> Void), progress) in
+        progress(0.8)
         waitTime {
             progress(0.8)
             waitTime {
+                progress(0.8)
                 reject(NSError(domain: "", code: 1223, userInfo: nil))
             }
         }
