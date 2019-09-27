@@ -24,8 +24,8 @@ let package = Package(
             dependencies: [],
             path: "Source"),
         .testTarget(
-            name: "thenTests",
+            name: "ThenTests",
             dependencies: ["Then"],
-            path: "thenTests")
+            path: "ThenTests")
     ]
 )
