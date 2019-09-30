@@ -73,7 +73,7 @@ class ThenTests: XCTestCase {
             print("name :\(name)")
             thenExpectation.fulfill()
         }
-        waitForExpectations(timeout: 0.5, handler: nil)
+        waitForExpectations(timeout: 0.6, handler: nil)
     }
     
     func testSynchronousChainsWorksProprely() {
