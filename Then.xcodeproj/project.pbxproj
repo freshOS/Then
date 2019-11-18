@@ -115,6 +115,7 @@
 		99B9FA8F1E5F107400D522C8 /* FinallyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B9FA8E1E5F107400D522C8 /* FinallyTests.swift */; };
 		99FA7FB61D93C153002274B0 /* thenMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FA7FB41D93C153002274B0 /* thenMacOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99FC63811C86085C008C1155 /* then.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FC637E1C86085C008C1155 /* then.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CC11A72D2374B1AC00B62D15 /* ThenWatchOS.h in Headers */ = {isa = PBXBuildFile; fileRef = CC11A72B2374B1AC00B62D15 /* ThenWatchOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -190,6 +191,9 @@
 		99FC637C1C86085C008C1155 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99FC637D1C86085C008C1155 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		99FC637E1C86085C008C1155 /* then.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = then.h; sourceTree = "<group>"; };
+		CC11A7292374B1AC00B62D15 /* ThenWatchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ThenWatchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC11A72B2374B1AC00B62D15 /* ThenWatchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThenWatchOS.h; sourceTree = "<group>"; };
+		CC11A72C2374B1AC00B62D15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +226,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CC11A7262374B1AC00B62D15 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -241,6 +252,7 @@
 				99B5ACA51C66831C005CDA28 /* ThenTests */,
 				99FA7FB31D93C153002274B0 /* ThenMacOS */,
 				17D4C41D1F4703B1002EF805 /* ThenTvOS */,
+				CC11A72A2374B1AC00B62D15 /* ThenWatchOS */,
 				99B5AC981C66831C005CDA28 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -252,6 +264,7 @@
 				99B5ACA11C66831C005CDA28 /* ThenTests.xctest */,
 				99FA7FB21D93C153002274B0 /* Then.framework */,
 				17D4C41C1F4703B1002EF805 /* Then.framework */,
+				CC11A7292374B1AC00B62D15 /* ThenWatchOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -349,6 +362,15 @@
 			path = Source;
 			sourceTree = SOURCE_ROOT;
 		};
+		CC11A72A2374B1AC00B62D15 /* ThenWatchOS */ = {
+			isa = PBXGroup;
+			children = (
+				CC11A72B2374B1AC00B62D15 /* ThenWatchOS.h */,
+				CC11A72C2374B1AC00B62D15 /* Info.plist */,
+			);
+			path = ThenWatchOS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -373,6 +395,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				99FA7FB61D93C153002274B0 /* thenMacOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC11A7242374B1AC00B62D15 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC11A72D2374B1AC00B62D15 /* ThenWatchOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +482,24 @@
 			productReference = 99FA7FB21D93C153002274B0 /* Then.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		CC11A7282374B1AC00B62D15 /* ThenWatchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC11A7302374B1AC00B62D15 /* Build configuration list for PBXNativeTarget "ThenWatchOS" */;
+			buildPhases = (
+				CC11A7242374B1AC00B62D15 /* Headers */,
+				CC11A7252374B1AC00B62D15 /* Sources */,
+				CC11A7262374B1AC00B62D15 /* Frameworks */,
+				CC11A7272374B1AC00B62D15 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ThenWatchOS;
+			productName = ThenWatchOS;
+			productReference = CC11A7292374B1AC00B62D15 /* ThenWatchOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -478,6 +526,10 @@
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
+					CC11A7282374B1AC00B62D15 = {
+						CreatedOnToolsVersion = 11.2;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 99B5AC911C66831C005CDA28 /* Build configuration list for PBXProject "Then" */;
@@ -497,6 +549,7 @@
 				99B5ACA01C66831C005CDA28 /* ThenTests */,
 				99FA7FB11D93C153002274B0 /* ThenMacOS */,
 				17D4C41B1F4703B1002EF805 /* ThenTvOS */,
+				CC11A7282374B1AC00B62D15 /* ThenWatchOS */,
 			);
 		};
 /* End PBXProject section */
@@ -524,6 +577,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		99FA7FB01D93C153002274B0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC11A7272374B1AC00B62D15 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -678,6 +738,13 @@
 				99329EE71FA725A80020347F /* Promise+Zip.swift in Sources */,
 				99329EE81FA725A80020347F /* Async.swift in Sources */,
 				99329EE91FA725A80020347F /* Await.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC11A7252374B1AC00B62D15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -982,6 +1049,71 @@
 			};
 			name = Release;
 		};
+		CC11A72E2374B1AC00B62D15 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ThenWatchOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 5.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenWatchOS;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Debug;
+		};
+		CC11A72F2374B1AC00B62D15 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ThenWatchOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 5.1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenWatchOS;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1026,6 +1158,15 @@
 			buildConfigurations = (
 				99FA7FB71D93C153002274B0 /* Debug */,
 				99FA7FB81D93C153002274B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC11A7302374B1AC00B62D15 /* Build configuration list for PBXNativeTarget "ThenWatchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC11A72E2374B1AC00B62D15 /* Debug */,
+				CC11A72F2374B1AC00B62D15 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
