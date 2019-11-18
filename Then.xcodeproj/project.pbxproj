@@ -91,6 +91,34 @@
 		99329F001FA725B30020347F /* Promise+Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C61F3C45A800BC997F /* Promise+Zip.swift */; };
 		99329F011FA725B30020347F /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E41E76FC7C00826BBE /* Async.swift */; };
 		99329F021FA725B30020347F /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E61E76FC8200826BBE /* Await.swift */; };
+		994CA700238294E600ADD969 /* PromiseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADCB1D58610E005769CD /* PromiseState.swift */; };
+		994CA701238294E600ADD969 /* VoidPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ED26A41F7BB6C6007D9FBB /* VoidPromise.swift */; };
+		994CA702238294E600ADD969 /* PromiseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3CB061E5EA53900FEF11A /* PromiseError.swift */; };
+		994CA703238294E600ADD969 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC637D1C86085C008C1155 /* Promise.swift */; };
+		994CA704238294E600ADD969 /* PromiseBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */; };
+		994CA705238294E600ADD969 /* Promise+Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */; };
+		994CA706238294E600ADD969 /* Promise+Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */; };
+		994CA707238294E600ADD969 /* Promise+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C691E5B1F2B00CA3959 /* Promise+Error.swift */; };
+		994CA708238294E600ADD969 /* Promise+Finally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C631E5B022D00CA3959 /* Promise+Finally.swift */; };
+		994CA709238294E600ADD969 /* Promise+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6B1E5B20BB00CA3959 /* Promise+Aliases.swift */; };
+		994CA70A238294E600ADD969 /* Promise+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA2C6D1E5B20EA00CA3959 /* Promise+Helpers.swift */; };
+		994CA70B238294E600ADD969 /* Promise+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F801E5D6E0F00CF8E98 /* Promise+Retry.swift */; };
+		994CA70C238294E600ADD969 /* Promise+Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F7C1E5D687F00CF8E98 /* Promise+Race.swift */; };
+		994CA70D238294E600ADD969 /* Promise+Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F781E5D5F3400CF8E98 /* Promise+Validate.swift */; };
+		994CA70E238294E600ADD969 /* Promise+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B29F721E5D58C600CF8E98 /* Promise+Recover.swift */; };
+		994CA70F238294E600ADD969 /* Promise+BridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E114E1E600D0700448085 /* Promise+BridgeError.swift */; };
+		994CA710238294E600ADD969 /* Promise+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5DE1E76EBAE00826BBE /* Promise+Chain.swift */; };
+		994CA711238294E600ADD969 /* Promise+NoMatterWhat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E11561E6016AD00448085 /* Promise+NoMatterWhat.swift */; };
+		994CA712238294E600ADD969 /* Promise+Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C51BF1E7DBB280088DEBC /* Promise+Unwrap.swift */; };
+		994CA713238294E600ADD969 /* Promise+Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C21F3B44F500BC997F /* Promise+Delay.swift */; };
+		994CA714238294E600ADD969 /* Promise+Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16CA1F3C4A8900BC997F /* Promise+Timeout.swift */; };
+		994CA715238294E600ADD969 /* Promise+nil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997949C520221FAA00F4D964 /* Promise+nil.swift */; };
+		994CA716238294E600ADD969 /* Promise+First.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997949C72022201100F4D964 /* Promise+First.swift */; };
+		994CA717238294E600ADD969 /* WhenAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA1C701CB7DDF800ADA4C3 /* WhenAll.swift */; };
+		994CA718238294E600ADD969 /* Promise+Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991E16C61F3C45A800BC997F /* Promise+Zip.swift */; };
+		994CA719238294E600ADD969 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E41E76FC7C00826BBE /* Async.swift */; };
+		994CA71A238294E600ADD969 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9907A5E61E76FC8200826BBE /* Await.swift */; };
+		994CA71B238294E600ADD969 /* Await+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996FBD9020BEE6CD00858D4A /* Await+Operators.swift */; };
 		9962ADC21D585902005769CD /* ProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC11D585902005769CD /* ProgressTests.swift */; };
 		9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC31D5859CC005769CD /* WhenAllTests.swift */; };
 		9962ADC61D585A06005769CD /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962ADC51D585A06005769CD /* Helpers.swift */; };
@@ -191,7 +219,7 @@
 		99FC637C1C86085C008C1155 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99FC637D1C86085C008C1155 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		99FC637E1C86085C008C1155 /* then.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = then.h; sourceTree = "<group>"; };
-		CC11A7292374B1AC00B62D15 /* ThenWatchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ThenWatchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC11A7292374B1AC00B62D15 /* Then.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Then.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC11A72B2374B1AC00B62D15 /* ThenWatchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThenWatchOS.h; sourceTree = "<group>"; };
 		CC11A72C2374B1AC00B62D15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -264,7 +292,7 @@
 				99B5ACA11C66831C005CDA28 /* ThenTests.xctest */,
 				99FA7FB21D93C153002274B0 /* Then.framework */,
 				17D4C41C1F4703B1002EF805 /* Then.framework */,
-				CC11A7292374B1AC00B62D15 /* ThenWatchOS.framework */,
+				CC11A7292374B1AC00B62D15 /* Then.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -497,7 +525,7 @@
 			);
 			name = ThenWatchOS;
 			productName = ThenWatchOS;
-			productReference = CC11A7292374B1AC00B62D15 /* ThenWatchOS.framework */;
+			productReference = CC11A7292374B1AC00B62D15 /* Then.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -745,6 +773,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				994CA700238294E600ADD969 /* PromiseState.swift in Sources */,
+				994CA701238294E600ADD969 /* VoidPromise.swift in Sources */,
+				994CA702238294E600ADD969 /* PromiseError.swift in Sources */,
+				994CA703238294E600ADD969 /* Promise.swift in Sources */,
+				994CA704238294E600ADD969 /* PromiseBlocks.swift in Sources */,
+				994CA705238294E600ADD969 /* Promise+Progress.swift in Sources */,
+				994CA706238294E600ADD969 /* Promise+Then.swift in Sources */,
+				994CA707238294E600ADD969 /* Promise+Error.swift in Sources */,
+				994CA708238294E600ADD969 /* Promise+Finally.swift in Sources */,
+				994CA709238294E600ADD969 /* Promise+Aliases.swift in Sources */,
+				994CA70A238294E600ADD969 /* Promise+Helpers.swift in Sources */,
+				994CA70B238294E600ADD969 /* Promise+Retry.swift in Sources */,
+				994CA70C238294E600ADD969 /* Promise+Race.swift in Sources */,
+				994CA70D238294E600ADD969 /* Promise+Validate.swift in Sources */,
+				994CA70E238294E600ADD969 /* Promise+Recover.swift in Sources */,
+				994CA70F238294E600ADD969 /* Promise+BridgeError.swift in Sources */,
+				994CA710238294E600ADD969 /* Promise+Chain.swift in Sources */,
+				994CA711238294E600ADD969 /* Promise+NoMatterWhat.swift in Sources */,
+				994CA712238294E600ADD969 /* Promise+Unwrap.swift in Sources */,
+				994CA713238294E600ADD969 /* Promise+Delay.swift in Sources */,
+				994CA714238294E600ADD969 /* Promise+Timeout.swift in Sources */,
+				994CA715238294E600ADD969 /* Promise+nil.swift in Sources */,
+				994CA716238294E600ADD969 /* Promise+First.swift in Sources */,
+				994CA717238294E600ADD969 /* WhenAll.swift in Sources */,
+				994CA718238294E600ADD969 /* Promise+Zip.swift in Sources */,
+				994CA719238294E600ADD969 /* Async.swift in Sources */,
+				994CA71A238294E600ADD969 /* Await.swift in Sources */,
+				994CA71B238294E600ADD969 /* Await+Operators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1072,13 +1128,13 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenWatchOS;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = Then;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -1104,13 +1160,13 @@
 				MARKETING_VERSION = 5.1.1;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenWatchOS;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = Then;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
