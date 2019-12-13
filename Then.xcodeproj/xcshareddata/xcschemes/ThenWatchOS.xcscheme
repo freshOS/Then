@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CC11A7282374B1AC00B62D15"
-               BuildableName = "ThenWatchOS.framework"
+               BuildableName = "Then.framework"
                BlueprintName = "ThenWatchOS"
                ReferencedContainer = "container:Then.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CC11A7282374B1AC00B62D15"
-            BuildableName = "ThenWatchOS.framework"
+            BuildableName = "Then.framework"
             BlueprintName = "ThenWatchOS"
             ReferencedContainer = "container:Then.xcodeproj">
          </BuildableReference>
