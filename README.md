@@ -425,6 +425,8 @@ Grab this repository and build the Framework target on the example project. Then
 - Swift 4.2.1 -> version [**4.2.0**](https://github.com/freshOS/then/releases/tag/4.2.1)  
 - Swift 5.0 -> version [**5.0.0**](https://github.com/freshOS/then/releases/tag/5.0.0)
 - Swift 5.1 -> version [**5.1.0**](https://github.com/freshOS/then/releases/tag/5.1.0)
+- Swift 5.1.3 -> version [**5.1.2**](https://github.com/freshOS/then/releases/tag/5.1.2)
+
 
 
 ### Backers
