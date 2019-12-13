@@ -829,7 +829,7 @@
 				INFOPLIST_FILE = thenTvOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fresh.thenTvOS;
 				PRODUCT_NAME = Then;
 				SDKROOT = appletvos;
@@ -855,7 +855,7 @@
 				INFOPLIST_FILE = thenTvOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fresh.thenTvOS;
 				PRODUCT_NAME = Then;
 				SDKROOT = appletvos;
@@ -993,8 +993,8 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fresh.then;
+				MARKETING_VERSION = 5.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1016,8 +1016,8 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fresh.then;
+				MARKETING_VERSION = 5.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1068,7 +1068,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenMacOS;
 				PRODUCT_NAME = Then;
 				SDKROOT = macosx;
@@ -1095,7 +1095,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenMacOS;
 				PRODUCT_NAME = Then;
 				SDKROOT = macosx;
@@ -1124,7 +1124,7 @@
 				INFOPLIST_FILE = ThenWatchOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.1.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenWatchOS;
@@ -1157,7 +1157,7 @@
 				INFOPLIST_FILE = ThenWatchOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.1.2;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.then.thenWatchOS;
 				PRODUCT_NAME = Then;
