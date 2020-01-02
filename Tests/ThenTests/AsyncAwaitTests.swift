@@ -167,7 +167,7 @@ class AsyncAwaitTests: XCTestCase {
             XCTAssertEqual(userId, 1234)
             exp.fulfill()
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     func testAwaitNilingOperatorError() {
@@ -179,7 +179,7 @@ class AsyncAwaitTests: XCTestCase {
         }.onError { _ in
             XCTFail("testFailingAsyncAwait failed")
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     /// Optional Operator ..? - nils out instead of throwing

@@ -26,7 +26,7 @@ class OnErrorTests: XCTestCase {
                 finallyExpectation.fulfill()
         }
         
-        waitForExpectations(timeout: 0.5, handler: nil)
+        waitForExpectations(timeout: 0.7, handler: nil)
     }
     
     func testOnErrorCalledWhenSynchronousRejects() {
