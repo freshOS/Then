@@ -63,6 +63,6 @@ class ChainTests: XCTestCase {
         }.onError { _ in
              print("ERROR")
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        waitForExpectations(timeout: 0.5, handler: nil)
     }
 }
