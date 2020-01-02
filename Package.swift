@@ -7,15 +7,15 @@ let package = Package(
     name: "Then",
     platforms: [
         .iOS(.v8),
-        .macOS(.v10_10),
-        .tvOS(.v9),
+        .macOS(.v10_12),
+        .tvOS(.v10),
         .watchOS(.v6)
     ],
     products: [
         .library(name: "Then", targets: ["Then"])
     ],
     targets: [
-        .target(name: "Then", path: "Source"),
-        .testTarget(name: "ThenTests", dependencies: ["Then"], path: "ThenTests")
+        .target(name: "Then"),
+        .testTarget(name: "ThenTests", dependencies: ["Then"])
     ]
 )

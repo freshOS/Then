@@ -1,6 +1,6 @@
 ![Then](https://raw.githubusercontent.com/freshOS/then/master/banner.png)
 
-# then
+# Then
 [![Language: Swift 5](https://img.shields.io/badge/language-swift5-f48041.svg?style=flat)](https://developer.apple.com/swift)
 ![Platform: iOS 8+/macOS10.11](https://img.shields.io/badge/platform-iOS|macOS|tvOS|watchOS-blue.svg?style=flat)
 [![SPM compatible](https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
@@ -385,30 +385,23 @@ let userId = try ..fetchUserId()
 
 ## Installation
 
+The Swift Package Manager (SPM) is now the official way to install `Then`. The other package managers are now deprecated as of `5.1.3` and won't be supported in future versions.
+
 ### Swift Package Manager
 
-To integrate `then` via [SPM](https://swift.org/package-manager/) into your Xcode 11 project specify it in Project > Swift Packages:
-```
-https://github.com/freshOS/then
-```
+`Xcode` > `File` > `Swift Packages` > `Add Package Dependency...` > `Paste` `https://github.com/freshOS/Then`
 
-### Cocoapods
+### Cocoapods - Deprecated
 ```swift
 target 'MyApp'
 pod 'thenPromise'
 use_frameworks!
 ```
 
-#### Carthage
+### Carthage  - Deprecated
 ```
 github "freshOS/then"
 ```
-#### Manually
-Simply Copy and Paste `.swift` files in your Xcode Project :)
-
-#### As A Framework
-Grab this repository and build the Framework target on the example project. Then Link against this framework.
-
 
 ## Contributors
 
