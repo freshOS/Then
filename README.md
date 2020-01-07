@@ -18,7 +18,7 @@ fetchUserId().then { id in
     print("UserID : \(id)")
 }.onError { e in
     print("An error occured : \(e)")
-}.finally {M
+}.finally {
     print("Everything is Done :)")
 }
 ```
