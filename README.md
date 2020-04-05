@@ -30,7 +30,7 @@ fetchUserId().then { id in
 Because async code is hard to write, hard to read, hard to reason about.   **A pain to maintain**
 
 ## Try it
-then is part of [freshOS](http://freshos.org) iOS toolset. Try it in an example App !  <a class="github-button" href="https://github.com/freshOS/StarterProject/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download freshOS/StarterProject on GitHub">Download Starter Project</a>
+then is part of [freshOS](https://freshos.github.io/) iOS toolset. Try it in an example App! <a class="github-button" href="https://github.com/freshOS/StarterProject/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download freshOS/StarterProject on GitHub">Download Starter Project</a>
 
 ## How
 By using a **then** keyword that enables you to write aSync code that *reads like an English sentence*  
