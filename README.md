@@ -24,7 +24,7 @@ fetchUserId().then { id in
 ```
 
 ```swift
-  let userId = try! await(fetchUserId())
+  let userId = try! awaitPromise(fetchUserId())
 ```
 
 Because async code is hard to write, hard to read, hard to reason about.   **A pain to maintain**
@@ -341,29 +341,29 @@ This is purely for the eyes :)
 
 ### Async/Await
 
-`await` waits for a promise to complete synchronously and yields the result :
+`awaitPromise` waits for a promise to complete synchronously and yields the result :
 
 ```swift
-let photos = try! await(getPhotos())
+let photos = try! awaitPromise(getPhotos())
 ```
 
 `async` takes a block and wraps it in a background Promise.
 
 ```swift
 async {
-  let photos = try await(getPhotos())
+  let photos = try awaitPromise(getPhotos())
 }
 ```
 Notice how we don't need the `!` anymore because `async` will catch the errors.
 
 
-Together, `async`/`await` enable us to write asynchronous code in a synchronous manner :
+Together, `async`/`awaitPromise` enable us to write asynchronous code in a synchronous manner :
 
 ```swift
 async {
-  let userId = try await(fetchUserId())
-  let userName = try await(fetchUserNameFromId(userId))
-  let isFollowed = try await(fetchUserFollowStatusFromName(userName))
+  let userId = try awaitPromise(fetchUserId())
+  let userName = try awaitPromise(fetchUserNameFromId(userId))
+  let isFollowed = try awaitPromise(fetchUserFollowStatusFromName(userName))
   return isFollowed
 }.then { isFollowed in
   print(isFollowed)
@@ -375,7 +375,7 @@ async {
 #### Await operators
 Await comes with `..` shorthand operator. The `..?` will fallback to a nil value instead of throwing.
 ```swift
-let userId = try await(fetchUserId())
+let userId = try awaitPromise(fetchUserId())
 ```
 Can be written like this:
 ```swift
