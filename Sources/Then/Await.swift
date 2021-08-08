@@ -9,6 +9,11 @@
 import Foundation
 import Dispatch
 
+@available(*, deprecated, message: "Use `awaitPromise<T>` instead, to avoid confusion & conflict with Swift standard library's `await`.")
+@discardableResult public func await<T>(_ promise: Promise<T>) throws -> T {
+    return try awaitPromise(promise)
+}
+
 @discardableResult public func awaitPromise<T>(_ promise: Promise<T>) throws -> T {
     var result: T!
     var error: Error?
