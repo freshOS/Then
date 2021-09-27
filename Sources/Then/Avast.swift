@@ -1,5 +1,5 @@
 //
-//  Await.swift
+//  avast.swift
 //  then
 //
 //  Created by Sacha Durand Saint Omer on 13/03/2017.
@@ -9,7 +9,7 @@
 import Foundation
 import Dispatch
 
-@discardableResult public func await<T>(_ promise: Promise<T>) throws -> T {
+@discardableResult public func avast<T>(_ promise: Promise<T>) throws -> T {
     var result: T!
     var error: Error?
     let group = DispatchGroup()

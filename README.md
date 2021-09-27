@@ -24,21 +24,21 @@ fetchUserId().then { id in
 ```
 
 ```swift
-  let userId = try! await(fetchUserId())
+  let userId = try! avast(fetchUserId())
 ```
 
-Because async code is hard to write, hard to read, hard to reason about.   **A pain to maintain**
+Because asynchronous code is hard to write, hard to read, hard to reason about. **A pain to maintain**
 
 ## Try it
 then is part of [freshOS](https://freshos.github.io/) iOS toolset. Try it in an example App! <a class="github-button" href="https://github.com/freshOS/StarterProject/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download freshOS/StarterProject on GitHub">Download Starter Project</a>
 
 ## How
 By using a **then** keyword that enables you to write aSync code that *reads like an English sentence*  
-Async code is now **concise**, **flexible** and **maintainable** ❤️
+Asynchronous code is now **concise**, **flexible** and **maintainable** ❤️
 
 ## What
 - [x] Based on the popular `Promise` / `Future` concept
-- [x] `Async` / `Await`
+- [x] `Ahoy` / `avast`
 - [x] `progress` `race` `recover` `validate` `retry` `bridgeError` `chain` `noMatterWhat` ...
 - [x] Strongly Typed
 - [x] Pure Swift & Lightweight
@@ -124,8 +124,8 @@ Mental sanity saved
   7. [chain](#chain)
   8. [noMatterWhat](#nomatterwhat)
   9. [unwrap](#unwrap)
-6. [AsyncTask](#asynctask)
-7. [Async/Await](#async/await)
+6. [AhoyTask](#ahoytask)
+7. [Ahoy/avast](#ahoy/avast)
 
 ### Writing your own Promise 💪
 Wondering what fetchUserId() is?  
@@ -295,7 +295,7 @@ A common use-case is for adding Analytics tracking like so:
 
 ```swift
 extension Photo {
-    public func post() -> Async<Photo> {
+    public func post() -> Ahoy<Photo> {
         return api.post(self).chain { _ in
             Tracker.trackEvent(.postPicture)
         }
@@ -333,37 +333,37 @@ func fetch(userId: String?) -> Promise<Void> {
 ```
 Unwrap will fail the promise chain with `unwrappingFailed` error in case of a nil value :)
 
-### AsyncTask
-`AsyncTask` and `Async<T>` typealisases are provided for those of us who think that Async can be clearer than `Promise`.
-Feel free to replace `Promise<Void>` by `AsyncTask` and `Promise<T>` by `Async<T>` wherever needed.  
+### AhoyTask
+`AhoyTask` and `Ahoy<T>` typealisases are provided for those of us who think that `Ahoy` can be clearer than `Promise`.
+Feel free to replace `Promise<Void>` by `AhoyTask` and `Promise<T>` by `Ahoy<T>` wherever needed.  
 This is purely for the eyes :)
 
 
-### Async/Await
+### Ahoy/avast
 
-`await` waits for a promise to complete synchronously and yields the result :
+`avast` waits for a promise to complete synchronously and yields the result :
 
 ```swift
-let photos = try! await(getPhotos())
+let photos = try! avast(getPhotos())
 ```
 
-`async` takes a block and wraps it in a background Promise.
+`ahoy` takes a block and wraps it in a background Promise.
 
 ```swift
-async {
-  let photos = try await(getPhotos())
+ahoy {
+  let photos = try avast(getPhotos())
 }
 ```
-Notice how we don't need the `!` anymore because `async` will catch the errors.
+Notice how we don't need the `!` anymore because `ahoy` will catch the errors.
 
 
-Together, `async`/`await` enable us to write asynchronous code in a synchronous manner :
+Together, `ahoy`/`avast` enable us to write ahoyhronous code in a synchronous manner :
 
 ```swift
-async {
-  let userId = try await(fetchUserId())
-  let userName = try await(fetchUserNameFromId(userId))
-  let isFollowed = try await(fetchUserFollowStatusFromName(userName))
+ahoy {
+  let userId = try avast(fetchUserId())
+  let userName = try avast(fetchUserNameFromId(userId))
+  let isFollowed = try avast(fetchUserFollowStatusFromName(userName))
   return isFollowed
 }.then { isFollowed in
   print(isFollowed)
@@ -372,10 +372,10 @@ async {
 }
 ```
 
-#### Await operators
-Await comes with `..` shorthand operator. The `..?` will fallback to a nil value instead of throwing.
+#### avast operators
+avast comes with `..` shorthand operator. The `..?` will fallback to a nil value instead of throwing.
 ```swift
-let userId = try await(fetchUserId())
+let userId = try avast(fetchUserId())
 ```
 Can be written like this:
 ```swift

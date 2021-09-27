@@ -39,10 +39,10 @@ class ChainTests: XCTestCase {
         waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-    func testChainNotCalledWhenAsyncPromiseFails() {
+    func testChainNotCalledWhenAhoyPromiseFails() {
         let exp = expectation(description: "")
         failingFetchUserFollowStatusFromName("Tom").chain { _ in
-            XCTFail("testChainNotCalledWhenAsyncPromiseFails failed")
+            XCTFail("testChainNotCalledWhenAhoyPromiseFails failed")
         }.onError { _ in
             exp.fulfill()
         }

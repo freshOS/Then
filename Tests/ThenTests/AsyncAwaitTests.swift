@@ -1,5 +1,5 @@
 //
-//  AsyncAwaitTests.swift
+//  AhoyAvastTests.swift
 //  then
 //
 //  Created by Sacha Durand Saint Omer on 13/03/2017.
@@ -9,60 +9,60 @@
 import XCTest
 import Then
 
-class AsyncAwaitTests: XCTestCase {
+class AhoyAvastTests: XCTestCase {
     
-    func testAsyncAwaitChainWorks() {
+    func testAhoyAvastChainWorks() {
         let exp = expectation(description: "")
-        async {
-            let userId = try await(fetchUserId())
+        ahoy {
+            let userId = try avast(fetchUserId())
             XCTAssertEqual(userId, 1234)
-            let userName = try await(fetchUserNameFromId(userId))
+            let userName = try avast(fetchUserNameFromId(userId))
             XCTAssertEqual(userName, "John Smith")
-            let isFollowed = try await(fetchUserFollowStatusFromName(userName))
+            let isFollowed = try avast(fetchUserFollowStatusFromName(userName))
             XCTAssertFalse(isFollowed)
             exp.fulfill()
         }
         waitForExpectations(timeout: 0.5, handler: nil)
     }
     
-    func testFailingAsyncAwait() {
+    func testFailingAhoyAvast() {
         let exp = expectation(description: "")
-        async {
-            _ = try await(failingFetchUserFollowStatusFromName("JohnDoe"))
-            XCTFail("testFailingAsyncAwait failed")
+        ahoy {
+            _ = try avast(failingFetchUserFollowStatusFromName("JohnDoe"))
+            XCTFail("testFailingAhoyAvast failed")
         }.onError { _ in
             exp.fulfill()
         }
         waitForExpectations(timeout: 0.5, handler: nil)
     }
     
-    func testCatchFailingAsyncAwait() {        
+    func testCatchFailingAhoyAvast() {
         let exp = expectation(description: "")
         do {
-            _ = try await(failingFetchUserFollowStatusFromName("JohnDoe"))
-            XCTFail("testCatchFailingAsyncAwait failed")
+            _ = try avast(failingFetchUserFollowStatusFromName("JohnDoe"))
+            XCTFail("testCatchFailingAhoyAvast failed")
         } catch {
             exp.fulfill()
         }
         waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-    func testAsyncAwaitUnwrapAtYourOwnRisk() {
+    func testAhoyAvastUnwrapAtYourOwnRisk() {
         let exp = expectation(description: "")
-        let userId = try! await(fetchUserId())
+        let userId = try! avast(fetchUserId())
         XCTAssertEqual(userId, 1234)
-        let userName = try! await(fetchUserNameFromId(userId))
+        let userName = try! avast(fetchUserNameFromId(userId))
         XCTAssertEqual(userName, "John Smith")
-        let isFollowed = try! await(fetchUserFollowStatusFromName(userName))
+        let isFollowed = try! avast(fetchUserFollowStatusFromName(userName))
         XCTAssertFalse(isFollowed)
         exp.fulfill()
         waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-    func testAsyncBlockCanReturnAValue() {
+    func testAhoyBlockCanReturnAValue() {
         let exp = expectation(description: "")
-        async { () -> Int in
-            let userId = try await(fetchUserId())
+        ahoy { () -> Int in
+            let userId = try avast(fetchUserId())
             return userId
         }.then { userId in
             XCTAssertEqual(userId, 1234)
@@ -73,9 +73,9 @@ class AsyncAwaitTests: XCTestCase {
     
     /// Operator ..
     
-    func testAsyncAwaitChainWorksOperator() {
+    func testAhoyAvastChainWorksOperator() {
         let exp = expectation(description: "")
-        async {
+        ahoy {
             let userId = try ..fetchUserId()
             XCTAssertEqual(userId, 1234)
             let userName = try ..fetchUserNameFromId(userId)
@@ -87,29 +87,29 @@ class AsyncAwaitTests: XCTestCase {
         waitForExpectations(timeout: 0.5, handler: nil)
     }
     
-    func testFailingAsyncAwaitOperator() {
+    func testFailingAhoyAvastOperator() {
         let exp = expectation(description: "")
-        async {
+        ahoy {
             _ = try ..failingFetchUserFollowStatusFromName("JohnDoe")
-            XCTFail("testFailingAsyncAwait failed")
+            XCTFail("testFailingAhoyAvast failed")
         }.onError { _ in
             exp.fulfill()
         }
         waitForExpectations(timeout: 0.5, handler: nil)
     }
 
-    func testCatchFailingAsyncAwaitOperator() {
+    func testCatchFailingAhoyAvastOperator() {
         let exp = expectation(description: "")
         do {
             _ = try ..failingFetchUserFollowStatusFromName("JohnDoe")
-            XCTFail("testCatchFailingAsyncAwait failed")
+            XCTFail("testCatchFailingAhoyAvast failed")
         } catch {
             exp.fulfill()
         }
         waitForExpectations(timeout: 0.3, handler: nil)
     }
 
-    func testAsyncAwaitUnwrapAtYourOwnRiskOperator() {
+    func testAhoyAvastUnwrapAtYourOwnRiskOperator() {
         let exp = expectation(description: "")
         let userId = try! ..fetchUserId()
         XCTAssertEqual(userId, 1234)
@@ -121,9 +121,9 @@ class AsyncAwaitTests: XCTestCase {
         waitForExpectations(timeout: 0.3, handler: nil)
     }
 
-    func testAsyncBlockCanReturnAValueOperator() {
+    func testAhoyBlockCanReturnAValueOperator() {
         let exp = expectation(description: "")
-        async { () -> Int in
+        ahoy { () -> Int in
             let userId = try ..fetchUserId()
             return userId
         }.then { userId in
@@ -137,7 +137,7 @@ class AsyncAwaitTests: XCTestCase {
     
     func testOptionalPromises() {
         let exp = expectation(description: "")
-        async {
+        ahoy {
             let optionalPromise: Promise? = fetchUserId()
             let userId = try ..optionalPromise
             XCTAssertEqual(userId, 1234)
@@ -148,10 +148,10 @@ class AsyncAwaitTests: XCTestCase {
     
     func testNilOptionalPromisesFail() {
         let exp = expectation(description: "")
-        async {
+        ahoy {
             let optionalPromise: Promise<Int>? = nil
             _ = try ..optionalPromise
-            XCTFail("testFailingAsyncAwait failed")
+            XCTFail("testFailingAhoyAvast failed")
         }.onError { _ in
             exp.fulfill()
         }
@@ -160,9 +160,9 @@ class AsyncAwaitTests: XCTestCase {
     
     /// Operator ..? - nils out instead of throwing
     
-    func testAwaitNilingOperator() {
+    func testAvastNilingOperator() {
         let exp = expectation(description: "")
-        async {
+        ahoy {
             let userId = ..?fetchUserId()
             XCTAssertEqual(userId, 1234)
             exp.fulfill()
@@ -170,23 +170,23 @@ class AsyncAwaitTests: XCTestCase {
         waitForExpectations(timeout: 0.5, handler: nil)
     }
     
-    func testAwaitNilingOperatorError() {
+    func testAvastNilingOperatorError() {
         let exp = expectation(description: "")
-        async {
+        ahoy {
             let string = ..?(failingFetchUserFollowStatusFromName("JohnDoe"))
             XCTAssertNil(string)
             exp.fulfill()
         }.onError { _ in
-            XCTFail("testFailingAsyncAwait failed")
+            XCTFail("testFailingAhoyAvast failed")
         }
         waitForExpectations(timeout: 0.5, handler: nil)
     }
     
     /// Optional Operator ..? - nils out instead of throwing
     
-    func testAwaitNilingOperatorOptional() {
+    func testAvastNilingOperatorOptional() {
         let exp = expectation(description: "")
-        async {
+        ahoy {
             let promise: Promise<Int>? = fetchUserId()
             let userId = ..?promise
             XCTAssertEqual(userId, 1234)
@@ -195,28 +195,28 @@ class AsyncAwaitTests: XCTestCase {
         waitForExpectations(timeout: 0.5, handler: nil)
     }
     
-    func testAwaitNilingOperatorErrorOptinal() {
+    func testAvastNilingOperatorErrorOptinal() {
         let exp = expectation(description: "")
-        async {
+        ahoy {
             let promise: Promise<Bool>? = failingFetchUserFollowStatusFromName("JohnDoe")
             let string = ..?promise
             XCTAssertNil(string)
             exp.fulfill()
         }.onError { _ in
-            XCTFail("testFailingAsyncAwait failed")
+            XCTFail("testFailingAhoyAvast failed")
         }
         waitForExpectations(timeout: 0.5, handler: nil)
     }
     
-    func testAwaitNilingOperatorErrorNilOptional() {
+    func testAvastNilingOperatorErrorNilOptional() {
         let exp = expectation(description: "")
-        async {
+        ahoy {
             let promise: Promise<Bool>? = nil
             let string = ..?promise
             XCTAssertNil(string)
             exp.fulfill()
         }.onError { _ in
-            XCTFail("testFailingAsyncAwait failed")
+            XCTFail("testFailingAhoyAvast failed")
         }
         waitForExpectations(timeout: 0.3, handler: nil)
     }

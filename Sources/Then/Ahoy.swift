@@ -1,5 +1,5 @@
 //
-//  Async.swift
+//  Ahoy.swift
 //  then
 //
 //  Created by Sacha Durand Saint Omer on 13/03/2017.
@@ -10,9 +10,9 @@ import Foundation
 import Dispatch
 
 @discardableResult
-public func async<T>(block:@escaping () throws -> T) -> Async<T> {
+public func ahoy<T>(block:@escaping () throws -> T) -> Ahoy<T> {
     let p = Promise<T> { resolve, reject in
-        DispatchQueue(label: "then.async.queue", attributes: .concurrent).async {
+        DispatchQueue(label: "then.ahoy.queue", attributes: .concurrent).async {
             do {
                 let t = try block()
                 resolve(t)
