@@ -5,7 +5,6 @@
 ![Platform: iOS 8+/macOS10.11](https://img.shields.io/badge/platform-iOS|macOS|tvOS|watchOS-blue.svg?style=flat)
 [![SPM compatible](https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
 [![Build Status](https://app.bitrise.io/app/2c01c6f861c526d9/status.svg?token=H26l2Nish0WWF6yfDTL1kA&branch=master)](https://app.bitrise.io/app/2c01c6f861c526d9)
-[![codebeat badge](https://codebeat.co/badges/768d3017-1e65-47e0-b287-afcb8954a1da)](https://codebeat.co/projects/github-com-s4cha-then)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/then/blob/master/LICENSE)
  ![Release version](https://img.shields.io/github/release/freshos/then.svg)
 
