@@ -6,7 +6,7 @@
 [![SPM compatible](https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
 [![Build Status](https://app.bitrise.io/app/c6b39aea308618bf/status.svg?token=11AKF3ZUtPtNoXE9Lnk62A&branch=master)](https://app.bitrise.io/app/c6b39aea308618bf)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/then/blob/master/LICENSE)
- ![Release version](https://img.shields.io/github/release/freshos/then.svg)
+ ![Release version](https://img.shields.io/github/v/release/freshos/then.svg)
 
 [Reason](#why) - [Example](#example) -  [Documentation](#documentation) - [Installation](#installation)
 
