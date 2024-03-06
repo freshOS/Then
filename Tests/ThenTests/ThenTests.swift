@@ -20,7 +20,7 @@ class ThenTests: XCTestCase {
         fetchUserId()
         .then(fetchUserNameFromId)
         .then(fetchUserFollowStatusFromName)
-        .then { isFollowed in
+        .then { isFollowed -> Void in
             XCTAssertFalse(isFollowed)
             thenExpectation.fulfill()
         }.onError { _ in

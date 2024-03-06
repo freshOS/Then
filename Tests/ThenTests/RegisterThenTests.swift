@@ -68,15 +68,15 @@ class RegisterThenTests: XCTestCase {
         
         let thenExpectation = expectation(description: "thenExpectation")
         fetchUserId()
-            .registerThen { _ in
+            .registerThen { _ -> Void in
                 XCTAssertTrue(count == 0)
                 count+=1
                 block1.fulfill()
-            }.registerThen {_ in
+            }.registerThen {_ -> Void in
                 XCTAssertTrue(count == 1)
                 count+=1
                 block2.fulfill()
-            }.registerThen {_ in
+            }.registerThen {_ -> Void in
                 XCTAssertTrue(count == 2)
                 count+=1
                 block3.fulfill()
@@ -155,26 +155,28 @@ class RegisterThenTests: XCTestCase {
         
         let thenExpectation = expectation(description: "thenExpectation")
         fetchUserId()
-            .registerThen { _ in
+            .registerThen { _ -> Void in
                 XCTAssertTrue(count == 0)
                 count+=1
                 block1.fulfill()
-            }.registerThen {_ in
+            }.registerThen {_ -> Void in
                 XCTAssertTrue(count == 1)
                 count+=1
                 block2.fulfill()
-            }.registerThen {_ in
+            }.registerThen { _ -> Void in
                 XCTAssertTrue(count == 2)
                 count+=1
                 block3.fulfill()
-            }.then { name in
+            }
+            .then { name in
                 XCTAssertTrue(count == 3)
                 count+=1
                 print("name :\(name)")
                 thenExpectation.fulfill()
-            }.then { _ -> Void in
+            }
+            .then { _ -> Void in
                 print("Just another then block")
-        }
+            }
         waitForExpectations(timeout: 0.3, handler: nil)
     }
 
