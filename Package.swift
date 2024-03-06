@@ -15,7 +15,7 @@ let package = Package(
         .library(name: "Then", targets: ["Then"])
     ],
     targets: [
-        .target(name: "Then"),
+        .target(name: "Then", path: "Sources", resources: [.copy("PrivacyInfo.xcprivacy")]),
         .testTarget(name: "ThenTests", dependencies: ["Then"])
     ]
 )
