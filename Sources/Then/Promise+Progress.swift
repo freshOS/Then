@@ -25,7 +25,7 @@ public extension Promise {
         return p
     }
     
-    internal func setProgress(_ value: Float) {
+    func setProgress(_ value: Float) {
         updateState(PromiseState<T>.pending(progress: value))
     }
 }
