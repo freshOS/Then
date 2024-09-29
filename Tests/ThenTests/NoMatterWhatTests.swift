@@ -6,34 +6,45 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class NoMatterWhatTests: XCTestCase {
+@Suite
+struct NoMatterWhatTests {
     
-    func testNoMatterWhatCalledOnSuccess() {
-        let exp = expectation(description: "")
+    @Test
+    func noMatterWhatCalledOnSuccess() async {
         var isLoading = true
-        XCTAssertTrue(isLoading)
-        Promise<String>.resolve("Cool").noMatterWhat {
-            isLoading = false
-        }.finally {
-            XCTAssertFalse(isLoading)
-            exp.fulfill()
+        #expect(isLoading)
+        let name = await withCheckedContinuation { continuation in
+            Promise
+                .resolve("Cool")
+                .noMatterWhat {
+                    isLoading = false
+                }
+                .finally {
+                    continuation.resume(returning: "finally")
+                }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(name == "finally")
+        #expect(!isLoading)
     }
     
-    func testNoMatterWhatCalledOnError() {
-        let exp = expectation(description: "")
+    @Test
+    func testNoMatterWhatCalledOnError() async {
         var isLoading = true
-        XCTAssertTrue(isLoading)
-        Promise<String>.reject().noMatterWhat {
-            isLoading = false
-        }.finally {
-            XCTAssertFalse(isLoading)
-            exp.fulfill()
+        let name = await withCheckedContinuation { continuation in
+            #expect(isLoading)
+            Promise<String>.reject()
+                .noMatterWhat {
+                    isLoading = false
+                }
+                .finally {
+                    continuation.resume(returning: "finally")
+                }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(name == "finally")
+        #expect(!isLoading)
+        
     }
 }
