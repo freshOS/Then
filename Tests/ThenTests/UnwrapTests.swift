@@ -6,29 +6,33 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class UnwrapTests: XCTestCase {
+@Suite
+struct UnwrapTests {
     
-    func testUwrap() {
+    @Test
+    func uwrapWorks() {
         let username: String? = "JohnDoe"
         unwrap(username).then { s in
-            XCTAssertEqual(s, username)
-        }.onError { _ in
-            XCTFail("testUwrap failed")
+            #expect(s == username)
+        }
+        .onError { _ in
+            Issue.record("testUwrap failed")
         }
     }
     
-    func testUwrapFails() {
+    @Test
+    func uwrapFails() {
         let username: String? = nil
         unwrap(username).then { _ in
-            XCTFail("testUwrapFails failed")
+            Issue.record("testUwrapFails failed")
         }.onError { e in
             if let pe = e as? PromiseError {
-                XCTAssertTrue(pe == .unwrappingFailed)
+                #expect(pe == .unwrappingFailed)
             } else {
-                XCTFail("testUwrapFails failed")
+                Issue.record("testUwrapFails failed")
             }
         }
     }
