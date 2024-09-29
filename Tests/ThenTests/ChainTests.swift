@@ -6,63 +6,77 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class ChainTests: XCTestCase {
+@Suite
+struct ChainTests {
     
-    func testChainSyncPromise() {
-        let exp = expectation(description: "")
-        Promise<String>.resolve("Cool").chain { s in
-            XCTAssertEqual(s, "Cool")
-            exp.fulfill()
-        }.then { _ in }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testChainASyncPromise() {
-        let exp = expectation(description: "")
-        fetchUserNameFromId(123).chain { s in
-            XCTAssertEqual(s, "John Smith")
-            exp.fulfill()
-        }.then { _ in }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testChainNotCalledWhenSyncPromiseFails() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject().chain { _ in
-            XCTFail("testChainNotCalledWhenSyncPromiseFails failed")
-        }.onError { _ in
-            exp.fulfill()
+    @Test
+    func chainSyncPromise() async {
+        _ = await confirmation { done in
+            Promise<String>.resolve("Cool").chain { s in
+                #expect(s == "Cool")
+                done()
+            }.then { _ in
+                print("OK")
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-    func testChainNotCalledWhenAsyncPromiseFails() {
-        let exp = expectation(description: "")
-        failingFetchUserFollowStatusFromName("Tom").chain { _ in
-            XCTFail("testChainNotCalledWhenAsyncPromiseFails failed")
-        }.onError { _ in
-            exp.fulfill()
+    @Test
+    func chainASyncPromise() async {
+        let name = await withCheckedContinuation { continuation in
+            fetchUserNameFromId(123).chain { s in
+                
+            } .then { s2 in
+                continuation.resume(returning: s2)
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(name == "John Smith")
     }
     
-    func testChainKeepsProgress() {
-        let progressExpectation = expectation(description: "thenExpectation")
-        let thenExpectation = expectation(description: "thenExpectation")
-        let chainExpectation = expectation(description: "chainExpectation")
-        upload().chain {
-            chainExpectation.fulfill()
-        }.progress { p in
-            XCTAssertEqual(p, 0.8)
-            progressExpectation.fulfill()
-        }.then {
-            thenExpectation.fulfill()
-        }.onError { _ in
-             print("ERROR")
+    @Test
+    func chainNotCalledWhenSyncPromiseFails() async {
+        _ = await confirmation { done in
+            Promise<Int>.reject().chain { _ in
+                Issue.record("testChainNotCalledWhenSyncPromiseFails failed")
+            }.onError { _ in
+                done()
+            }
         }
-        waitForExpectations(timeout: 0.5, handler: nil)
+    }
+    
+    @Test
+    func chainNotCalledWhenAsyncPromiseFails() async {
+        let name = await withCheckedContinuation { continuation in
+            failingFetchUserFollowStatusFromName("Tom").chain { _ in
+                continuation.resume(returning: "failed")
+            }.onError { _ in
+                continuation.resume(returning: "works")
+            }
+        }
+        #expect(name == "works")
+    }
+
+    @Test
+    func chainKeepsProgress() async {
+        var chainCalled = false
+        var progress: Float = 0
+        
+        let name: String = await withCheckedContinuation { continuation in
+            upload().chain {
+                chainCalled = true
+            }.progress { p in
+                progress = p
+            }.then {
+                continuation.resume(returning: "OK")
+            }.onError { _ in
+                Issue.record("error should'nt be called")
+            }
+        }
+        #expect(name == "OK")
+        #expect(chainCalled)
+        #expect(progress == 0.8)
     }
 }
