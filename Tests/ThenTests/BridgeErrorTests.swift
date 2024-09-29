@@ -6,91 +6,96 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
-@testable import Then
+import Testing
+import Then
 
-class BridgeErrorTests: XCTestCase {
+@Suite
+struct BridgeErrorTests {
     
-    func testBridgeAllErrorsToMine() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject()
-            .bridgeError(to: MyError.defaultError)
-            .then { _ in
-                XCTFail("then shouldn't be called")
-            }.onError { e in
-                if let e = e as? MyError {
-                    XCTAssertTrue(e == .defaultError)
-                } else {
-                    XCTFail("testBridgeAllErrorsToMine failed")
+    @Test
+    func bridgeAllErrorsToMine() async {
+        _ = await confirmation { done in
+            Promise<Int>.reject()
+                .bridgeError(to: MyError.defaultError)
+                .then { _ in
+                    Issue.record("then shouldn't be called")
+                }.onError { e in
+                    if let e = e as? MyError {
+                        #expect(e == .defaultError)
+                    } else {
+                        Issue.record("testBridgeAllErrorsToMine failed")
+                    }
+                    done()
                 }
-                exp.fulfill()
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-    func testBridgeAllErrorsNoError() {
-        let exp = expectation(description: "")
-        Promise<Int>.resolve(42)
-            .bridgeError(to: MyError.defaultError)
-            .then { _ in
-                exp.fulfill()
-            }.onError { _ in
-                XCTFail("onError shouldn't be called")
-
+    @Test
+    func bridgeAllErrorsNoError() async {
+        _ = await confirmation { done in
+            Promise<Int>.resolve(42)
+                .bridgeError(to: MyError.defaultError)
+                .then { _ in
+                    done()
+                }.onError { _ in
+                    Issue.record("onError shouldn't be called")
+                }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-    func testBridgeASpecificErrorToMine() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject(PromiseError.retryInvalidInput)
-            .bridgeError(PromiseError.retryInvalidInput, to: MyError.defaultError)
-            .then { _ in
-                XCTFail("then shouldn't be called")
-            }.onError { e in
-                if let e = e as? MyError {
-                    XCTAssertTrue(e == .defaultError)
-                } else {
-                    XCTFail("testBridgeASpecificErrorToMine failed")
+    @Test
+    func bridgeASpecificErrorToMine() async {
+        _ = await confirmation { done in
+            Promise<Int>.reject(PromiseError.retryInvalidInput)
+                .bridgeError(PromiseError.retryInvalidInput, to: MyError.defaultError)
+                .then { _ in
+                    Issue.record("then shouldn't be called")
+                }.onError { e in
+                    if let e = e as? MyError {
+                        #expect(e == .defaultError)
+                    } else {
+                        Issue.record("testBridgeASpecificErrorToMine failed")
+                    }
+                    done()
                 }
-                exp.fulfill()
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-    func testBridgeASpecificErrorToMineNotMatchingError() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject(PromiseError.default)
-            .bridgeError(PromiseError.retryInvalidInput, to: MyError.defaultError)
-            .then { _ in
-                XCTFail("then shouldn't be called")
-            }.onError { e in
-                if let e = e as? PromiseError {
-                    XCTAssertTrue(e == .default)
-                } else {
-                    XCTFail("testBridgeASpecificErrorToMineNotMatchingError failed")
+    @Test
+    func bridgeASpecificErrorToMineNotMatchingError() async {
+        _ = await confirmation { done in
+            Promise<Int>.reject(PromiseError.default)
+                .bridgeError(PromiseError.retryInvalidInput, to: MyError.defaultError)
+                .then { _ in
+                    Issue.record("then shouldn't be called")
+                }.onError { e in
+                    if let e = e as? PromiseError {
+                        #expect(e == .default)
+                    } else {
+                        Issue.record("testBridgeASpecificErrorToMineNotMatchingError failed")
+                    }
+                    done()
                 }
-                exp.fulfill()
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-    func testBridgeErrorCanUseBlockAndThrow() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject()
-            .bridgeError { _ in
-                throw MyError.defaultError
-            }
-            .then { _ in
-                XCTFail("then shouldn't be called")
-            }.onError { e in
-                if let e = e as? MyError {
-                    XCTAssertTrue(e == .defaultError)
-                } else {
-                    XCTFail("failed testBridgeErrorCanUseBlockAndThrow")
+    @Test
+    func bridgeErrorCanUseBlockAndThrow() async {
+        _ = await confirmation { done in
+            Promise<Int>.reject()
+                .bridgeError { _ in
+                    throw MyError.defaultError
                 }
-                exp.fulfill()
+                .then { _ in
+                    Issue.record("then shouldn't be called")
+                }.onError { e in
+                    if let e = e as? MyError {
+                        #expect(e == .defaultError)
+                    } else {
+                        Issue.record("failed testBridgeErrorCanUseBlockAndThrow")
+                    }
+                    done()
+                }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
     }
 }
