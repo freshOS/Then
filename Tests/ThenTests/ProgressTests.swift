@@ -6,38 +6,41 @@
 //  Copyright © 2016 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class ProgressTests: XCTestCase {
+@Suite
+struct ProgressTests {
 
-    func testProgress() {
-        let progressExpectation = expectation(description: "progressExpectation")
-        let thenExpectation = expectation(description: "thenExpectation")
-        upload().progress { p in
-            print("PROGRESS \(p)")
-            XCTAssertEqual(p, 0.8)
-            progressExpectation.fulfill()
-        }.then {
-            print("Done")
-            thenExpectation.fulfill()
-        }.onError { _ in
-            print("ERROR")
+    @Test
+    func progress() async {
+        var progress: Float = 0
+        let name = await withCheckedContinuation { continuation in
+            upload().progress { p in
+                progress = p
+            }.then {
+                continuation.resume(returning: "done")
+            }.onError { _ in
+                Issue.record("Error called")
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(progress == 0.8)
+        #expect(name == "done")
     }
     
-    func testProgressFails() {
-        let progressExpectation = expectation(description: "thenExpectation")
-        let errorExpectation = expectation(description: "errorExpectation")
-        failingUpload().progress { p in
-            XCTAssertEqual(p, 0.8)
-            progressExpectation.fulfill()
-        }.then {
-            XCTFail("testProgressFails failed")
-        }.onError { _ in
-            errorExpectation.fulfill()
+    @Test
+    func progressFails() async {
+        var progress: Float = 0
+        let name = await withCheckedContinuation { continuation in
+            failingUpload().progress { p in
+                progress = p
+            }.then {
+                Issue.record("then called")
+            }.onError { _ in
+                continuation.resume(returning: "error")
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(progress == 0.8)
+        #expect(name == "error")
     }
 }
