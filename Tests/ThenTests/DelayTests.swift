@@ -6,81 +6,106 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class DelayTests: XCTestCase {
+@Suite
+struct DelayTests {
     
-    func testStaticDelay() {
-        let e = expectation(description: "")
-        var run = false
-        Promises.delay(0.2).then {
-            run = true
-            e.fulfill()
-        }
-        waitTime(0.1) {
-            XCTAssertFalse(run)
-        }
-        waitTime(0.3) {
-            XCTAssertTrue(run)
-        }
-        waitForExpectations(timeout: 0.5, handler: nil)
-    }
-    
-    func testDelay() {
-        let e = expectation(description: "")
-        var result: Int?
-        Promise { resolve, _ in
+    @Test
+    func staticDelay() async {
+        var ran = false
+        var ran1 = false
+        var ran2 = false
+        let name = await withCheckedContinuation { continuation in
+            Promises.delay(0.2).then {
+                ran = true
+            }
             waitTime(0.1) {
-                resolve(123)
+                ran1 = ran
             }
-        }.delay(0.1).then { int in
-            result = int
-            e.fulfill()
+            waitTime(0.3) {
+                ran2 = ran
+                continuation.resume(returning: "done")
+            }
         }
         
-        waitTime(0.1) {
-            XCTAssertNil(result)
-        }
-        waitTime(0.3) {
-            XCTAssertEqual(result, 123)
-        }
-        waitForExpectations(timeout: 0.5, handler: nil)
+        #expect(!ran1)
+        #expect(ran2)
+        #expect(name == "done")
     }
     
-    func testChainDelays() {
-        let e = expectation(description: "")
-        var run = false
-        Promises.delay(0.1).delay(0.1).delay(0.1).then {
-            run = true
-            e.fulfill()
+    @Test
+    func delay() async {
+        var result: Int?
+        var result1: Int?
+        var result2: Int?
+        let name = await withCheckedContinuation { continuation in
+            Promise { resolve, _ in
+                waitTime(0.1) {
+                    resolve(123)
+                }
+            }
+            .delay(0.1)
+            .then { int in
+                result = int
+            }
+            
+            waitTime(0.1) {
+                result1 = result
+            }
+            waitTime(0.3) {
+                result2 = result
+                continuation.resume(returning: "done")
+            }
         }
-        waitTime(0.2) {
-            XCTAssertFalse(run)
-        }
-        waitTime(0.4) {
-            XCTAssertTrue(run)
-        }
-        waitForExpectations(timeout: 0.5, handler: nil)
+        #expect(result1 == nil)
+        #expect(result2 == 123)
+        #expect(name == "done")
     }
     
-    func testDelayOnlyAppliesOnSuccessfulPromises() {
-        let e = expectation(description: "")
-        var done = false
-        Promise<Int> { _, reject in
+    @Test
+    func chainDelays() async {
+        var ran = false
+        var ran1 = false
+        var ran2 = false
+        let name = await withCheckedContinuation { continuation in
+            Promises.delay(0.1).delay(0.1).delay(0.1).then {
+                ran = true
+            }
             waitTime(0.2) {
-                reject(PromiseError.default)
+                ran1 = ran
             }
-        }.delay(0.8).then { _ in
-            XCTFail("testDelayOnlyAppliesOnSuccessfulPromises failed")
-        }.onError { _ in
-            done = true
-            e.fulfill()
+            waitTime(0.4) {
+                ran2 = ran
+                continuation.resume(returning: "done")
+            }
         }
-        
-        waitTime(0.3) {
-            XCTAssertTrue(done)
+        #expect(!ran1)
+        #expect(ran2)
+        #expect(name == "done")
+    }
+    
+    @Test
+    func delayOnlyAppliesOnSuccessfulPromises() async {
+        var done = false
+        let name = await withCheckedContinuation { continuation in
+            Promise<Int> { _, reject in
+                waitTime(0.2) {
+                    reject(PromiseError.default)
+                }
+            }
+            .delay(0.8)
+            .then { _ in
+                Issue.record("testDelayOnlyAppliesOnSuccessfulPromises failed")
+            }.onError { _ in
+                done = true
+            }
+            waitTime(0.3) {
+                continuation.resume(returning: "done")
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(done)
+        #expect(name == "done")
     }
 }
