@@ -6,59 +6,64 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class ValidateTests: XCTestCase {
+@Suite
+struct ValidateTests {
     
-    func testValidateSucceeds() {
-        let e = expectation(description: "")
-        Promise<Int>.resolve(24)
-            .validate { $0 > 18 }
-            .then { _ in
-                e.fulfill()
-            }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testValidateFails() {
-        let e = expectation(description: "")
-        Promise<Int>.resolve(16)
-            .validate { ($0 > 18) }
-            .onError { error in
-                if let pe = error as? PromiseError {
-                   XCTAssertTrue(pe == .validationFailed)
-                } else {
-                    XCTFail("testValidateFails failed")
+    @Test
+    func validateSucceeds() async {
+        _ = await confirmation { done in
+            Promise<Int>.resolve(24)
+                .validate { $0 > 18 }
+                .then { _ in
+                    done()
                 }
-                e.fulfill()
-            }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        }
     }
     
-    func testValidateWithCustomError() {
-        let e = expectation(description: "")
-        Promise<Int>.resolve(16)
-            .validate(withError: MyError.defaultError, { $0 > 18 })
-            .onError { error in
-                if let pe = error as? MyError {
-                    XCTAssertTrue(pe == MyError.defaultError)
-                } else {
-                    XCTFail("testValidateWithCustomError failed")
+    @Test
+    func validateFails() async {
+        _ = await confirmation { done in
+            Promise<Int>.resolve(16)
+                .validate { ($0 > 18) }
+                .onError { error in
+                    if let pe = error as? PromiseError {
+                        #expect(pe == .validationFailed)
+                    } else {
+                        Issue.record("testValidateFails failed")
+                    }
+                    done()
                 }
-                e.fulfill()
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-    func testValidateNotCalledOnError() {
-        let e = expectation(description: "")
-        Promise.reject().validate {
-            XCTFail("testValidateNotCalledOnError failed")
-            return true
-        }.finally {
-            e.fulfill()
+    @Test
+    func validateWithCustomError() async {
+        _ = await confirmation { done in
+            Promise<Int>.resolve(16)
+                .validate(withError: MyError.defaultError, { $0 > 18 })
+                .onError { error in
+                    if let pe = error as? MyError {
+                        #expect(pe == MyError.defaultError)
+                    } else {
+                        Issue.record("testValidateWithCustomError failed")
+                    }
+                    done()
+                }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+    }
+    
+    @Test
+    func validateNotCalledOnError() async {
+        _ = await confirmation { done in
+            Promise.reject().validate {
+                Issue.record("testValidateNotCalledOnError failed")
+                return true
+            }.finally {
+                done()
+            }
+        }
     }
 }
