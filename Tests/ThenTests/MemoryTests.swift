@@ -6,12 +6,14 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 @testable import Then
+import Foundation
 
-class MemoryTests: XCTestCase {
+struct MemoryTests {
     
-    func testRaceConditionWriteState() {
+    @Test
+    func raceConditionWriteState() {
         let p = Promise<String>()
         
         func loopState() {
@@ -22,22 +24,20 @@ class MemoryTests: XCTestCase {
             }
         }
         
-        if #available(iOS 10.0, *) {
-            let t1 = Thread { loopState() }
-            let t2 = Thread { loopState() }
-            let t3 = Thread { loopState() }
-            let t4 = Thread { loopState() }
-            t1.start()
-            t2.start()
-            t3.start()
-            t4.start()
-        } else {
-            // Fallback on earlier versions
-        }
+        let t1 = Thread { loopState() }
+        let t2 = Thread { loopState() }
+        let t3 = Thread { loopState() }
+        let t4 = Thread { loopState() }
+        t1.start()
+        t2.start()
+        t3.start()
+        t4.start()
+
         loopState()
     }
     
-    func testRaceConditionReadState() {
+    @Test
+    func raceConditionReadState() {
         let p = Promise("Hello")
         
         func loopState() {
@@ -51,22 +51,21 @@ class MemoryTests: XCTestCase {
             }
         }
         
-        if #available(iOS 10.0, *) {
-            let t1 = Thread { loopState() }
-            let t2 = Thread { loopState() }
-            let t3 = Thread { loopState() }
-            let t4 = Thread { loopState() }
-            t1.start()
-            t2.start()
-            t3.start()
-            t4.start()
-        } else {
-            // Fallback on earlier versions
-        }
+     
+        let t1 = Thread { loopState() }
+        let t2 = Thread { loopState() }
+        let t3 = Thread { loopState() }
+        let t4 = Thread { loopState() }
+        t1.start()
+        t2.start()
+        t3.start()
+        t4.start()
+
         loopState()
     }
     
-    func testRaceConditionResigterBlocks() {
+    @Test
+    func raceConditionResigterBlocks() {
         let p = Promise<String>()
         func loop() {
             for _ in 0...1000 {
@@ -77,22 +76,20 @@ class MemoryTests: XCTestCase {
             }
         }
         
-        if #available(iOS 10.0, *) {
-            let t1 = Thread { loop() }
-            let t2 = Thread { loop() }
-            let t3 = Thread { loop() }
-            let t4 = Thread { loop() }
-            t1.start()
-            t2.start()
-            t3.start()
-            t4.start()
-        } else {
-            // Fallback on earlier versions
-        }
+        let t1 = Thread { loop() }
+        let t2 = Thread { loop() }
+        let t3 = Thread { loop() }
+        let t4 = Thread { loop() }
+        t1.start()
+        t2.start()
+        t3.start()
+        t4.start()
+
         loop()
     }
     
-    func testRaceConditionWriteWriteBlocks() {
+    @Test
+    func raceConditionWriteWriteBlocks() {
         let p = Promise<String>()
         func loop() {
             for _ in 0...1000 {
@@ -102,22 +99,21 @@ class MemoryTests: XCTestCase {
                 p.blocks.finally.append({ })
             }
         }
-        if #available(iOS 10.0, *) {
-            let t1 = Thread { loop() }
-            let t2 = Thread { loop() }
-            let t3 = Thread { loop() }
-            let t4 = Thread { loop() }
-            t1.start()
-            t2.start()
-            t3.start()
-            t4.start()
-        } else {
-            // Fallback on earlier versions
-        }
+    
+        let t1 = Thread { loop() }
+        let t2 = Thread { loop() }
+        let t3 = Thread { loop() }
+        let t4 = Thread { loop() }
+        t1.start()
+        t2.start()
+        t3.start()
+        t4.start()
+
         loop()
     }
     
-    func testRaceConditionWriteReadBlocks() {
+    @Test
+    func raceConditionWriteReadBlocks() {
         let p = Promise<String>()
         p.blocks.success.append({ _ in })
         p.blocks.fail.append({ _ in })
@@ -147,18 +143,16 @@ class MemoryTests: XCTestCase {
                 }
             }
         }
-        if #available(iOS 10.0, *) {
-            let t1 = Thread { loop() }
-            let t2 = Thread { loop() }
-            let t3 = Thread { loop() }
-            let t4 = Thread { loop() }
-            t1.start()
-            t2.start()
-            t3.start()
-            t4.start()
-        } else {
-            // Fallback on earlier versions
-        }
+    
+        let t1 = Thread { loop() }
+        let t2 = Thread { loop() }
+        let t3 = Thread { loop() }
+        let t4 = Thread { loop() }
+        t1.start()
+        t2.start()
+        t3.start()
+        t4.start()
+
         loop()
     }
 }
