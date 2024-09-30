@@ -6,16 +6,15 @@
 //  Copyright © 2016 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
+import Foundation
 @testable import Then
-import Dispatch
 
 var globalCount = 0
-//var blockPromiseCExpectation: XCTestExpectation!
 
 func promiseA() -> Promise<Int> {
     return Promise { resolve, _ in
-        XCTAssertTrue(globalCount == 0)
+        #expect(globalCount == 0)
         globalCount+=1
         resolve(globalCount)
     }
@@ -23,7 +22,7 @@ func promiseA() -> Promise<Int> {
 
 func promiseB() -> Promise<Int> {
     return Promise { resolve, _ in
-        XCTAssertTrue(globalCount == 1)
+        #expect(globalCount == 1)
         globalCount+=1
         resolve(globalCount)
     }
@@ -31,7 +30,7 @@ func promiseB() -> Promise<Int> {
 
 func promiseC(completion: @escaping () -> Void) -> Promise<Int> {
     return Promise { resolve, _ in
-        XCTAssertTrue(globalCount == 2)
+        #expect(globalCount == 2)
         globalCount+=1
         resolve(globalCount)
         completion()

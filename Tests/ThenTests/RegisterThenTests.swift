@@ -6,178 +6,202 @@
 //  Copyright © 2016 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class RegisterThenTests: XCTestCase {
+@Suite
+struct RegisterThenTests {
 
-    func testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock() {
-        let timerExpectation = expectation(description: "timerExpectation")
-        fetchUserId()
-            .registerThen { _ in
-                XCTFail("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
-            }.registerThen {_ in
-                XCTFail("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
-            }.registerThen {_ in
-                XCTFail("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+    @Test
+    func registerThenChainedPromisesAreNeverCalledWithoutAThenBlock() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .registerThen { _ in
+                    Issue.record("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+                }.registerThen {_ in
+                    Issue.record("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+                }.registerThen {_ in
+                    Issue.record("testRegisterThenChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+                }
+            waitTime(0.3) {
+                continuation.resume(returning: "done")
+            }
         }
-        waitTime(0.3) {
-            timerExpectation.fulfill()
-        }
-        waitForExpectations(timeout: 0.5, handler: nil)
+        #expect(result == "done")
     }
     
-    func testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock() {
-        let timerExpectation = expectation(description: "timerExpectation")
-        fetchUserId()
-            .registerThen(fetchUserNameFromId(10)).registerThen { name in
-                print(name)
-                XCTFail("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
-            }.registerThen {_ in
-                XCTFail("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
-            }.registerThen {_ in
-                XCTFail("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+    @Test
+    func registerThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .registerThen(fetchUserNameFromId(10))
+                .registerThen { name in
+                    Issue.record("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+                }.registerThen {_ in
+                    Issue.record("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+                }.registerThen {_ in
+                    Issue.record("testRegisterThenPromiseChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+                }
+            waitTime(0.3) {
+                continuation.resume(returning: "done")
+            }
         }
-        waitTime(0.3) {
-            timerExpectation.fulfill()
-        }
-        waitForExpectations(timeout: 0.5, handler: nil)
+        #expect(result == "done")
     }
     
-    func testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock() {
-        let timerExpectation = expectation(description: "timerExpectation")
-        fetchUserId().registerThen { id in
-            return fetchUserNameFromId(id)
+    @Test
+    func registerThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId().registerThen { id in
+                return fetchUserNameFromId(id)
             }.registerThen { _ in
-                XCTFail("testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+                Issue.record("testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock failed")
             }.registerThen { _ in
-                XCTFail("testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+                Issue.record("testRegisterThenPromise2ChainedPromisesAreNeverCalledWithoutAThenBlock failed")
+            }
+            waitTime(0.3) {
+                continuation.resume(returning: "done")
+            }
         }
-        waitTime(0.3) {
-            timerExpectation.fulfill()
-        }
-        waitForExpectations(timeout: 0.5, handler: nil)
+        #expect(result == "done")
     }
     
-    func testRegisterThenChainedPromisesAreExecutedInOrder() {
+    @Test
+    func registerThenChainedPromisesAreExecutedInOrder() async {
         var count = 0
         
-        let block1 = expectation(description: "block 1 called")
-        let block2 = expectation(description: "block 2 called")
-        let block3 = expectation(description: "block 3 called")
+        var block1Called = false
+        var block2Called = false
+        var block3Called = false
         
-        let thenExpectation = expectation(description: "thenExpectation")
-        fetchUserId()
-            .registerThen { _ -> Void in
-                XCTAssertTrue(count == 0)
-                count+=1
-                block1.fulfill()
-            }.registerThen {_ -> Void in
-                XCTAssertTrue(count == 1)
-                count+=1
-                block2.fulfill()
-            }.registerThen {_ -> Void in
-                XCTAssertTrue(count == 2)
-                count+=1
-                block3.fulfill()
-            }.then { name in
-                XCTAssertTrue(count == 3)
-                count+=1
-                print("name :\(name)")
-                thenExpectation.fulfill()
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .registerThen { _ -> Void in
+                    #expect(count == 0)
+                    count+=1
+                    block1Called = true
+                }.registerThen {_ -> Void in
+                    #expect(count == 1)
+                    count+=1
+                    block2Called = true
+                }.registerThen {_ -> Void in
+                    #expect(count == 2)
+                    count+=1
+                    block3Called = true
+                }.then { name in
+                    #expect(count == 3)
+                    count+=1
+                    continuation.resume(returning: "done")
+                }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(block1Called)
+        #expect(block2Called)
+        #expect(block3Called)
+        #expect(result == "done")
     }
     
-    func testRegisterThenPromiseFuncPointerNotCalled() {
-        let timerExpectation = expectation(description: "thenExpectation")
-        fetchUserId()
-            .registerThen(fetchUserNameFromId)
-            .registerThen { _ in
-                XCTFail("testRegisterThenPromiseFuncPointerNotCalled failed")
+    @Test
+    func registerThenPromiseFuncPointerNotCalled() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .registerThen(fetchUserNameFromId)
+                .registerThen { _ in
+                    Issue.record("testRegisterThenPromiseFuncPointerNotCalled failed")
+                }
+            waitTime(0.3) {
+                continuation.resume(returning: "done")
+            }
         }
-        waitTime(0.3) {
-            timerExpectation.fulfill()
-        }
-        waitForExpectations(timeout: 0.5, handler: nil)
+        #expect(result == "done")
     }
     
-    func testRegisterThenPromise2FuncPointerNotCalled() {
-        let timerExpectation = expectation(description: "thenExpectation")
-        fetchUserId().registerThen { id -> Promise<String> in
-            return fetchUserNameFromId(id)
+    @Test
+    func registerThenPromise2FuncPointerNotCalled() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId().registerThen { id -> Promise<String> in
+                return fetchUserNameFromId(id)
             }.registerThen { _ in
-                XCTFail("testRegisterThenPromise2FuncPointerNotCalled failed")
+                Issue.record("testRegisterThenPromise2FuncPointerNotCalled failed")
+            }
+            waitTime(0.3) {
+                continuation.resume(returning: "done")
+            }
         }
-        waitTime(0.3) {
-            timerExpectation.fulfill()
-        }
-        waitForExpectations(timeout: 0.5, handler: nil)
+        #expect(result == "done")
     }
     
-    func testRegisterThenPromiseFuncPointerCalledWithThenBlock() {
-        let timerExpectation = expectation(description: "thenExpectation")
-        fetchUserId()
-            .registerThen(fetchUserNameFromId)
-            .then { _ in
-                timerExpectation.fulfill()
+    @Test
+    func registerThenPromiseFuncPointerCalledWithThenBlock() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .registerThen(fetchUserNameFromId)
+                .then { _ in
+                    continuation.resume(returning: "done")
+                }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == "done")
     }
     
-    func testRegisterThenPromise2FuncPointerCalledWithThenBlock() {
-        let timerExpectation = expectation(description: "thenExpectation")
-        fetchUserId().registerThen { id -> Promise<String> in
-            return fetchUserNameFromId(id)
+    @Test
+    func testRegisterThenPromise2FuncPointerCalledWithThenBlock() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId().registerThen { id -> Promise<String> in
+                return fetchUserNameFromId(id)
             }.then { _ in
-                timerExpectation.fulfill()
+                continuation.resume(returning: "done")
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == "done")
     }
     
-    func testRegisterThenPromiseFuncPointerCalledWithMultipleRegisterThenBlocks() {
-        let timerExpectation = expectation(description: "thenExpectation")
-        fetchUserId()
-            .registerThen(fetchUserNameFromId)
-            .registerThen(fetchUserFollowStatusFromName)
-            .then { _ in
-                timerExpectation.fulfill()
+    @Test
+    func testRegisterThenPromiseFuncPointerCalledWithMultipleRegisterThenBlocks() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .registerThen(fetchUserNameFromId)
+                .registerThen(fetchUserFollowStatusFromName)
+                .then { _ in
+                    continuation.resume(returning: "done")
+                }
         }
-        waitForExpectations(timeout: 0.7, handler: nil)
+        #expect(result == "done")
     }
     
-    func testRegisterThenMultipleThenOnlyCallOriginalPromiseOnce() {
+    @Test
+    func testRegisterThenMultipleThenOnlyCallOriginalPromiseOnce() async {
         var count = 0
         
-        let block1 = expectation(description: "block 1 called")
-        let block2 = expectation(description: "block 2 called")
-        let block3 = expectation(description: "block 3 called")
+        var block1Called = false
+        var block2Called = false
+        var block3Called = false
         
-        let thenExpectation = expectation(description: "thenExpectation")
-        fetchUserId()
-            .registerThen { _ -> Void in
-                XCTAssertTrue(count == 0)
-                count+=1
-                block1.fulfill()
-            }.registerThen {_ -> Void in
-                XCTAssertTrue(count == 1)
-                count+=1
-                block2.fulfill()
-            }.registerThen { _ -> Void in
-                XCTAssertTrue(count == 2)
-                count+=1
-                block3.fulfill()
-            }
-            .then { name in
-                XCTAssertTrue(count == 3)
-                count+=1
-                print("name :\(name)")
-                thenExpectation.fulfill()
-            }
-            .then { _ -> Void in
-                print("Just another then block")
-            }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .registerThen { _ -> Void in
+                    #expect(count == 0)
+                    count+=1
+                    block1Called = true
+                }.registerThen {_ -> Void in
+                    #expect(count == 1)
+                    count+=1
+                    block2Called = true
+                }.registerThen { _ -> Void in
+                    #expect(count == 2)
+                    count+=1
+                    block3Called = true
+                }
+                .then { name in
+                    #expect(count == 3)
+                    count+=1
+                    continuation.resume(returning: "done")
+                }
+                .then { _ -> Void in
+                    print("Just another then block")
+                }
+        }
+        #expect(block1Called)
+        #expect(block2Called)
+        #expect(block3Called)
+        #expect(result == "done")
     }
-
 }
