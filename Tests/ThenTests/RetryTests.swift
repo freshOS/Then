@@ -6,44 +6,54 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class RetryTests: XCTestCase {
+@Suite
+class RetryTests {
     
     var tryCount = 0
     
-    func testRetryNumberWhenKeepsFailing() {
-        let e = expectation(description: "")
-        testPromise()
-        .retry(5).then {
-            XCTFail("testRetryNumberWhenKeepsFailing failed")
-        }.onError { _ in
-            e.fulfill()
-            XCTAssertEqual(5, self.tryCount)
+    @Test
+    func retryNumberWhenKeepsFailing() async {
+        let result = await withCheckedContinuation { continuation in
+            testPromise()
+                .retry(5)
+                .then {
+                    continuation.resume(returning: "then")
+                }.onError { _ in
+                    continuation.resume(returning: "onError")
+                }
         }
-        waitForExpectations(timeout: 3, handler: nil)
+        #expect(result == "onError")
+        #expect(tryCount == 5)
     }
     
-    func testRetrySucceedsAfter3times() {
-        let e = expectation(description: "")
-        succeedsAfter3Times()
-            .retry(10).then {
-                e.fulfill()
-                XCTAssertEqual(3, self.tryCount)
-            }.onError { _ in
-                XCTFail("testRetrySucceedsAfter3times failed")
-            }
-        waitForExpectations(timeout: 0.3, handler: nil)
+    @Test
+    func retrySucceedsAfter3times() async {
+        let result = await withCheckedContinuation { continuation in
+            succeedsAfter3Times()
+                .retry(10)
+                .then {
+                    continuation.resume(returning: "then")
+                }.onError { _ in
+                    continuation.resume(returning: "onError")
+                }
+        }
+        #expect(result == "then")
+        #expect(tryCount == 3)
     }
     
-    func testRetryFailsIfNumberOfRetriesposisitethan1() {
-        let e = expectation(description: "")
-        testPromise()
-            .retry(0).onError { _ in
-            e.fulfill()
+    @Test
+    func testRetryFailsIfNumberOfRetriesposisitethan1() async {
+        let result = await withCheckedContinuation { continuation in
+            testPromise()
+                .retry(0)
+                .onError { _ in
+                    continuation.resume(returning: "onError")
+                }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == "onError")
     }
     
     func testPromise() -> Promise<Void> {
