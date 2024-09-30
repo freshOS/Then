@@ -6,139 +6,160 @@
 //  Copyright © 2016 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 @testable import Then
 
-class ThenTests: XCTestCase {
+@Suite
+struct ThenTests {
     
-    override func setUp() { super.setUp() }
-    override func tearDown() { super.tearDown() }
-    
-    func testThen() {
-        let thenExpectation = expectation(description: "then called")
-        let finallyExpectation = expectation(description: "Finally called")
-        fetchUserId()
-        .then(fetchUserNameFromId)
-        .then(fetchUserFollowStatusFromName)
-        .then { isFollowed -> Void in
-            XCTAssertFalse(isFollowed)
-            thenExpectation.fulfill()
-        }.onError { _ in
-            XCTFail("on Error shouldn't be called")
-        }.finally {
-            finallyExpectation.fulfill()
+    @Test
+    func then() async {
+        var isFollowed = true
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .then(fetchUserNameFromId)
+                .then(fetchUserFollowStatusFromName)
+                .then { isFollowedValue -> Void in
+                    isFollowed = isFollowedValue
+                }.onError { _ in
+                    Issue.record("on Error shouldn't be called")
+                }.finally {
+                    continuation.resume(returning: "finally")
+                }
         }
-        waitForExpectations(timeout: 0.5, handler: nil)
+        #expect(!isFollowed)
+        #expect(result == "finally")
     }
     
-    func testChainedPromises() {
-        let thenExpectation = expectation(description: "then called")
-        fetchUserId()
-        .then(fetchUserNameFromId(1))
-        .then(fetchUserNameFromId(2))
-        .then(fetchUserNameFromId(3)).then { name in
-            print("name :\(name)")
-            thenExpectation.fulfill()
+    @Test
+    func chainedPromises() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .then(fetchUserNameFromId(1))
+                .then(fetchUserNameFromId(2))
+                .then(fetchUserNameFromId(3)).then { name in
+                    continuation.resume(returning: "then")
+                }
         }
-        waitForExpectations(timeout: 0.8, handler: nil)
+        #expect(result == "then")
     }
-    
-    func testChainedPromisesAreExecutedInOrder() {
+
+    @Test
+    func testChainedPromisesAreExecutedInOrder() async {
         var count = 0
-        
-        let block1 = expectation(description: "block 1 called")
-        let block2 = expectation(description: "block 2 called")
-        let block3 = expectation(description: "block 3 called")
-        
-        let thenExpectation = expectation(description: "then called")
-        fetchUserId()
-        .then(fetchUserNameFromId(1)).then({ _ in
-            XCTAssertTrue(count == 0)
-            count+=1
-            block1.fulfill()
-        })
-        .then(fetchUserNameFromId(2)).then {_ in
-            XCTAssertTrue(count == 1)
-            count+=1
-            block2.fulfill()
+        var block1Called = false
+        var block2Called = false
+        var block3Called = false
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .then(fetchUserNameFromId(1)).then({ _ in
+                    #expect(count == 0)
+                    count+=1
+                    block1Called = true
+                })
+                .then(fetchUserNameFromId(2)).then {_ in
+                    #expect(count == 1)
+                    count+=1
+                    block2Called = true
+                }
+                .then(fetchUserNameFromId(3)).then { _ in
+                    #expect(count == 2)
+                    count+=1
+                    block3Called = true
+                }
+                .then(fetchUserNameFromId(4)).then { name in
+                    #expect(count == 3)
+                    count+=1
+                    continuation.resume(returning: "then")
+                }
         }
-        .then(fetchUserNameFromId(3)).then { _ in
-            XCTAssertTrue(count == 2)
-            count+=1
-            block3.fulfill()
-        }
-        .then(fetchUserNameFromId(4)).then { name in
-            XCTAssertTrue(count == 3)
-            count+=1
-            print("name :\(name)")
-            thenExpectation.fulfill()
-        }
-        waitForExpectations(timeout: 0.7, handler: nil)
+        #expect(result == "then")
+        #expect(block1Called)
+        #expect(block2Called)
+        #expect(block3Called)
     }
+
     
-    func testSynchronousChainsWorksProprely() {
+    @Test
+    func synchronousChainsWorksProprely() async {
         globalCount = 0
-        blockPromiseCExpectation = expectation(description: "block C called")
-        promiseA()
-            .then(promiseB())
-            .then(promiseC())
-        waitForExpectations(timeout: 0.3, handler: nil)
+        let result = await withCheckedContinuation { continuation in
+            promiseA()
+                .then(promiseB())
+                .then(promiseC(completion: {
+                    continuation.resume(returning: "then")
+                }))
+        }
+        #expect(result == "then")
     }
     
-    func testClassicThenLaunchesPromise() {
-        let thenExpectation = expectation(description: "then called")
-        fetchUserId().then { id in
-            XCTAssertEqual(id, 1234)
-            thenExpectation.fulfill()
+    @Test
+    func classicThenLaunchesPromise() async {
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId().then { id in
+                continuation.resume(returning: id)
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == 1234)
     }
     
-    func testMultipleThenBlockCanBeRegisteredOnSamePromise() {
-        let then1 = expectation(description: "then called")
-        let then2 = expectation(description: "then called")
-        let then3 = expectation(description: "then called")
-        let then4 = expectation(description: "then called")
-        let p = fetchUserId()
-        p.then { _ in
-            then1.fulfill()
+    @Test
+    func multipleThenBlockCanBeRegisteredOnSamePromise() async {
+        var then1Called = false
+        var then2Called = false
+        var then3Called = false
+        let result = await withCheckedContinuation { continuation in
+            let p = fetchUserId()
+            p.then { _ in
+                then1Called = true
+            }
+            p.then { _ in
+                then2Called = true
+            }
+            p.then { _ in
+                then3Called = true
+            }
+            p.then { _ in
+                continuation.resume(returning: "then")
+            }
         }
-        p.then { _ in
-            then2.fulfill()
+        #expect(then1Called)
+        #expect(then2Called)
+        #expect(then3Called)
+        #expect(result == "then")
+    }
+
+    @Test
+    func thenWorksAfterErrorBlock() async {
+        var then1Called = false
+        let result = await withCheckedContinuation { continuation in
+            fetchUserId()
+                .then { _ in
+                    then1Called = true
+                }.onError { _ in
+                    Issue.record("on Error shouldn't be called")
+                }.then {
+                    continuation.resume(returning: "then")
+                }
         }
-        p.then { _ in
-            then3.fulfill()
-        }
-        p.then { _ in
-            then4.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(then1Called)
+        #expect(result == "then")
     }
     
-    func testThenWorksAfterErrorBlock() {
-        let thenExpectation = expectation(description: "then called")
-        fetchUserId()
-            .then { _ in
-                thenExpectation.fulfill()
-            }.onError { _ in
-                XCTFail("on Error shouldn't be called")
-            }.then {
-                print("Ok bro")
+    @Test
+    func canContinueWithThenAfterErrorBlock() async {
+        var onErrorCalled = false
+        let result = await withCheckedContinuation { continuation in
+            failingFetchUserFollowStatusFromName("")
+                .then { _ in
+                    Issue.record("testCanContinueWithThenAfterErrorBlock failed")
+                }.onError { _ in
+                    onErrorCalled = true
+                }.then {
+                    continuation.resume(returning: "then")
+                }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testCanContinueWithThenAfterErrorBlock() {
-        let thenExpectation = expectation(description: "then called")
-        let errorExpectation = expectation(description: "Finally called")
-        failingFetchUserFollowStatusFromName("").then { _ in
-            XCTFail("testCanContinueWithThenAfterErrorBlock failed")
-            }.onError { _ in
-                errorExpectation.fulfill()
-            }.then {
-                thenExpectation.fulfill()
-        }
-        
-        waitForExpectations(timeout: 0.5, handler: nil)
+        #expect(onErrorCalled)
+        #expect(result == "then")
     }
 }

@@ -11,7 +11,7 @@ import XCTest
 import Dispatch
 
 var globalCount = 0
-var blockPromiseCExpectation: XCTestExpectation!
+//var blockPromiseCExpectation: XCTestExpectation!
 
 func promiseA() -> Promise<Int> {
     return Promise { resolve, _ in
@@ -29,12 +29,13 @@ func promiseB() -> Promise<Int> {
     }
 }
 
-func promiseC() -> Promise<Int> {
+func promiseC(completion: @escaping () -> Void) -> Promise<Int> {
     return Promise { resolve, _ in
         XCTAssertTrue(globalCount == 2)
         globalCount+=1
         resolve(globalCount)
-        blockPromiseCExpectation.fulfill()
+        completion()
+//        blockPromiseCExpectation.fulfill()
         
     }
 }
