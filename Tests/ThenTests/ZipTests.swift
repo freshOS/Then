@@ -6,125 +6,131 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class ZipTests: XCTestCase {
+@Suite
+struct ZipTests {
     
     // 2 promises
-    
-    func testZipSynchronousPromises() {
-        let block = expectation(description: "Block called")
-        Promises.zip(Promise(1), Promise("Hello")).then { int, string in
-            XCTAssertEqual(int, 1)
-            XCTAssertEqual(string, "Hello")
-            block.fulfill()
+        
+    @Test
+    func zipSynchronousPromises() async {
+        let result = await withCheckedContinuation { continuation in
+            Promises.zip(Promise(1), Promise("Hello")).then { int, string in
+                continuation.resume(returning: (int, string))
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == (1, "Hello"))
     }
     
-    func testZipAsynchronousPromises() {
-        let block = expectation(description: "Block called")
-        let p1 = Promise { resolve, _ in
-            waitTime(0.1) { resolve("Cool") }
+    @Test
+    func zipAsynchronousPromises() async {
+        let result = await withCheckedContinuation { continuation in
+            let p1 = Promise { resolve, _ in
+                waitTime(0.1) { resolve("Cool") }
+            }
+            let p2 = Promise { resolve, _ in
+                waitTime(0.2) { resolve(23) }
+            }
+            Promises.zip(p1, p2).then { string, int in
+                continuation.resume(returning: (string, int))
+            }
         }
-        let p2 = Promise { resolve, _ in
-            waitTime(0.2) { resolve(23) }
-        }
-        Promises.zip(p1, p2).then { string, int in
-            XCTAssertEqual(string, "Cool")
-            XCTAssertEqual(int, 23)
-            block.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == ("Cool", 23))
     }
     
-    func testZipSynchronousPromisesFails() {
-        let block = expectation(description: "Block called")
-        Promises.zip(Promise<Int>.reject(), Promise("Hello")).then { _, _ in
-            XCTFail("testZipSynchronousPromisesFails failed")
-        }.onError { _ in
-            block.fulfill()
+    @Test
+    func zipSynchronousPromisesFails() async {
+        let result = await withCheckedContinuation { continuation in
+            Promises.zip(Promise<Int>.reject(), Promise("Hello")).then { _, _ in
+                continuation.resume(returning: "then")
+            }.onError { _ in
+                continuation.resume(returning: "onError")
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == "onError")
     }
     
-    func testZipAsynchronousPromisesFails() {
-        let block = expectation(description: "Block called")
-        let p1 = Promise { resolve, _ in
-            waitTime(0.1) { resolve("Cool") }
+    @Test
+    func zipAsynchronousPromisesFails() async {
+        let result = await withCheckedContinuation { continuation in
+            let p1 = Promise { resolve, _ in
+                waitTime(0.1) { resolve("Cool") }
+            }
+            let p2 = Promise<Int> { _, reject in
+                waitTime(0.2) { reject(PromiseError.default) }
+            }
+            Promises.zip(p1, p2).then { _, _ in
+                continuation.resume(returning: "then")
+            }.onError { _ in
+                continuation.resume(returning: "onError")
+            }
         }
-        let p2 = Promise<Int> { _, reject in
-            waitTime(0.2) { reject(PromiseError.default) }
-        }
-        Promises.zip(p1, p2).then { _, _ in
-            XCTFail("testZipAsynchronousPromisesFails failed")
-        }.onError { _ in
-            block.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == "onError")
     }
     
     // 3 promises
     
-    func testZip3SynchronousPromises() {
-        let block = expectation(description: "Block called")
-        Promises.zip(Promise(1), Promise("Hello"), Promise(0.45)).then { int, string, double in
-            XCTAssertEqual(int, 1)
-            XCTAssertEqual(string, "Hello")
-            XCTAssertEqual(double, 0.45)
-            
-            block.fulfill()
+    @Test
+    func testZip3SynchronousPromises() async {
+        let result = await withCheckedContinuation { continuation  in
+            Promises.zip(Promise(1), Promise("Hello"), Promise(0.45)).then { res in
+                continuation.resume(returning: res)
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == (1, "Hello", 0.45))
     }
     
-    func testZip3AsynchronousPromises() {
-        let block = expectation(description: "Block called")
-        let p1 = Promise { resolve, _ in
-            waitTime(0.1) { resolve("Cool") }
+    @Test
+    func testZip3AsynchronousPromises() async {
+        let result = await withCheckedContinuation { continuation in
+            let p1 = Promise { resolve, _ in
+                waitTime(0.1) { resolve("Cool") }
+            }
+            let p2 = Promise { resolve, _ in
+                waitTime(0.2) { resolve(23) }
+            }
+            let p3 = Promise { resolve, _ in
+                waitTime(0.1) { resolve(0.45) }
+            }
+            Promises.zip(p1, p2, p3).then { res in
+                continuation.resume(returning: res)
+            }
         }
-        let p2 = Promise { resolve, _ in
-            waitTime(0.2) { resolve(23) }
-        }
-        let p3 = Promise { resolve, _ in
-            waitTime(0.1) { resolve(0.45) }
-        }
-        Promises.zip(p1, p2, p3).then { string, int, double in
-            XCTAssertEqual(string, "Cool")
-            XCTAssertEqual(int, 23)
-            XCTAssertEqual(double, 0.45)
-            block.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == ("Cool", 23, 0.45))
     }
     
-    func testZip3SynchronousPromisesFails() {
-        let block = expectation(description: "Block called")
-        Promises.zip(Promise<Int>.reject(), Promise("Hello"), Promise<Double>.reject()).then { _, _, _ in
-            XCTFail("testZip3SynchronousPromisesFails failed")
-        }.onError { _ in
-            block.fulfill()
+    @Test
+    func testZip3SynchronousPromisesFails() async {
+        let result = await withCheckedContinuation { continuation in
+            Promises.zip(Promise<Int>.reject(), Promise("Hello"), Promise<Double>.reject()).then { _, _, _ in
+                continuation.resume(returning: "then")
+            }.onError { _ in
+                continuation.resume(returning: "onError")
+            }
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == "onError")
     }
     
-    func testZip3AsynchronousPromisesFails() {
-        let block = expectation(description: "Block called")
-        let p1 = Promise { resolve, _ in
-            waitTime(0.2) { resolve("Cool") }
+    @Test
+    func testZip3AsynchronousPromisesFails() async {
+        let result = await withCheckedContinuation { continuation in
+            let p1 = Promise { resolve, _ in
+                waitTime(0.2) { resolve("Cool") }
+            }
+            let p2 = Promise<Int> { _, reject in
+                waitTime(0.1) { reject(PromiseError.default) }
+            }
+            let p3 = Promise { resolve, _ in
+                waitTime(0.1) { resolve(0.45) }
+            }
+            Promises.zip(p1, p2, p3).then { _, _, _ in
+                continuation.resume(returning: "then")
+            }.onError { _ in
+                continuation.resume(returning: "onError")
+            }
         }
-        let p2 = Promise<Int> { _, reject in
-            waitTime(0.1) { reject(PromiseError.default) }
-        }
-        let p3 = Promise { resolve, _ in
-            waitTime(0.1) { resolve(0.45) }
-        }
-        Promises.zip(p1, p2, p3).then { _, _, _ in
-            XCTFail("testZip3AsynchronousPromisesFails failed")
-        }.onError { _ in
-            block.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == "onError")
     }
 }
