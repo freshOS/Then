@@ -6,157 +6,171 @@
 //  Copyright © 2017 s4cha. All rights reserved.
 //
 
-import XCTest
+import Testing
 import Then
 
-class RecoverTests: XCTestCase {
+@Suite
+struct RecoverTests {
     
-    func testRecoverWithString() {
-        let e = expectation(description: "")
-        Promise<String>.reject()
-            .recover(with: "Banana")
-            .then { s in
-                XCTAssertEqual(s, "Banana")
-                e.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testRecoverWithInt() {
-        let e = expectation(description: "")
-        Promise<Int>.reject()
-            .recover(with: 12)
-            .then { s in
-                XCTAssertEqual(s, 12)
-                e.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testRecoverWithPromise() {
-        let e = expectation(description: "")
-        Promise<Int>.reject()
-            .recover(with: Promise<Int>.resolve(56))
-            .then { s in
-                XCTAssertEqual(s, 56)
-                e.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testRecoverWithFailablePromise() {
-        let e = expectation(description: "")
-        Promise<Int>.reject()
-            .recover(with: Promise<Int>.reject())
-            .then { _ in
-                XCTFail("then shouldn't be called")
-            }
-            .onError { _ in
-                e.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testRecoverCanUseABlock() {
-        let e = expectation(description: "")
-        Promise<Int>.reject()
-            .recover { _ in
-                return 32
-            }
-            .then { s in
-                XCTAssertEqual(s, 32)
-                e.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testRecoverCanThrowANewError() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject()
-            .recover { e -> Int in
-                if let e = e as? PromiseError, e == .default {
-                    throw MyError.defaultError
+    @Test
+    func recoverWithString() async {
+        let result = await withCheckedContinuation { continuation in
+            Promise<String>.reject()
+                .recover(with: "Banana")
+                .then { s in
+                    continuation.resume(returning: s)
                 }
-                return 32
-            } .then { _ in
-                XCTFail("then shouldn't be called")
-            }.onError { e in
-                if let e = e as? MyError {
-                    XCTAssertTrue(e == .defaultError)
-                } else {
-                    XCTFail("testRecoverCanThrowANewError failed")
+        }
+        #expect(result == "Banana")
+    }
+    
+    @Test
+    func recoverWithInt() async {
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.reject()
+                .recover(with: 12)
+                .then { s in
+                    continuation.resume(returning: s)
                 }
-                exp.fulfill()
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == 12)
     }
     
-    func testRecoverForSpecificError() {
-        let exp = expectation(description: "")
-        Promise<Int>.resolve(10)
-            .validate { $0 > 100 }
-            .recover(PromiseError.validationFailed, with: 123)
-            .then { i in
-                XCTAssertEqual(i, 123)
-                exp.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testRecoverForSpecificErrorDoesNotRecoverWhenTypeNotMatching() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject()
-            .recover(PromiseError.validationFailed, with: 123)
-            .then { _ in
-                XCTFail("testRecoverForSpecificErrorDoesNotRecoverWhenTypeNotMatching failed")
-        }.onError { _ in
-            exp.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testEquatableError() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject(SomeError())
-            .recover(SomeError(), with: 123)
-            .then { _ in
-                exp.fulfill()
-            }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testRecoverPromiseBlockCanUseABlock() {
-        let e = expectation(description: "")
-        Promise<Int>.reject()
-            .recover { _ in
-                return Promise(32)
-            }
-            .then { s in
-                XCTAssertEqual(s, 32)
-                e.fulfill()
-        }
-        waitForExpectations(timeout: 0.3, handler: nil)
-    }
-    
-    func testRecoverPromiseBlockCanThrowANewError() {
-        let exp = expectation(description: "")
-        Promise<Int>.reject()
-            .recover { e -> Promise<Int> in
-                if let e = e as? PromiseError, e == .default {
-                    throw MyError.defaultError
+    @Test
+    func recoverWithPromise() async {
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.reject()
+                .recover(with: Promise<Int>.resolve(56))
+                .then { s in
+                    continuation.resume(returning: s)
                 }
-                return Promise(32)
-            } .then { _ in
-                XCTFail("then shouldn't be called")
-            }.onError { e in
-                if let e = e as? MyError {
-                    XCTAssertTrue(e == .defaultError)
-                } else {
-                    XCTFail("testRecoverCanThrowANewError failed")
-                }
-                exp.fulfill()
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        #expect(result == 56)
+    }
+    
+    @Test
+    func recoverWithFailablePromise() async {
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.reject()
+                .recover(with: Promise<Int>.reject())
+                .then { _ in
+                    Issue.record("then shouldn't be called")
+                }
+                .onError { _ in
+                    continuation.resume(returning: "onError")
+                }
+        }
+        #expect(result == "onError")
+    }
+    
+    @Test
+    func testRecoverCanUseABlock() async {
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.reject()
+                .recover { _ in
+                    return 32
+                }
+                .then { s in
+                    continuation.resume(returning: s)
+                }
+        }
+        #expect(result == 32)
+    }
+    
+    @Test
+    func recoverCanThrowANewError() async {
+        var error: Error? = nil
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.reject()
+                .recover { e -> Int in
+                    if let e = e as? PromiseError, e == .default {
+                        throw MyError.defaultError
+                    }
+                    return 32
+                } .then { _ in
+                    continuation.resume(returning: "then")
+                }.onError { e in
+                    error = e
+                    continuation.resume(returning: "onError")
+                }
+        }
+        #expect(error as? MyError == MyError.defaultError)
+        #expect(result == "onError")
+    }
+    
+    @Test
+    func recoverForSpecificError() async {
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.resolve(10)
+                .validate { $0 > 100 }
+                .recover(PromiseError.validationFailed, with: 123)
+                .then { i in
+                    continuation.resume(returning: i)
+                }
+        }
+        #expect(result == 123)
+    }
+    
+    @Test
+    func recoverForSpecificErrorDoesNotRecoverWhenTypeNotMatching() async {
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.reject()
+                .recover(PromiseError.validationFailed, with: 123)
+                .then { _ in
+                    continuation.resume(returning: "then")
+                }.onError { _ in
+                    continuation.resume(returning: "onError")
+                }
+        }
+        #expect(result == "onError")
+    }
+    
+    @Test
+    func equatableError() async {
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.reject(SomeError())
+                .recover(SomeError(), with: 123)
+                .then { r in
+                    continuation.resume(returning: r)
+                }
+        }
+        #expect(result == 123)
+        
+    }
+    
+    @Test
+    func recoverPromiseBlockCanUseABlock() async {
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.reject()
+                .recover { _ in
+                    return Promise(32)
+                }
+                .then { s in
+                    continuation.resume(returning: s)
+                }
+        }
+        #expect(result == 32)
+    }
+    
+    @Test
+    func recoverPromiseBlockCanThrowANewError() async {
+        var error: Error? = nil
+        let result = await withCheckedContinuation { continuation in
+            Promise<Int>.reject()
+                .recover { e -> Promise<Int> in
+                    if let e = e as? PromiseError, e == .default {
+                        throw MyError.defaultError
+                    }
+                    return Promise(32)
+                } .then { _ in
+                    continuation.resume(returning: "then")
+                }.onError { e in
+                    error = e
+                    continuation.resume(returning: "onError")
+                }
+        }
+        #expect(error as? MyError == MyError.defaultError)
+        #expect(result == "onError")
     }
 }
 
