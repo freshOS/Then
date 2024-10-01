@@ -5,12 +5,12 @@
 //  Created by Sacha Durand Saint Omer on 08/08/16.
 //  Copyright © 2016 s4cha. All rights reserved.
 //
-
+//
 import Testing
 import Foundation
 @testable import Then
 
-var globalCount = 0
+nonisolated(unsafe) var globalCount = 0
 
 func promiseA() -> Promise<Int> {
     return Promise { resolve, _ in
@@ -28,7 +28,7 @@ func promiseB() -> Promise<Int> {
     }
 }
 
-func promiseC(completion: @escaping () -> Void) -> Promise<Int> {
+func promiseC(completion: @Sendable @escaping () -> Void) -> Promise<Int> {
     return Promise { resolve, _ in
         #expect(globalCount == 2)
         globalCount+=1
@@ -92,41 +92,35 @@ func fetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
 }
 
 func failingFetchUserFollowStatusFromName(_ name: String) -> Promise<Bool> {
-    return Promise { _, reject in
+    return Promise { resolve, reject, progress in
         print("fetchUserFollowStatusFromName: \(name) ...")
-        waitTime { reject(MyError.defaultError) }
+        waitTime { @Sendable () -> Void in
+            reject(MyError.defaultError)
+        }
     }
 }
 
-func waitTime(_ callback:@escaping () -> Void) {
-    let delay = 0.01 * Double(NSEC_PER_SEC)
-    let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-    DispatchQueue.global(qos: DispatchQoS.QoSClass.background).asyncAfter(deadline: time) {
-        callback()
-    }
+func waitTime(_ callback: @Sendable @escaping () -> Void) {
+    waitTime(0.01, callback: callback)
 }
 
-func waitTime(_ time: Double, callback: @escaping () -> Void) {
-    let delay = time * Double(NSEC_PER_SEC)
-    let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-    DispatchQueue.main.asyncAfter(deadline: time) {
-        callback()
-    }
+func waitTime(_ time: Double, callback: @escaping @Sendable () -> Void) {
+    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + time, execute: callback)
 }
 
 func upload() -> Promise<Void> {
-    return Promise { (resolve: @escaping (() -> Void), _: @escaping ((Error) -> Void), progress) in
+    return Promise { resolve, reject, progress in
         waitTime {
             progress(0.8)
             waitTime {
-                resolve()
+                resolve(())
             }
         }
     }
 }
 
 func failingUpload() -> Promise<Void> {
-    return Promise { (_: @escaping (() -> Void), reject: @escaping ((Error) -> Void), progress) in
+    return Promise { resolve, reject, progress in
         waitTime {
             progress(0.8)
             waitTime {

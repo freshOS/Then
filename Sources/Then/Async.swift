@@ -10,7 +10,7 @@ import Foundation
 import Dispatch
 
 @discardableResult
-public func async<T>(block:@escaping () throws -> T) -> Async<T> {
+public func asyncBlock<T :Sendable>(block:@escaping @Sendable () throws -> T) -> Async<T> {
     let p = Promise<T> { resolve, reject in
         DispatchQueue(label: "then.async.queue", attributes: .concurrent).async {
             do {

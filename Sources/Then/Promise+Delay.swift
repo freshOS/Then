@@ -9,6 +9,7 @@
 import Foundation
 import Dispatch
 
+
 extension Promise {
     
     public func delay(_ time: TimeInterval) -> Promise<T> {
@@ -27,15 +28,17 @@ extension Promise {
 
 extension Promises {
     public static func delay(_ time: TimeInterval) -> Promise<Void> {
-        return Promise { (resolve: @escaping (() -> Void), _: @escaping ((Error) -> Void)) in
-            callBackOnCallingQueueIn(time: time, block: resolve)
+        return Promise { resolve, reject in
+            callBackOnCallingQueueIn(time: time, block: {
+                resolve(())
+            })
         }
     }
 }
 
 extension Promises {
 
-    static func callBackOnCallingQueueIn(time: TimeInterval, block: @escaping () -> Void) {
+    static func callBackOnCallingQueueIn(time: TimeInterval, block: @escaping @Sendable () -> Void) {
         if let callingQueue = OperationQueue.current?.underlyingQueue {
             DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).asyncAfter(deadline: .now() + time) {
                 callingQueue.async {

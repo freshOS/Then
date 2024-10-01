@@ -62,7 +62,7 @@ extension Promises {
     private static func lazyReduceWhenAll<Result, Source>(
         _ promises: [Promise<Source>],
         callbackQueue: DispatchQueue?,
-        updatePartialResult: @escaping (_ result: inout [Result], _ element: Source) -> Void) -> Promise<[Result]> {
+        updatePartialResult: @escaping @Sendable (_ result: inout [Result], _ element: Source) -> Void) -> Promise<[Result]> {
         return Promise { fulfill, reject in
             reducePromises(
                 promises,
@@ -76,7 +76,7 @@ extension Promises {
     private static func reduceWhenAll<Result, Source>(
         _ promises: [Promise<Source>],
         callbackQueue: DispatchQueue?,
-        updatePartialResult: @escaping (_ result: inout [Result], _ element: Source) -> Void) -> Promise<[Result]> {
+        updatePartialResult: @escaping @Sendable (_ result: inout [Result], _ element: Source) -> Void) -> Promise<[Result]> {
         
         let p = Promise<[Result]>()
         reducePromises(
@@ -93,7 +93,7 @@ extension Promises {
         callbackQueue: DispatchQueue?,
         fulfill: @escaping ([Result]) -> Void,
         reject: @escaping (Error) -> Void,
-        updatePartialResult: @escaping (_ result: inout [Result], _ element: Source) -> Void) {
+        updatePartialResult: @escaping @Sendable (_ result: inout [Result], _ element: Source) -> Void) {
         
         let ts = ArrayContainer<Result>()
         var error: Error?
@@ -101,7 +101,8 @@ extension Promises {
         for p in promises {
             group.enter()
             p.then { element in
-                ts.updateArray({ updatePartialResult(&$0, element) })
+                ts.updateArray({
+                    updatePartialResult(&$0, element) })
                 }
                 .onError { error = $0 }
                 .finally { group.leave() }
@@ -117,11 +118,11 @@ extension Promises {
         }
     }
     
-    private class ArrayContainer<T> {
+    private class ArrayContainer<T> : @unchecked Sendable {
         private var _array: [T] = []
         private let lockQueue = DispatchQueue(label: "com.freshOS.then.whenAll.lockQueue", qos: .userInitiated)
         
-        func updateArray(_ updates: @escaping (_ result: inout [T]) -> Void) {
+        func updateArray(_ updates: @escaping @Sendable (_ result: inout [T]) -> Void) {
             lockQueue.async {
                 updates(&self._array)
             }

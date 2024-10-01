@@ -23,22 +23,22 @@ private class Locker {
     }
 }
 
-public class Promise<T> {
+public final class Promise<T: Sendable>: @unchecked Sendable {
     
     // MARK: - Protected properties
     
     internal var numberOfRetries: UInt = 0
 
-    private var threadUnsafeState: PromiseState<T>
+    var threadUnsafeState: PromiseState<T>
     
     private var threadUnsafeBlocks: PromiseBlocks<T> = PromiseBlocks<T>()
 
     private var initialPromiseStart:(() -> Void)?
     private var initialPromiseStarted = false
     
-    internal typealias ProgressCallBack = (_ resolve: @escaping ((T) -> Void),
-        _ reject: @escaping ((Error) -> Void),
-        _ progress: @escaping ((Float) -> Void)) -> Void
+    internal typealias ProgressCallBack = @Sendable (_ resolve: @escaping @Sendable ( @Sendable (T) -> Void),
+                                                     _ reject: @escaping @Sendable ( @Sendable (Error) -> Void),
+        _ progress: @escaping @Sendable ( @Sendable (Float) -> Void)) -> Void
     
     private var promiseProgressCallBack: ProgressCallBack?
     
@@ -56,7 +56,7 @@ public class Promise<T> {
         }
     }
     
-    private func _asynchronize(_ action: @escaping () -> Void) {
+    private func _asynchronize(_ action: @Sendable @escaping () -> Void) {
         lockQueue.async(execute: action)
     }
     
@@ -74,19 +74,19 @@ public class Promise<T> {
         threadUnsafeState = PromiseState.rejected(error: error)
     }
 
-    public convenience init(callback: @escaping (
-                            _ resolve: @escaping ((T) -> Void),
-                            _ reject: @escaping ((Error) -> Void)) -> Void) {
+    public convenience init(callback: @escaping @Sendable (
+                            _ resolve: @escaping @Sendable ( @Sendable (T) -> Void),
+                            _ reject: @escaping @Sendable ( @Sendable (Error) -> Void)) -> Void) {
         self.init()
         promiseProgressCallBack = { resolve, reject, progress in
             callback(resolve, reject)
         }
     }
     
-    public convenience init(callback: @escaping (
-                            _ resolve: @escaping ((T) -> Void),
-                            _ reject: @escaping ((Error) -> Void),
-                            _ progress: @escaping ((Float) -> Void)) -> Void) {
+    public convenience init(callback: @escaping @Sendable (
+                            _ resolve: @escaping @Sendable ( @Sendable (T) -> Void),
+                            _ reject: @escaping @Sendable ( @Sendable (Error) -> Void),
+                            _ progress: @escaping @Sendable (@Sendable (Float) -> Void)) -> Void) {
         self.init()
         promiseProgressCallBack = { resolve, reject, progress in
             callback(resolve, reject, progress)

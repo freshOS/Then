@@ -10,13 +10,14 @@ import Testing
 @testable import Then
 import Foundation
 
+@Suite
 struct MemoryTests {
     
     @Test
     func raceConditionWriteState() {
         let p = Promise<String>()
         
-        func loopState() {
+        @Sendable func loopState() {
             for i in 0...10000 {
                 p.updateState(PromiseState<String>.fulfilled(value: "Test1-\(i)"))
                 p.updateState(PromiseState<String>.fulfilled(value: "Test2-\(i)"))
@@ -40,7 +41,7 @@ struct MemoryTests {
     func raceConditionReadState() {
         let p = Promise("Hello")
         
-        func loopState() {
+        @Sendable func loopState() {
             for i in 0...10000 {
                 p.updateState(PromiseState<String>.fulfilled(value: "Test1-\(i)"))
                 p.updateState(PromiseState<String>.fulfilled(value: "Test2-\(i)"))
@@ -67,7 +68,8 @@ struct MemoryTests {
     @Test
     func raceConditionResigterBlocks() {
         let p = Promise<String>()
-        func loop() {
+        
+        @Sendable func loop() {
             for _ in 0...1000 {
                 p.registerThen { _ in }
                 p.registerOnError { _ in }
@@ -91,7 +93,7 @@ struct MemoryTests {
     @Test
     func raceConditionWriteWriteBlocks() {
         let p = Promise<String>()
-        func loop() {
+        @Sendable func loop() {
             for _ in 0...1000 {
                 p.blocks.success.append({ _ in })
                 p.blocks.fail.append({ _ in })
@@ -123,6 +125,7 @@ struct MemoryTests {
         p.blocks.progress.append({ _ in })
         p.blocks.finally.append({ })
         
+        @Sendable
         func loop() {
             for _ in 0...10000 {
                 
