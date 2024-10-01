@@ -105,7 +105,10 @@ func waitTime(_ callback: @Sendable @escaping () -> Void) {
 }
 
 func waitTime(_ time: Double, callback: @escaping @Sendable () -> Void) {
-    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + time, execute: callback)
+    Task(priority: .userInitiated) {
+        try await Task.sleep(for: .milliseconds(time * 1000), tolerance: .seconds(0.5))
+        callback()
+    }
 }
 
 func upload() -> Promise<Void> {

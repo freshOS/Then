@@ -86,13 +86,19 @@ struct ZipTests {
     func testZip3AsynchronousPromises() async {
         let result = await withCheckedContinuation { continuation in
             let p1 = Promise { resolve, _ in
-                waitTime(0.1) { resolve("Cool") }
+                waitTime(0.1) {
+                    resolve("Cool")
+                }
             }
             let p2 = Promise { resolve, _ in
-                waitTime(0.2) { resolve(23) }
+                waitTime(0.2) {
+                    resolve(23)
+                }
             }
             let p3 = Promise { resolve, _ in
-                waitTime(0.1) { resolve(0.45) }
+                waitTime(0.1) {
+                    resolve(0.45)
+                }
             }
             Promises.zip(p1, p2, p3).then { res in
                 continuation.resume(returning: res)
