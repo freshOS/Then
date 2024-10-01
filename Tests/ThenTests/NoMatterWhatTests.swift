@@ -45,6 +45,5 @@ struct NoMatterWhatTests {
         }
         #expect(name == "finally")
         #expect(!isLoading)
-        
     }
 }

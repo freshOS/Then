@@ -106,7 +106,7 @@ func waitTime(_ callback: @Sendable @escaping () -> Void) {
 
 func waitTime(_ time: Double, callback: @escaping @Sendable () -> Void) {
     Task(priority: .userInitiated) {
-        try await Task.sleep(for: .milliseconds(time * 1000), tolerance: .seconds(0.5))
+        try await Task.sleep(for: .milliseconds(time * 1000), tolerance: .seconds(0.1))
         callback()
     }
 }
