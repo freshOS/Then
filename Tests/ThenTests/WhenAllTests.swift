@@ -60,25 +60,21 @@ actor WhenAllTests {
     
     var array: [Int] = []
     
-//    @Test
-//    func testLazyWhenAllLazyTrigger() async {
-//        
-//        
-//        let result = await withCheckedContinuation { continuation in
-//            let promise = Promises.lazyWhenAll(promise1(), promise2()).registerThen {
-//                array = $0
-//                #expect(array == [1,2])
-//            }
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                #expect(array == [])
-//                promise.then {
-//                    continuation.resume(returning: array)
-//                }
-//            }
-//        }
-//        #expect(result == [1, 2])
-//    }
-//  
+    @Test
+    func testLazyWhenAllLazyTrigger() async {
+        let result = await withCheckedContinuation { continuation in
+            let promise = Promises.lazyWhenAll(promise1(), promise2()).registerThen { res in
+                return res
+            }
+            waitTime(0.3) {
+                promise.then { res in
+                    continuation.resume(returning: res)
+                }
+            }
+        }
+        #expect(result == [1, 2])
+    }
+  
     private let concurrentQueue = DispatchQueue(
         label: "then.whenAll.test.concurrent",
         qos: .userInitiated,
@@ -120,62 +116,55 @@ actor WhenAllTests {
         #expect(Set(result) == Set(values))
     }
     
-//    @Test
-//    func testWhenAllCallsOnErrorWhenOneFailsSynchronous() async {
-//        let promise1 = Promise { _, reject in
-//            reject(MyError.defaultError)
-//        }
-//        
-//        let callback: ((_ resolve: @escaping @Sendable( @Sendable (()) -> Void), _ reject: @escaping @Sendable( @Sendable(Error) -> Void)) -> Void)
-//            = { resolve, _ in
-//                resolve(())
-//        }
-//        
-//        let promise2 = Promise<Void>.init(callback: callback)
-//        
-//        var onErrorCalled = false
-//        let result = await withCheckedContinuation { continuation in
-//            Promises.whenAll(promise1, promise2)
-//                .then { _ in
-//                    continuation.resume(returning: "then")
-//                }.onError { _ in
-//                    onErrorCalled = true
-//                }.finally {
-//                    continuation.resume(returning: "finally")
-//                }
-//        }
-//        #expect(onErrorCalled)
-//        #expect(result == "finally")
-//    }
-//    
-//    @Test
-//    func testWhenAllCallsOnErrorWhenOneFailsAsynchronous() async {
-//        let promise1 = Promise { _, reject in
-//            waitTime(0.2) {
-//                reject(MyError.defaultError)
-//            }
-//        }
-//        
-//        let callback: ((_ resolve: @escaping ((()) -> Void), _ reject: @escaping ((Error) -> Void)) -> Void)
-//            = { resolve, _ in
-//            waitTime(0.1) {
-//                _ = resolve(())
-//            }
-//        }
-//        
-//        let promise2 = Promise<Void>.init(callback: callback)
-//        var onErrorCalled = false
-//        let result = await withCheckedContinuation { continuation in
-//            Promises.whenAll(promise1, promise2)
-//                .then { _ in
-//                    continuation.resume(returning: "then")
-//                }.onError { _ in
-//                    onErrorCalled = true
-//                }.finally {
-//                    continuation.resume(returning: "finally")
-//                }
-//        }
-//        #expect(onErrorCalled)
-//        #expect(result == "finally")
-//    }
+    @Test
+    func testWhenAllCallsOnErrorWhenOneFailsSynchronous() async {
+        let promise1 = Promise<Void> { _, reject in
+            reject(MyError.defaultError)
+        }
+        let promise2 = Promise { resolve, _ in
+            resolve(())
+        }
+        var onErrorCalled = false
+        let result = await withCheckedContinuation { continuation in
+            Promises.whenAll(promise1, promise2)
+                .then { _ in
+                    continuation.resume(returning: "then")
+                }.onError { _ in
+                    onErrorCalled = true
+                }.finally {
+                    continuation.resume(returning: "finally")
+                }
+        }
+        #expect(onErrorCalled)
+        #expect(result == "finally")
+    }
+    
+    @Test
+    func testWhenAllCallsOnErrorWhenOneFailsAsynchronous() async {
+        let promise1 = Promise<Void> { _, reject in
+            waitTime(0.2) {
+                reject(MyError.defaultError)
+            }
+        }
+        
+        let promise2 = Promise { resolve, _ in
+            waitTime(0.1) {
+                resolve(())
+            }
+        }
+        
+        var onErrorCalled = false
+        let result = await withCheckedContinuation { continuation in
+            Promises.whenAll(promise1, promise2)
+                .then { _ in
+                    continuation.resume(returning: "then")
+                }.onError { _ in
+                    onErrorCalled = true
+                }.finally {
+                    continuation.resume(returning: "finally")
+                }
+        }
+        #expect(onErrorCalled)
+        #expect(result == "finally")
+    }
 }
